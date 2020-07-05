@@ -3,7 +3,6 @@ package order_java;
 import java.awt.*;
 import javax.swing.*;
 
-import org.graalvm.compiler.lir.CompositeValue.Component;
 
 public class a{
     public static void addComponentsToHomePane(Container pane){
