@@ -76,7 +76,6 @@ public class Windows {
         frame.setSize(500,500);
         if (n==1) addComponentsToHomePane(frame.getContentPane()); //adding the panels
         else addComponentsToPane(frame.getContentPane());
-        //Display the window
-        frame.setVisible(true);
+
         }
 }
