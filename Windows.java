@@ -69,13 +69,13 @@ public class Windows {
         pane.add(btmPane , BorderLayout.PAGE_END);
         pane.add(topPane, BorderLayout.PAGE_START);
     }
-    public static void createShowGUI(int n){
+    public static JFrame createShowGUI(int n){
         //Set new frame
         JFrame frame = new JFrame("Custom T-Shirt Shop");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(500,500);
         if (n==1) addComponentsToHomePane(frame.getContentPane()); //adding the panels
         else addComponentsToPane(frame.getContentPane());
-
+        return frame;
         }
 }
