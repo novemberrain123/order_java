@@ -9,5 +9,6 @@ public class Main{
     public static void main(String args[]){
         Windows.createShowGUI(1);
         Windows.createShowGUI(2);
+        System.out.print("Hi");
      }
 }
