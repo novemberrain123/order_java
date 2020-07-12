@@ -3,8 +3,7 @@ package order_java;
 import java.awt.*;
 import javax.swing.*;
 
-
-public class a{
+public class Windows {
     public static void addComponentsToHomePane(Container pane){
         //Refer to https://docs.oracle.com/javase/tutorial/uiswing/layout/border.html
         //Declaring and linking logo and its label
@@ -70,7 +69,7 @@ public class a{
         pane.add(btmPane , BorderLayout.PAGE_END);
         pane.add(topPane, BorderLayout.PAGE_START);
     }
-    private static void createShowGUI(int n){
+    public static createShowGUI(int n){
         //Set new frame
         JFrame frame = new JFrame("Custom T-Shirt Shop");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -80,9 +79,4 @@ public class a{
         //Display the window
         frame.setVisible(true);
         }
-    public static void main(String args[]){
-        createShowGUI(1);
-        createShowGUI(2);
-
-     }
 }
