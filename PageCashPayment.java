@@ -76,3 +76,4 @@ public class PageCashPayment {
         midPane.add(midPaneBtm, BorderLayout.PAGE_END);
         pane.add(midPane, BorderLayout.CENTER);
     }
+}
