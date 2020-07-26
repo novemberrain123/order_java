@@ -10,6 +10,15 @@ public class Main{
         frame.setVisible(true);
         JFrame frame1 = Windows.createShowGUI(2);
         PagePayMethod.addComponentsToPayMethodPane(frame1.getContentPane());
-        frame.setVisible(true);
+        frame1.setVisible(true);
+        JFrame frame2 = Windows.createShowGUI(2);
+        PageCardPayment.addComponentsToCardPaymentPane(frame2.getContentPane());
+        frame2.setVisible(true);
+        JFrame frame3 = Windows.createShowGUI(2);
+        PageCashPayment.addComponentsToCashPaymentPane(frame3.getContentPane());
+        frame3.setVisible(true);
+        JFrame frame4 = Windows.createShowGUI(2);
+        PageReceipt.addComponentsToReceiptPane(frame4.getContentPane());
+        frame4.setVisible(true);
      }
 }
