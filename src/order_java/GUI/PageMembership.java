@@ -1,4 +1,4 @@
-package order_java;
+package order_java.GUI;
 
 import java.awt.*;
 import javax.swing.*;

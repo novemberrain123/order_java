@@ -1,4 +1,4 @@
-package order_java;
+package order_java.classes;
 
 public class Person{
     String name;
