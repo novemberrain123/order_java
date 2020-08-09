@@ -10,13 +10,7 @@ public class PageMarket{
         return newimg;
     }
     public static void createPageMarket(){
-        //set frame
-        JFrame frame = new JFrame("Custom T-Shirt Shop");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(500,500);
-        //set container
-        Container pane = frame.getContentPane();
-
+        JPanel pane = new JPanel(); //main pane 
         JPanel midPane = new JPanel();
         midPane.setLayout(new GridLayout(2,1));
         
@@ -24,15 +18,15 @@ public class PageMarket{
         JPanel btmMidPane = new JPanel();
         JButton btnCustomShirt = new JButton("Design Your Own T-Shirt");
         btnCustomShirt.setPreferredSize(new Dimension(200,40));
-        btnCustomShirt.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
-                frame.dispose();
-                createPageBrowse();
-            }
-        });
+        
         JButton btnBrowse = new JButton("Browse Our Selection");
         btnBrowse.setPreferredSize(new Dimension(200,40));
-
+        btnBrowse.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                CardLayout cl = (CardLayout)(MiscFunctions.masterCards.getLayout());
+                cl.show(MiscFunctions.masterCards,"Browse");
+            }
+        });
         ImageIcon customShirt = new ImageIcon("img/shirt1.png");
         customShirt = new ImageIcon(rescaleImage(customShirt, 200, 200, 4));
         JLabel customShirtLabel = new JLabel("");
@@ -52,15 +46,14 @@ public class PageMarket{
         midPane.add(btmMidPane);
 
         pane.add(midPane,BorderLayout.CENTER);
-        frame.setVisible(true);
+        MiscFunctions.addCardtoMasterCards(pane, "Market");
     }
     static String allStr = "All";
     static String hoodieStr= "Hoodie";
     static String tshirtStr = "T-Shirt";
     public static void createPageBrowse(){
-        JFrame frame = MiscFunctions.generateDefaultFrame();
-        Container pane = frame.getContentPane();
-        MiscFunctions.addDefaultComponentsToPane(pane);
+        JPanel pane = new JPanel();
+        MiscFunctions.addDefaultComponentsToPane(pane, "Market");
 
         JRadioButton btnAll = new JRadioButton(allStr);
         btnAll.setActionCommand(allStr);
@@ -116,6 +109,6 @@ public class PageMarket{
             midPane.add(shirtPane[i]);
         }
         pane.add(midPane,BorderLayout.CENTER);
-        frame.setVisible(true);
+        MiscFunctions.addCardtoMasterCards(pane, "Browse");
     }
 }

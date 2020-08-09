@@ -2,16 +2,27 @@ package order_java.GUI;
 
 import javax.swing.*;
 import java.awt.*;
-
+import java.awt.event.*;
 public class MiscFunctions {
-    public static JFrame generateDefaultFrame() {
+    //Stores all pages
+    static JPanel masterCards = new JPanel(new CardLayout());
+    public static void generateDefaultFrame() {
         JFrame frame = new JFrame("Custom T-Shirt Shop");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(500, 500);
-        return frame;
+        
+        //for testing change function
+        PageMarket.createPageMarket(); 
+        PageMarket.createPageBrowse();
+        frame.getContentPane().add(MiscFunctions.masterCards);
+        frame.setVisible(true);
     }
 
-    public static void addDefaultComponentsToPane(Container pane) {
+    public static void addCardtoMasterCards(JPanel card, String s){
+        masterCards.add(card, s);
+    }
+
+    public static void addDefaultComponentsToPane(Container pane, String s) {
         ImageIcon logo = new ImageIcon("img/mindnew.png");
         Image image = logo.getImage(); // Resize Image
         Image newimg = image.getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
@@ -36,6 +47,13 @@ public class MiscFunctions {
         JPanel btmPane = new JPanel();
         btmPane.setLayout(new BoxLayout(btmPane, BoxLayout.X_AXIS));
         JButton btnBack = new JButton("");
+        btnBack.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                CardLayout cl = (CardLayout)(MiscFunctions.masterCards.getLayout());
+                cl.show(MiscFunctions.masterCards,s);
+            }
+        });
+
         btnBack.setPreferredSize(new Dimension(35, 35));
         ImageIcon back = new ImageIcon("img/back.png");
         image = back.getImage(); // Resize Image
