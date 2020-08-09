@@ -1,6 +1,7 @@
 package order_java.GUI;
 import java.awt.*;
 import javax.swing.*;
+import java.awt.event.*;
 
 public class PageMarket{
     public static Image rescaleImage(ImageIcon img,int x,int y,int s){
@@ -8,7 +9,14 @@ public class PageMarket{
         Image newimg = image.getScaledInstance(x, y, s);
         return newimg;
     }
-    public static void addComponentsToMarketHomePane(Container pane){
+    public static void createPageMarket(){
+        //set frame
+        JFrame frame = new JFrame("Custom T-Shirt Shop");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(500,500);
+        //set container
+        Container pane = frame.getContentPane();
+
         JPanel midPane = new JPanel();
         midPane.setLayout(new GridLayout(2,1));
         
@@ -16,6 +24,12 @@ public class PageMarket{
         JPanel btmMidPane = new JPanel();
         JButton btnCustomShirt = new JButton("Design Your Own T-Shirt");
         btnCustomShirt.setPreferredSize(new Dimension(200,40));
+        btnCustomShirt.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                frame.dispose();
+                createPageBrowse();
+            }
+        });
         JButton btnBrowse = new JButton("Browse Our Selection");
         btnBrowse.setPreferredSize(new Dimension(200,40));
 
@@ -38,11 +52,16 @@ public class PageMarket{
         midPane.add(btmMidPane);
 
         pane.add(midPane,BorderLayout.CENTER);
+        frame.setVisible(true);
     }
     static String allStr = "All";
     static String hoodieStr= "Hoodie";
     static String tshirtStr = "T-Shirt";
-    public static void addComponentsToBrowsePane(Container pane){
+    public static void createPageBrowse(){
+        JFrame frame = MiscFunctions.generateDefaultFrame();
+        Container pane = frame.getContentPane();
+        MiscFunctions.addDefaultComponentsToPane(pane);
+
         JRadioButton btnAll = new JRadioButton(allStr);
         btnAll.setActionCommand(allStr);
         btnAll.setSelected(true);
@@ -97,5 +116,6 @@ public class PageMarket{
             midPane.add(shirtPane[i]);
         }
         pane.add(midPane,BorderLayout.CENTER);
+        frame.setVisible(true);
     }
 }
