@@ -52,7 +52,8 @@ public class PageMarket{
     static String hoodieStr= "Hoodie";
     static String tshirtStr = "T-Shirt";
     public static void createPageBrowse(){
-        JPanel pane = new JPanel();
+        JPanel pane = new JPanel(new BorderLayout());
+        //pass in main JPanel and name of previous page for back btn
         MiscFunctions.addDefaultComponentsToPane(pane, "Market");
 
         JRadioButton btnAll = new JRadioButton(allStr);

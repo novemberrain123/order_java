@@ -22,7 +22,7 @@ public class MiscFunctions {
         masterCards.add(card, s);
     }
 
-    public static void addDefaultComponentsToPane(Container pane, String s) {
+    public static void addDefaultComponentsToPane(JPanel pane, String s) {
         ImageIcon logo = new ImageIcon("img/mindnew.png");
         Image image = logo.getImage(); // Resize Image
         Image newimg = image.getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
