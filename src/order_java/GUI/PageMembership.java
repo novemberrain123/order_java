@@ -2,9 +2,11 @@ package order_java.GUI;
 
 import java.awt.*;
 import javax.swing.*;
+import java.awt.event.*;
 
 public class PageMembership {
-    public static void addComponentsToMembershipPane(Container pane){
+    public static void createPageMembership(){
+        JPanel pane = new JPanel();
         JPanel[] paneMemberDetails = new JPanel[8]; // To store every panel for member's details
         for (int i = 0; i < 8; i++){ 
             paneMemberDetails[i] = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 0));
@@ -109,7 +111,19 @@ public class PageMembership {
         // Buttons at bottom
         JPanel midPaneBtm = new JPanel();
         JButton btnSignUp = new JButton("Sign Up");
+        btnSignUp.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                CardLayout cl = (CardLayout)(MiscFunctions.masterCards.getLayout());
+                cl.show(MiscFunctions.masterCards,"Pay Method");
+            }
+        });
         JButton btnCancel = new JButton("Cancel");
+        btnCancel.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                CardLayout cl = (CardLayout)(MiscFunctions.masterCards.getLayout());
+                cl.show(MiscFunctions.masterCards,"Pay Method");
+            }
+        });
         btnSignUp.setFont(new Font("", Font.BOLD, 18));
         btnCancel.setFont(new Font("", Font.BOLD, 18));
         btnSignUp.setForeground(Color.red);
@@ -128,5 +142,6 @@ public class PageMembership {
 
         // Add middle panel to middle of main panel
         pane.add(midPane, BorderLayout.CENTER);
+        MiscFunctions.addCardtoMasterCards(pane, "Membership");
     }
 }

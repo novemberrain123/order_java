@@ -2,9 +2,11 @@ package order_java.GUI;
 
 import java.awt.*;
 import javax.swing.*;
+import java.awt.event.*;
 
 public class PageCardPayment {
-    public static void addComponentsToCardPaymentPane(Container pane){
+    public static void createPageCardPayment(){
+        JPanel pane = new JPanel(); 
         Font wordFont = new Font("", Font.PLAIN, 15);
         JPanel[] midPaneLabels = new JPanel[6];
         for (int i = 0; i < 6; i++){
@@ -76,6 +78,12 @@ public class PageCardPayment {
         btnPay.setFont(new Font("", Font.BOLD, 20));
         btnPay.setBackground(Color.black);
         btnPay.setForeground(Color.red);
+        btnPay.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                CardLayout cl = (CardLayout)(MiscFunctions.masterCards.getLayout());
+                cl.show(MiscFunctions.masterCards,"Receipt");
+            }
+        });
         midPaneBtm.add(btnPay);
 
         JPanel midPane = new JPanel(new BorderLayout());
@@ -84,5 +92,6 @@ public class PageCardPayment {
         midPane.add(midPaneTop, BorderLayout.PAGE_START);
         midPane.add(midPaneBtm, BorderLayout.PAGE_END);
         pane.add(midPane, BorderLayout.CENTER);
+        MiscFunctions.addCardtoMasterCards(pane, "Card Payment");
     }
 }

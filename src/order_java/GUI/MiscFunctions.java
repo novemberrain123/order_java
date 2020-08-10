@@ -12,7 +12,12 @@ public class MiscFunctions {
         frame.setSize(500, 500);
         
         //for testing change function
-        PageMarket.createPageMarket(); 
+        PagePayMethod.createPagePayMethod();
+        PageMembership.createPageMembership();
+        PageCardPayment.createPageCardPayment();
+        PageCashPayment.createPageCashPayment();
+        PageReceipt.createPageReceipt();
+        PageMarket.createPageMarket();
         PageMarket.createPageBrowse();
         frame.getContentPane().add(MiscFunctions.masterCards);
         frame.setVisible(true);

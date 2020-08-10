@@ -2,6 +2,7 @@ package order_java.GUI;
 
 import java.awt.*;
 import javax.swing.*;
+import java.awt.event.*;
 
 public class PagePayMethod {
     public static Image rescaleImage(ImageIcon img,int x,int y,int s){
@@ -9,7 +10,8 @@ public class PagePayMethod {
         Image newimg = image.getScaledInstance(x, y, s);
         return newimg;
     }
-    public static void addComponentsToPayMethodPane(Container pane){
+    public static void createPagePayMethod(){
+        JPanel pane = new JPanel();
         JPanel payMethodPane = new JPanel(new GridLayout(1,2,20,0)); // Create panel to store card and cash button
         Font wordFont = new Font("", Font.PLAIN, 15); // For setting word font purpose
         Font importantWordFont = new Font ("", Font.BOLD, 13); 
@@ -31,6 +33,20 @@ public class PagePayMethod {
         cardButton.setHorizontalTextPosition(SwingConstants.LEFT);
         cashButton.setHorizontalAlignment(SwingConstants.CENTER);
         cashButton.setHorizontalTextPosition(SwingConstants.LEFT);
+
+        // Add action listener to buttons
+        cardButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                CardLayout cl = (CardLayout)(MiscFunctions.masterCards.getLayout());
+                cl.show(MiscFunctions.masterCards,"Card Payment");
+            }
+        });
+        cashButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                CardLayout cl = (CardLayout)(MiscFunctions.masterCards.getLayout());
+                cl.show(MiscFunctions.masterCards,"Cash Payment");
+            }
+        });
 
         // Add button to payment method panel
         payMethodPane.add(cardButton);
@@ -62,6 +78,12 @@ public class PagePayMethod {
         JButton btnSignUp = new JButton("Sign Up");
         btnSignUp.setFont(importantWordFont);
         btnSignUp.setForeground(Color.red);
+        btnSignUp.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                CardLayout cl = (CardLayout)(MiscFunctions.masterCards.getLayout());
+                cl.show(MiscFunctions.masterCards,"Membership");
+            }
+        });
         JPanel bottomPane = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 0));
         bottomPane.add(lbBottom);
         bottomPane.add(btnSignUp);
@@ -74,5 +96,6 @@ public class PagePayMethod {
         
         // Add to center of main panel
         pane.add(midPane, BorderLayout.CENTER);
+        MiscFunctions.addCardtoMasterCards(pane, "Pay Method");
     }
 }
