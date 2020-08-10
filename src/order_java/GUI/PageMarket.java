@@ -54,7 +54,7 @@ public class PageMarket{
     public static void createPageBrowse(){
         JPanel pane = new JPanel(new BorderLayout());
         //pass in main JPanel and name of previous page for back btn
-        MiscFunctions.addDefaultComponentsToPane(pane, "Market");
+        MiscFunctions.addDefaultComponentsToPane(pane, "Market",1);
 
         JRadioButton btnAll = new JRadioButton(allStr);
         btnAll.setActionCommand(allStr);
