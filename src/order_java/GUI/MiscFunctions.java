@@ -12,8 +12,14 @@ public class MiscFunctions {
         frame.setSize(500, 500);
         
         //for testing change function
-        PageMarket.createPageMarket(); 
-        PageMarket.createPageBrowse();
+        
+        PageStaffLogin.createPageStaffLogin(); // "StaffLogin", pass=12345fat
+        PageReport.createPageReport(); // "Reports"
+         PageMarket.createPageMarket(); 
+         PageMemberLogin.createPageMember(); // "MemberLogin", pass=12345oop
+         PageCart.createPageCart();  // "Cart"
+         
+        // PageMarket.createPageBrowse();
         frame.getContentPane().add(MiscFunctions.masterCards);
         frame.setVisible(true);
     }
