@@ -1,5 +1,17 @@
 package order_java.classes;
 
 public class CashPayment{
-   double payment; 
+   private double payment; 
+
+   public CashPayment(){
+      
+   }
+
+   public CashPayment(double payment){
+      this.payment = payment;
+   }
+
+   public double getPayment(){
+      return payment;
+   }
 }

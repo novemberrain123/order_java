@@ -1,14 +1,12 @@
 package order_java.GUI;
 
 import java.awt.*;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-
 import javax.swing.*;
+import java.awt.event.*;
 
 public class PageReceipt {
-    public static void addComponentsToReceiptPane(Container pane){
+    public static void createPageReceipt(){
+        JPanel pane = new JPanel();
         JPanel[] paneReceiptLabels = new JPanel[8]; // To store every receipt labels
         for (int i = 0; i < 8; i++){
             paneReceiptLabels[i] = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -52,11 +50,20 @@ public class PageReceipt {
 
         // Create top panel
         JPanel midTopPane = new JPanel();
-        midTopPane.add(new JLabel("Customer Receipt"));
+        JLabel lbTitle = new JLabel("Customer Receipt");
+        lbTitle.setFont(new Font("", Font.BOLD, 30));
+        midTopPane.add(lbTitle);
 
         // Create bottom panel
         JPanel midBtmPane = new JPanel();
-        midBtmPane.add(new JButton("Continue with shopping"));
+        JButton btnContShop = new JButton("Continue with shopping");
+        btnContShop.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                CardLayout cl = (CardLayout)(MiscFunctions.masterCards.getLayout());
+                cl.show(MiscFunctions.masterCards,"Market");
+            }
+        });
+        midBtmPane.add(btnContShop);
 
         // Create middle panel
         JPanel midPane = new JPanel(new BorderLayout());
@@ -65,5 +72,6 @@ public class PageReceipt {
         midPane.add(midLeftPane, BorderLayout.LINE_START);
         midPane.add(midRightPane, BorderLayout.CENTER);
         pane.add(midPane, BorderLayout.CENTER);
+        MiscFunctions.addCardtoMasterCards(pane, "Receipt");
     }
 }

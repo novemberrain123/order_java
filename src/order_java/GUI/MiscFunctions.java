@@ -12,10 +12,15 @@ public class MiscFunctions {
         JFrame frame = new JFrame("Custom T-Shirt Shop");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(500, 500);
-
-        // for testing change function
-        PageMarket.createPageMarket();// "Market"
-        PageMarket.createPageBrowse();// "Browse"
+        
+        //for testing change function
+        PageMarket.createPageMarket();
+        PageMarket.createPageBrowse();
+        PagePayMethod.createPagePayMethod();
+        PageMembership.createPageMembership();
+        PageCardPayment.createPageCardPayment();
+        PageCashPayment.createPageCashPayment();
+        PageReceipt.createPageReceipt();
         frame.getContentPane().add(MiscFunctions.masterCards);
         frame.setVisible(true);
     }
