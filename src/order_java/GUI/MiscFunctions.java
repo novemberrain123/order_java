@@ -14,13 +14,20 @@ public class MiscFunctions {
         frame.setSize(500, 500);
         
         //for testing change function
-        PageMarket.createPageMarket();
-        PageMarket.createPageBrowse();
-        PagePayMethod.createPagePayMethod();
-        PageMembership.createPageMembership();
-        PageCardPayment.createPageCardPayment();
-        PageCashPayment.createPageCashPayment();
-        PageReceipt.createPageReceipt();
+
+        PageMemberLogin.createPageMember(); // "MemberLogin", pass=12345oop
+        PageMarket.createPageMarket();  //"Market"
+        PageMarket.createPageBrowse(); //"Browse"
+        PagePayMethod.createPagePayMethod(); //"Pay Method"
+        PageMembership.createPageMembership(); //"Membership"
+        PageCardPayment.createPageCardPayment();//"Card Payment"
+        PageCashPayment.createPageCashPayment();//"Cash Payment"
+        PageReceipt.createPageReceipt(); // "Receipt"
+        PageStaffLogin.createPageStaffLogin(); // "StaffLogin", pass=12345fat
+        PageReport.createPageReport(); // "Reports"
+        PageCart.createPageCart();  // "Cart"
+         
+        // PageMarket.createPageBrowse();
         frame.getContentPane().add(MiscFunctions.masterCards);
         frame.setVisible(true);
     }
@@ -45,6 +52,12 @@ public class MiscFunctions {
         // Set cart button
         if (c == 1) {
             JButton btnCart = new JButton("");
+            btnCart.addActionListener(new ActionListener(){
+                public void actionPerformed(ActionEvent e){
+                    CardLayout cl = (CardLayout)(MiscFunctions.masterCards.getLayout());
+                    cl.show(MiscFunctions.masterCards,"Cart");
+                }
+            });
             ImageIcon cart = new ImageIcon("img/cart.png");
             image = cart.getImage(); // Resize Image
             newimg = image.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
