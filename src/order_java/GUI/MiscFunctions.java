@@ -15,6 +15,7 @@ public class MiscFunctions {
         
         //for testing change function
 
+        HomePage.createHome();
         PageMemberLogin.createPageMember(); // "MemberLogin", pass=12345oop
         PageMarket.createPageMarket();  //"Market"
         PageMarket.createPageBrowse(); //"Browse"
