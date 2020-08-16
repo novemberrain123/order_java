@@ -10,7 +10,8 @@ public class PageMarket {
         return newimg;
     }
     public static void createPageMarket(){
-        JPanel pane = new JPanel(); //main pane 
+        JPanel pane = new JPanel(new BorderLayout()); //main pane 
+        MiscFunctions.addDefaultComponentsToPane(pane, "Home", 1);
         JPanel midPane = new JPanel();
         midPane.setLayout(new GridLayout(2,1));
         
@@ -208,7 +209,7 @@ public class PageMarket {
         // TshirtPane.add(leftShirtPane);
         // TshirtPane.add(rightShirtPane);
 
-        //add cards to cardPane
+        //add left/right panes to midpane
         JPanel midPane = new JPanel();
         midPane.add(leftPane);
         midPane.add(rightPane);
