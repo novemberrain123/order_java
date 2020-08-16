@@ -3,7 +3,7 @@ import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
 
-public class PageMarket{
+public class PageMarket {
     public static Image rescaleImage(ImageIcon img,int x,int y,int s){
         Image image = img.getImage();
         Image newimg = image.getScaledInstance(x, y, s);
@@ -48,9 +48,11 @@ public class PageMarket{
         pane.add(midPane,BorderLayout.CENTER);
         MiscFunctions.addCardtoMasterCards(pane, "Market");
     }
+    static JPanel cardPane = new JPanel(new CardLayout());
     static String allStr = "All";
     static String hoodieStr= "Hoodie";
     static String tshirtStr = "T-Shirt";
+    
     public static void createPageBrowse(){
         JPanel pane = new JPanel(new BorderLayout());
         //pass in main JPanel and name of previous page for back btn
@@ -59,13 +61,30 @@ public class PageMarket{
         JRadioButton btnAll = new JRadioButton(allStr);
         btnAll.setActionCommand(allStr);
         btnAll.setSelected(true);
-
+        btnAll.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                CardLayout cl = (CardLayout)(cardPane.getLayout());
+                cl.show(cardPane,allStr);  
+            }
+        });
         JRadioButton btnHoodie = new JRadioButton(hoodieStr);
-        btnAll.setActionCommand(hoodieStr);
-        
+        btnHoodie.setActionCommand(hoodieStr);
+        btnHoodie.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                CardLayout cl = (CardLayout)(cardPane.getLayout());
+                cl.show(cardPane,hoodieStr);
+            }
+        });
+ 
         JRadioButton btnTshirt = new JRadioButton(tshirtStr);
-        btnAll.setActionCommand(tshirtStr);
-
+        btnTshirt.setActionCommand(tshirtStr);
+        btnTshirt.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                CardLayout cl = (CardLayout)(cardPane.getLayout());
+                cl.show(cardPane,tshirtStr);  
+            }
+        });
+ 
         ButtonGroup group = new ButtonGroup();
         group.add(btnAll);
         group.add(btnHoodie);
@@ -93,23 +112,79 @@ public class PageMarket{
 
             shirtPane[i].add(lbl);
         }
-
+        
+        //add shirts to pane
         shirtPane[0].add(new JLabel("Supermind T-Shirt"));
         shirtPane[1].add(new JLabel("Mountain T-Shirt"));
         shirtPane[2].add(new JLabel("Jurassic T-Shirt"));
         shirtPane[3].add(new JLabel("Leonardo Da Corona T-Shirt"));
         shirtPane[4].add(new JLabel("Green T-Shirt"));
         shirtPane[5].add(new JLabel("Heaven T-Shirt"));
-        shirtPane[6].add(new JLabel("Marriage T-Shirt"));
-        shirtPane[7].add(new JLabel("WayTooDank T-Shirt"));
-        shirtPane[8].add(new JLabel("FoxNews T-Shirt"));
-        shirtPane[9].add(new JLabel("Inspirational T-Shirt"));
+        shirtPane[6].add(new JLabel("Marriage Hoodie"));
+        shirtPane[7].add(new JLabel("WayTooDank Hoodie"));
+        shirtPane[8].add(new JLabel("FoxNews Hoodie"));
+        shirtPane[9].add(new JLabel("Inspirational Hoodie"));
         
-        JPanel midPane = new JPanel();
-        for(int i=0;i<10;i++){
-            midPane.add(shirtPane[i]);
+        //create vertical box layouts for all 3 cards
+        JPanel leftAllPane = new JPanel();
+        leftAllPane.setLayout(new BoxLayout(leftAllPane, BoxLayout.Y_AXIS));
+        JPanel rightAllPane = new JPanel();
+        rightAllPane.setLayout(new BoxLayout(rightAllPane, BoxLayout.Y_AXIS));
+        JPanel leftHoodiePane = new JPanel();
+        leftHoodiePane.setLayout(new BoxLayout(leftHoodiePane, BoxLayout.Y_AXIS));
+        JPanel rightHoodiePane = new JPanel();
+        rightHoodiePane.setLayout(new BoxLayout(rightHoodiePane, BoxLayout.Y_AXIS));
+        JPanel leftShirtPane = new JPanel();
+        leftShirtPane.setLayout(new BoxLayout(leftShirtPane, BoxLayout.Y_AXIS));
+        JPanel rightShirtPane = new JPanel();
+        rightShirtPane.setLayout(new BoxLayout(rightShirtPane,BoxLayout.Y_AXIS));
+        //fill out panes
+        for(int i=0;i<5;i++){
+            leftAllPane.add(shirtPane[i]);
         }
-        pane.add(midPane,BorderLayout.CENTER);
+        for(int i=5;i<10;i++){
+            rightAllPane.add(shirtPane[i]);
+        }
+        
+        for(int i=6;i<8;i++){
+            leftHoodiePane.add(shirtPane[i]);
+        }
+        for(int i=8;i<10;i++){
+            rightHoodiePane.add(shirtPane[i]);
+        }
+        
+        for(int i=0;i<3;i++){
+            leftShirtPane.add(shirtPane[i]);
+        }
+        for(int i=3;i<6;i++){
+            rightShirtPane.add(shirtPane[i]);
+        }
+        
+        //create cards and add vertical panes to cards
+        JPanel allPane = new JPanel();
+        allPane.add(leftAllPane);
+        allPane.add(rightAllPane);
+        JPanel hoodiePane = new JPanel();
+        hoodiePane.add(leftHoodiePane);
+        hoodiePane.add(rightHoodiePane);
+        JPanel TshirtPane = new JPanel();
+        TshirtPane.add(leftShirtPane);
+        TshirtPane.add(rightShirtPane);
+
+        //add cards to cardPane
+        cardPane.add(allPane, allStr);
+        cardPane.add(hoodiePane, hoodieStr);
+        cardPane.add(TshirtPane, tshirtStr);
+
+        //add cardPane to scrollPane
+        JScrollPane scrollPane = new JScrollPane(cardPane);
+        scrollPane.setPreferredSize(new Dimension(400,400));
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);  
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        pane.add(scrollPane,BorderLayout.CENTER);
+        CardLayout cl = (CardLayout)(cardPane.getLayout());
+                cl.show(cardPane,allStr);  ;
         MiscFunctions.addCardtoMasterCards(pane, "Browse");
     }
+
 }
