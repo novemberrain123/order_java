@@ -118,7 +118,7 @@ public class PageStaffLogin  {
     private static boolean performCheck2(String input) {
         Boolean match=null;
         try {
-            File myObj = new File("D:\\JAVA\\order_java\\ID\\staff.txt");
+            File myObj = new File("D:\\JAVA\\order_java\\ID\\staffs.txt");
             Scanner myReader = new Scanner(myObj);
             while (myReader.hasNextLine()) 
             {
