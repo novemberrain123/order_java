@@ -1,7 +1,12 @@
 package order_java.GUI;
 
-
+import java.io.File;  // Import the File class
+import java.io.FileNotFoundException;  // Import this class to handle errors
+import java.sql.SQLOutput;
+import java.util.Arrays;
+import java.util.Scanner; // Import the Scanner class to read text files
 import javax.lang.model.element.Name;
+import javax.lang.model.util.ElementScanner6;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
@@ -17,6 +22,9 @@ public class PageStaffLogin  {
 
     public static void createPageStaffLogin(){
 
+        JPanel pane = new JPanel(new BorderLayout());
+        MiscFunctions.addDefaultComponentsToPane(pane, "HomePage",2);
+
         //create a controlPanel that included login panel and name Pane
         JPanel controlPanel = new JPanel();
         controlPanel.setLayout(new BoxLayout(controlPanel, BoxLayout.PAGE_AXIS));
@@ -30,38 +38,39 @@ public class PageStaffLogin  {
         JPanel name=new JPanel();
         name.setLayout(new BoxLayout(name, BoxLayout.X_AXIS));
         name.add(new JLabel ("Name        :  "));
-        name.add(new JTextField(10));
+        JTextField name1 = new JTextField(10);
+        name.add(name1);
         name.setMaximumSize(new Dimension(171, 20));
         name.setAlignmentX(Component.CENTER_ALIGNMENT);
+        String username = name1.getText();
 
         JButton btnLogin=new JButton("LOGIN");
         btnLogin.setLayout(new BoxLayout(btnLogin, BoxLayout.X_AXIS));
         btnLogin.setMaximumSize(new Dimension(100, 20));
         btnLogin.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+
         JPanel pass=new JPanel();
         pass.add(new JLabel("Password :"));
         JPasswordField passwordField = new JPasswordField(10);
         passwordField.setMaximumSize(new Dimension(100, 20));
         btnLogin.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent arg0) {
-                char[] input = passwordField.getPassword();
-                if (performCheck(input)) {
-                    //JOptionPane.showMessageDialog(null, "Correct password");
-                    btnLogin.addActionListener(new ActionListener(){
-                        public void actionPerformed(ActionEvent e){
-                            CardLayout cl = (CardLayout)(MiscFunctions.masterCards.getLayout());
-                            cl.show(MiscFunctions.masterCards,"Reports");
-                        }
-                    });
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    char[] pass = passwordField.getPassword();
+                    
+                    if (performCheck(pass)==true||performCheck2(username)==true) {
+                         CardLayout cl = (CardLayout)(MiscFunctions.masterCards.getLayout());
+                         cl.show(MiscFunctions.masterCards,"Reports");
 
-                } 
-                else {
-                    JOptionPane.showMessageDialog(null, "Incorrect password");
+                    } 
+                    else 
+                    {
+                        JOptionPane.showMessageDialog(null, "Incorrect name or password");
+                    }
+                                     
                 }
-            }
-        });
+            });
 
         passwordField.setEchoChar('*');
         pass.add(passwordField);
@@ -75,18 +84,20 @@ public class PageStaffLogin  {
         controlPanel.add(login);
         controlPanel.add(Box.createRigidArea(new Dimension(100,60)));
         controlPanel.add(name);
-        controlPanel.add(Box.createRigidArea(new Dimension(100,10)));
+        //controlPanel.add(Box.createRigidArea(new Dimension(100,1)));
         controlPanel.add(pass);
         controlPanel.add(Box.createRigidArea(new Dimension(100,20)));
         controlPanel.add(btnLogin);
-        JPanel outter = new JPanel();
+        //JPanel outter = new JPanel();
 
 
 
         //Adding to the panel
 
-        outter.add(controlPanel, BorderLayout.CENTER);
-        MiscFunctions.addCardtoMasterCards(outter, "StaffLogin");
+        // outter.add(controlPanel, BorderLayout.CENTER);
+        // MiscFunctions.addCardtoMasterCards(outter, "StaffLogin");
+        pane.add(controlPanel, BorderLayout.CENTER);
+        MiscFunctions.addCardtoMasterCards(pane, "StaffLogin");
     }
 
     private static boolean performCheck(char[] input) {
@@ -104,7 +115,34 @@ public class PageStaffLogin  {
         return isCorrect;
     }
 
+    private static boolean performCheck2(String input) {
+        Boolean match=null;
+        try {
+            File myObj = new File("D:\\JAVA\\order_java\\ID\\staff.txt");
+            Scanner myReader = new Scanner(myObj);
+            while (myReader.hasNextLine()) 
+            {
+                if (input.matches(myReader.nextLine())) {
+                    match=true;
+                    break;
+                }
+                else
+                    match=false;
+            }
 
+            if(match==true)
+            {
+                System.out.println("Id is matched");
+            }
 
+            else if(match==false)
+                System.out.println("Wrong");
 
+            myReader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+        return match;
+    }
 }

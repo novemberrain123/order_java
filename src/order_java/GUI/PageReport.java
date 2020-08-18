@@ -17,7 +17,8 @@ public class PageReport {
     final static int extraWindowWidth = 100;
 
     public static void createPageReport() {
-        JPanel pane = new JPanel();
+        JPanel pane = new JPanel(new BorderLayout());
+        MiscFunctions.addDefaultComponentsToPane(pane, "StaffLogin",2);
         //pane.setPreferredSize(new Dimension(400,400));
         
        
@@ -117,43 +118,18 @@ public class PageReport {
         scrollpane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         scrollpane.setVisible(true);
 
-          card2.add(scrollpane);
-//        JScrollPane scrollPane2= new JScrollPane(HistoryText);
+        card2.add(scrollpane);
 
-
-//        scrollPane2.setViewportView(HistoryText);
-//
-//
-//        card2.add(HistoryText);
-        //scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         tabbedPane.addTab(Report, card1);
         tabbedPane.addTab(History, card2);
 
-        JPanel btmPane = new JPanel();
-        btmPane.setLayout(new BoxLayout(btmPane, BoxLayout.X_AXIS));
-        JButton btnBack = new JButton("");
-        btnBack.setAlignmentX(Component.LEFT_ALIGNMENT);
-        btnBack.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
-                CardLayout cl = (CardLayout)(MiscFunctions.masterCards.getLayout());
-                cl.show(MiscFunctions.masterCards,"StaffLogin");
-            }
-        });
+        
 
-        ImageIcon logo = new ImageIcon("img/mindnew.png");
-        Image image = logo.getImage(); // Resize Image
-        Image newimg = image.getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
-        btnBack.setPreferredSize(new Dimension(35, 35));
-        ImageIcon back = new ImageIcon("img/back.png");
-        image = back.getImage(); // Resize Image
-        newimg = image.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
-        back = new ImageIcon(newimg);
-        btnBack.setIcon(back);
         
         
-        btmPane.add(btnBack);
+        
+        
         pane.add(tabbedPane, BorderLayout.CENTER);
-        pane.add(btmPane,BorderLayout.WEST);
         
 
         MiscFunctions.addCardtoMasterCards(pane, "Reports");

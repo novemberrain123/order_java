@@ -16,6 +16,8 @@ public class PageMemberLogin  {
 
     public static void createPageMember(){
 
+        JPanel pane = new JPanel(new BorderLayout());
+        MiscFunctions.addDefaultComponentsToPane(pane, "HomePage",2);
         //create a controlPanel that included login panel and name Pane
         JPanel controlPanel = new JPanel();
         controlPanel.setLayout(new BoxLayout(controlPanel, BoxLayout.PAGE_AXIS));
@@ -29,10 +31,12 @@ public class PageMemberLogin  {
         JPanel name=new JPanel();
         name.setLayout(new BoxLayout(name, BoxLayout.X_AXIS));
         name.add(new JLabel ("Name        :  "));
-        name.add(new JTextField(10));
+        JTextField name1 = new JTextField(10);
+        name.add(name1);
         name.setMaximumSize(new Dimension(171, 20));
         name.setAlignmentX(Component.CENTER_ALIGNMENT);
-
+        String username = name1.getText();
+        
         JButton btnLogin=new JButton("LOGIN");
         btnLogin.setLayout(new BoxLayout(btnLogin, BoxLayout.X_AXIS));
         btnLogin.setMaximumSize(new Dimension(100, 20));
@@ -42,23 +46,22 @@ public class PageMemberLogin  {
         pass.add(new JLabel("Password :"));
         JPasswordField passwordField = new JPasswordField(10);
         passwordField.setMaximumSize(new Dimension(100, 20));
+        
         btnLogin.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent arg0) {
-                char[] input = passwordField.getPassword();
-                if (performCheck(input)) {
-                    //JOptionPane.showMessageDialog(null, "Correct password");
-                    btnLogin.addActionListener(new ActionListener(){
-                        public void actionPerformed(ActionEvent e){
-                            CardLayout cl = (CardLayout)(MiscFunctions.masterCards.getLayout());
-                            cl.show(MiscFunctions.masterCards,"Market");
-                        }
-                    });
-                } else {
-                    JOptionPane.showMessageDialog(null, "Incorrect password");
+                public void actionPerformed(ActionEvent e) {
+                    char[] input = passwordField.getPassword();
+                    
+                    if (performCheck(input)) {
+                         CardLayout cl = (CardLayout)(MiscFunctions.masterCards.getLayout());
+                         cl.show(MiscFunctions.masterCards,"Market");
+                            
+                       
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Incorrect password");
+                    }
                 }
-            }
-        });
+            });
         passwordField.setEchoChar('*');
         pass.add(passwordField);
         pass.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -78,7 +81,7 @@ public class PageMemberLogin  {
 
 
 
-        JPanel pane = new JPanel();
+        
         //Adding to the panel
 
         pane.add(controlPanel, BorderLayout.CENTER);
@@ -99,6 +102,22 @@ public class PageMemberLogin  {
 
         return isCorrect;
     }
+
+    private static boolean performCheckName(char[] name1) {
+        boolean isCorrect = false;
+        char[] correctPass = { '1', '2', '3','4','5'};
+
+        if (name1.length== correctPass.length) {
+            isCorrect = true;
+        }
+        else
+        isCorrect=false;
+
+        Arrays.fill(correctPass, '0');
+
+        return isCorrect;
+    }
+
 
 
 
