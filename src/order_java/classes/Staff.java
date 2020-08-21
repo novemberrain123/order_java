@@ -1,6 +1,6 @@
 package order_java.classes;
 
-public class Staff extends Person{
+public class Staff {
     int password;
     int staffID;
 }

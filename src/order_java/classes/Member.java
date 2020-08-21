@@ -1,29 +1,34 @@
 package order_java.classes;
 
 import java.io.*;
-import java.lang.*;
 
 public class Member extends Customer {
     private int memberID;
     private String password;
     private double points;
+    private int luckyNumber;
     private final double convertPoints = 0.3;
-    private final double discountRate500 = 0.03;
-    private final double discountRate1000 = 0.07;
-    private final double discountRate1500 = 0.12;
 
     public Member() {
 
     }
 
     public Member(String password, String name, String address, String phoneNo) {
-        super(name, address, phoneNo);
+        // super(name, address, phoneNo);
         memberID = Member.getNextMemberID();
         this.password = password;
     }
 
     public int getMemberID() {
         return memberID;
+    }
+
+    public void setPassword(String password){
+        this.password = password;
+    }
+
+    public String getPassword(){
+        return password;
     }
 
     public void setPoints(int points) {
@@ -34,28 +39,60 @@ public class Member extends Customer {
         return points;
     }
 
-    public double redeemPoints(double rawTotal) {
-        if (points >= 500) {
-            points -= 500;
-            return rawTotal * discountRate500;
-        } else if (points >= 1000) {
-            points -= 1000;
-            return rawTotal * discountRate1000;
-        } else {
-            points -= 1500;
-            return rawTotal * discountRate1500;
-        }
+    public void setLuckyNumber(int luckyNumber){
+        this.luckyNumber = luckyNumber;
+    }
+
+    public int getLuckyNumber(){
+        return luckyNumber;
     }
 
     public void addPoints(double rawTotal) {
         points += rawTotal * convertPoints;
     }
 
+    public void redeemPoints(int pointsSelection) { 
+        if (pointsSelection == 0) 
+            points -= 500;
+        else if (pointsSelection == 1) 
+            points -= 1000;
+        else 
+            points -= 1500;
+    }
+
+    public static String validatePassword(String password){
+        int countLetter = 0;
+        int countDigit = 0;
+        int countUpperCaseLetter = 0;
+        if (password.length() < 8)
+            return "Password entered is less than 8 characters.\nPlease try again.";
+        for (int i = 0; i < password.length(); i++){
+            if (Character.isDigit(password.charAt(i)) == true)
+                countDigit++;
+            else if (Character.isLetter(password.charAt(i)) == true){
+                countLetter++;
+                if (Character.isUpperCase(password.charAt(i)) == true)
+                    countUpperCaseLetter++;
+            }
+        } 
+        if (countLetter == 0)
+            return "Password does not have letter.\nPlease try again.";
+        else if (countDigit == 0)
+            return "Password does not have digit.\nPlease try again.";
+        else if (countUpperCaseLetter == 0)
+            return "Password does not have upper case letter.\nPlease try again.";
+        else   
+            return "Valid";         
+    }
+
     public void writeToFile() {
         try {
-            FileWriter writer = new FileWriter("../../../ID/members.txt");
+            FileWriter writer = new FileWriter("./././ID/members.txt");
             writer.write(memberID + "-" + password + "-" + points);
             writer.close();
+        } catch(FileNotFoundException e) {
+            System.out.println("File not found");
+            e.printStackTrace();
         } catch (IOException e) {
             System.out.println("IO Error");
             e.printStackTrace();
@@ -63,7 +100,7 @@ public class Member extends Customer {
     }
 
     public static int getNextMemberID(){
-        File memberFile = new File("../../../ID/members.txt");
+        File memberFile = new File("./././ID/members.txt");
         StringBuilder memberID = new StringBuilder();
         RandomAccessFile raf = null; 
         try {

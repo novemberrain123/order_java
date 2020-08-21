@@ -14,11 +14,7 @@ public class MiscFunctions {
         frame.setSize(500, 500);
         
         //for testing change function
-
-        HomePage.createHome();  // “Hompage"
-        PageMemberLogin.createPageMember(); // "MemberLogin", pass=12345oop , name=limjunshen,ganyihwee,johnwick
-        PageMarket.createPageMarket();  //"Market"
-        PageMarket.createPageBrowse(); //"Browse"
+        
         PagePayMethod.createPagePayMethod(); //"Pay Method"
         PageMembership.createPageMembership(); //"Membership"
         PageCardPayment.createPageCardPayment();//"Card Payment"
