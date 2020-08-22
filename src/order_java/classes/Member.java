@@ -9,10 +9,22 @@ public class Member extends Customer {
     private String email;
     private String dob;
     private int luckyNumber;
-    private final double convertPoints = 0.3;
+    private final static double convertPoints = 0.3;
 
     public Member() {
         memberID = Member.getNextMemberID();
+    }
+
+    // Constructor to create member object at the beginning
+    public Member(String name, int memberID, String password, int points){ 
+        super(name);
+        this.memberID = memberID;
+        this.password = password;
+        this.points = points;
+    }
+
+    public static double getConvertPoints(){
+        return convertPoints;
     }
 
     public int getMemberID() {
@@ -63,6 +75,10 @@ public class Member extends Customer {
         points += rawTotal * convertPoints;
     }
 
+    public static double getAddPoints(double rawTotal){
+        return rawTotal * convertPoints;
+    }
+
     public void redeemPoints(int pointsSelection) { 
         if (pointsSelection == 0) 
             points -= 500;
@@ -99,8 +115,8 @@ public class Member extends Customer {
 
     public void writeToFile() {
         try {
-            FileWriter writer = new FileWriter("./././ID/members.txt");
-            writer.write(memberID + "-" + password + "-" + points + "-" + getName());
+            FileWriter writer = new FileWriter("./././ID/members.txt", true);
+            writer.write(memberID + " " + password + " " + points + " " + getName() + "\n");
             writer.close();
         } catch(FileNotFoundException e) {
             System.out.println("File not found");
@@ -113,22 +129,30 @@ public class Member extends Customer {
 
     public static int getNextMemberID(){
         File memberFile = new File("./././ID/members.txt");
-        StringBuilder memberID = new StringBuilder();
         RandomAccessFile raf = null; 
+        StringBuilder stringMemberID = new StringBuilder();
         try {
             raf = new RandomAccessFile(memberFile, "r");
-            long fileLength = memberFile.length() - 1;
-            raf.seek(fileLength);
+            long fileLength = raf.length() - 1;
             for (long pointer = fileLength; pointer >= 0; pointer--){
                 raf.seek(pointer);
-                char character;
-                character = (char)raf.read();
-                if (character == '\n'){
+                int readByte = raf.readByte();
+
+                if (readByte == 0xA){
+                    if(pointer == fileLength){
+                        continue;
+                    }
                     break;
                 }
-                memberID.append(character);
+                else if (readByte == 0xD){
+                    if(pointer == fileLength - 1){
+                        continue;
+                    }
+                    break;
+                }
+                stringMemberID = stringMemberID.append((char)readByte);
             }
-            memberID.reverse();
+            stringMemberID = stringMemberID.reverse();
         } catch (FileNotFoundException e){
             e.printStackTrace();
         } catch (IOException e){
@@ -142,6 +166,6 @@ public class Member extends Customer {
                 }
             }
         }
-        return Integer.parseInt(memberID.substring(0, 3)) + 1;
+        return Integer.parseInt(stringMemberID.substring(0, 3)) + 1;
     }
 }

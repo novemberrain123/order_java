@@ -17,8 +17,7 @@ public class MiscFunctions {
         
         PagePayMethod.createPagePayMethod(); //"Pay Method"
         PageMembership.createPageMembership(); //"Membership"
-        PageCardPayment.createPageCardPayment();//"Card Payment"
-        PageCashPayment.createPageCashPayment();//"Cash Payment"
+        PagePaymentDetails.createPagePaymentDetails(); // "Payment Details"
         PageReceipt.createPageReceipt(); // "Receipt"
         PageStaffLogin.createPageStaffLogin(); // "StaffLogin", pass=12345fat
         PageReport.createPageReport(); // "Reports"

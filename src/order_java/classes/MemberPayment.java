@@ -6,14 +6,41 @@ public class MemberPayment extends PaymentCalc{
     private final double discountRate500 = 0.03;
     private final double discountRate1000 = 0.07;
     private final double discountRate1500 = 0.12;
+    private boolean isRedeemPoints;
+    private int pointsRedeemed;
     private int generatedLuckyNumber;
-    
+
     public MemberPayment(){
-        generatedLuckyNumber = (int)(Math.random() * 6);
+        generatedLuckyNumber = (int)(1 + Math.random() * 5);
+    }
+
+    public static double getMemberFees(){
+        return memberFees;
     }
 
     public void addMemberFees(){ // When new member sign up
         setAdjTotal(memberFees);
+    }
+
+    public void setIsRedeemPoints(boolean isRedeemPoints){
+        this.isRedeemPoints = isRedeemPoints;
+    }
+
+    public boolean getIsRedeemPoints(){
+        return isRedeemPoints;
+    }
+
+    public void setPointsRedeemed(int option){
+        if (option == 0)
+            this.pointsRedeemed = 500;
+        else if (option == 1)
+            this.pointsRedeemed = 1000;
+        else
+            this.pointsRedeemed = 1500;
+    }
+
+    public int getPointsRedeemed() {
+        return pointsRedeemed;
     }
 
     @Override

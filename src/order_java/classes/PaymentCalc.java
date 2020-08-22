@@ -5,6 +5,7 @@ public abstract class PaymentCalc {
     private double adjTotal;
     private double discountAmount;
     private double change;
+    private String payMethod;
 
     protected PaymentCalc(){
         
@@ -40,6 +41,14 @@ public abstract class PaymentCalc {
 
     public double getChange(){
         return change;
+    }
+
+    public void setPayMethod(String payMethod){
+        this.payMethod = payMethod;
+    }
+
+    public String getPayMethod(){
+        return payMethod;
     }
 
     public void calculateRawTotal(double[] prices, int[] quantities){

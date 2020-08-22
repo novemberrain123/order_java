@@ -12,6 +12,10 @@ public class Customer {
 
     }
 
+    public Customer(String name){
+        this.name = name;
+    }
+
     public void setName(String name){
         this.name = name;
     }
@@ -34,5 +38,29 @@ public class Customer {
 
     public String getPhoneNo(){
         return phoneNo;
+    }
+
+    public void setOrder(Order order){
+        this.order = order;
+    }
+
+    public Order getOrder(){
+        return order;
+    }
+
+    public void setCardInfo(CardInfo cardInfo){
+        this.cardInfo = cardInfo;
+    }
+
+    public CardInfo getCardInto(){
+        return cardInfo;
+    }
+
+    public void setCashPayment(CashPayment cash){
+        this.cash = cash;
+    }
+
+    public CashPayment getCashPayment(){
+        return cash;
     }
 }

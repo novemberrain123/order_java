@@ -9,8 +9,8 @@ import java.awt.event.*;
 
 public class PageMembership {
     public static void createPageMembership(){
-        // Customer user = new Customer(); // Demonstration purpose
-        // PaymentCalc paymentcalc = new CustomerPayment(); // Demonstration purpose
+        Customer user = new Customer(); // Demonstration purpose
+        PaymentCalc paymentcalc = new CustomerPayment(); // Demonstration purpose
         
         JPanel pane = new JPanel(new BorderLayout());
         JPanel[] paneMemberDetails = new JPanel[10]; // To store every panel for member's details
@@ -130,38 +130,41 @@ public class PageMembership {
         JButton btnSignUp = new JButton("Sign Up");
         btnSignUp.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
-                if (Member.validatePassword(tfPassword.getText()) == "Valid"){
-                    // Customer tempUser = user; // Temporarily store customer data
-                    // user = new Member();
-                    // user.setName(tempUser.getName()); // Transfer customer data to member data
-                    // user.setAddress(tempUser.getAddress());
-                    // user.setPhoneNo(tempUser.getPhoneNo());
-                    // user.setOrder(tempUser.getOrder());
-                    Customer user = new Member(); // Demonstration purpose // Create new member
-                    PaymentCalc paymentcalc = new MemberPayment(); // Point to a new member payment object
+                if (tfFirstName.getText() == null || tfFirstName.getText().trim().isEmpty() || tfLastName.getText() == null || tfLastName.getText().trim().isEmpty() || tfEmail.getText() == null || tfEmail.getText().trim().isEmpty() || tfHpFront.getText() == null || tfHpFront.getText().trim().isEmpty() || tfHpBehind.getText() == null || tfHpBehind.getText().trim().isEmpty() || tfAddress[0].getText() == null || tfAddress[0].getText().trim().isEmpty() || tfAddress[1].getText() == null || tfAddress[1].getText().trim().isEmpty() || tfAddress[2].getText() == null || tfAddress[2].getText().trim().isEmpty() || tfPoscode.getText() == null || tfPoscode.getText().trim().isEmpty() || tfPassword.getText() == null || tfPassword.getText().trim().isEmpty())
+                    JOptionPane.showMessageDialog(null, "There is column left blank.\nPlease check again.", "Unable to proceed", JOptionPane.ERROR_MESSAGE);
+                else {
+                    if (Member.validatePassword(tfPassword.getText()) == "Valid"){
+                        Customer tempUser = user; // Temporarily store customer data
+                        Customer user = new Member();
+                        user.setName(tempUser.getName()); // Transfer customer data to member data
+                        user.setAddress(tempUser.getAddress());
+                        user.setPhoneNo(tempUser.getPhoneNo());
+                        user.setOrder(tempUser.getOrder());
+                        PaymentCalc paymentcalc = new MemberPayment(); // Point to a new member payment object
 
-                    // Store user details
-                    user.setName(tfFirstName.getText() + " " + tfLastName.getText()); // Store member name
-                    ((Member)user).setEmail(tfEmail.getText()); // Store member email
-                    ((Member)user).setDob((String)cbDate.getSelectedItem() + "-" + ((String)cbMonth.getSelectedItem()).substring(0, 3) + "-" + (String)cbYear.getSelectedItem()); // Store member dob
-                    user.setPhoneNo(tfHpFront.getText() + "-" + tfHpBehind.getText()); // Store member hp no.
-                    user.setAddress(tfAddress[0].getText() + ", " + tfAddress[1].getText() + ", " + tfAddress[2].getText() + ", " + tfPoscode.getText() + " " + (String)cbState.getSelectedItem()); // Store member address
-                    ((Member)user).setPassword(tfPassword.getText()); // Store member password
+                        // Store user details
+                        user.setName(tfFirstName.getText() + " " + tfLastName.getText()); // Store member name
+                        ((Member)user).setEmail(tfEmail.getText()); // Store member email
+                        ((Member)user).setDob((String)cbDate.getSelectedItem() + "-" + ((String)cbMonth.getSelectedItem()).substring(0, 3) + "-" + (String)cbYear.getSelectedItem()); // Store member dob
+                        user.setPhoneNo(tfHpFront.getText() + "-" + tfHpBehind.getText()); // Store member hp no.
+                        user.setAddress(tfAddress[0].getText() + ", " + tfAddress[1].getText() + ", " + tfAddress[2].getText() + ", " + tfPoscode.getText() + " " + (String)cbState.getSelectedItem()); // Store member address
+                        ((Member)user).setPassword(tfPassword.getText()); // Store member password
 
-                    ((Member)user).writeToFile(); // Write new member into text file
-                    ((Member)user).setLuckyNumber(Integer.parseInt(JOptionPane.showInputDialog(null, "Member fee: RM20.00\nEnter a lucky number and stand a chance to get free membership !\n(Any number from 0 to 5)")));
-                    if (((MemberPayment)paymentcalc).matchLuckyNumber(user)){
-                        JOptionPane.showMessageDialog(null, "Your lucky number is matched.\nYou are given a free membership.\nHave a nice day!", "Congratulation!", JOptionPane.INFORMATION_MESSAGE);
+                        ((Member)user).writeToFile(); // Write new member into text file
+                        ((Member)user).setLuckyNumber(Integer.parseInt(JOptionPane.showInputDialog(null, "Member fee: RM20.00\nEnter a lucky number and stand a chance to get free membership !\n(Any number from 1 to 5)")));
+                        if (((MemberPayment)paymentcalc).matchLuckyNumber(user)){
+                            JOptionPane.showMessageDialog(null, "Your lucky number is matched.\nYou are given a free membership.\nHave a nice day!", "Congratulation!", JOptionPane.INFORMATION_MESSAGE);
+                        }
+                        else {
+                            JOptionPane.showMessageDialog(null, "Your lucky number is not matched.\nIt's okay. Try better next time :) !", "Sorry!", JOptionPane.INFORMATION_MESSAGE);
+                            ((MemberPayment)paymentcalc).addMemberFees();
+                        }
+                        CardLayout cl = (CardLayout)(MiscFunctions.masterCards.getLayout());
+                        cl.show(MiscFunctions.masterCards,"Pay Method");
                     }
-                    else {
-                        JOptionPane.showMessageDialog(null, "Your lucky number is not matched.\nIt's okay. Try better next time :) !", "Sorry!", JOptionPane.INFORMATION_MESSAGE);
-                        ((MemberPayment)paymentcalc).addMemberFees();
-                    }
-                    CardLayout cl = (CardLayout)(MiscFunctions.masterCards.getLayout());
-                    cl.show(MiscFunctions.masterCards,"Pay Method");
+                    else
+                        JOptionPane.showMessageDialog(null, Member.validatePassword(tfPassword.getText()), "Invalid Password", JOptionPane.ERROR_MESSAGE);
                 }
-                else
-                    JOptionPane.showMessageDialog(null, Member.validatePassword(tfPassword.getText()), "Invalid Password", JOptionPane.ERROR_MESSAGE);
             }
         });
         JButton btnCancel = new JButton("Cancel");
