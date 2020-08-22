@@ -3,11 +3,11 @@ package order_java.classes;
 public class MemberPayment extends PaymentCalc{
     private final static double memberDiscount = 0.1;
     private final static double memberFees = 20.0;
-    private int generatedLuckyNumber;
     private final double discountRate500 = 0.03;
     private final double discountRate1000 = 0.07;
     private final double discountRate1500 = 0.12;
-
+    private int generatedLuckyNumber;
+    
     public MemberPayment(){
         generatedLuckyNumber = (int)(Math.random() * 6);
     }

@@ -1,12 +1,16 @@
 package order_java.GUI;
 
+import order_java.classes.*;
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
 
 public class PageCardPayment {
     public static void createPageCardPayment(){
-        JPanel pane = new JPanel(); 
+        Customer user = new Customer(); // Demonstration
+        PaymentCalc paymentCalc = new CustomerPayment(); // Demonstration
+
+        JPanel pane = new JPanel(new BorderLayout()); 
         Font wordFont = new Font("", Font.PLAIN, 15);
         JPanel[] midPaneLabels = new JPanel[6];
         for (int i = 0; i < 6; i++){

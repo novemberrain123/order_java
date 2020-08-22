@@ -6,17 +6,13 @@ public class Member extends Customer {
     private int memberID;
     private String password;
     private double points;
+    private String email;
+    private String dob;
     private int luckyNumber;
     private final double convertPoints = 0.3;
 
     public Member() {
-
-    }
-
-    public Member(String password, String name, String address, String phoneNo) {
-        // super(name, address, phoneNo);
         memberID = Member.getNextMemberID();
-        this.password = password;
     }
 
     public int getMemberID() {
@@ -37,6 +33,22 @@ public class Member extends Customer {
 
     public double getPoints() {
         return points;
+    }
+
+    public void setEmail(String email){
+        this.email = email;
+    }
+
+    public String getEmail(){
+        return email;
+    }
+
+    public void setDob(String dob){
+        this.dob = dob;
+    }
+
+    public String getDob(){
+        return dob;
     }
 
     public void setLuckyNumber(int luckyNumber){
@@ -88,7 +100,7 @@ public class Member extends Customer {
     public void writeToFile() {
         try {
             FileWriter writer = new FileWriter("./././ID/members.txt");
-            writer.write(memberID + "-" + password + "-" + points);
+            writer.write(memberID + "-" + password + "-" + points + "-" + getName());
             writer.close();
         } catch(FileNotFoundException e) {
             System.out.println("File not found");

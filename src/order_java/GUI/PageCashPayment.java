@@ -6,7 +6,7 @@ import java.awt.event.*;
 
 public class PageCashPayment {
     public static void createPageCashPayment(){
-        JPanel pane = new JPanel();
+        JPanel pane = new JPanel(new BorderLayout());
         Font wordFont = new Font("", Font.PLAIN, 15);
         JPanel[] midPaneLabels = new JPanel[5];
         for (int i = 0; i < 5; i++){

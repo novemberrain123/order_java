@@ -6,7 +6,7 @@ import java.awt.event.*;
 
 public class PageReceipt {
     public static void createPageReceipt(){
-        JPanel pane = new JPanel();
+        JPanel pane = new JPanel(new BorderLayout());
         JPanel[] paneReceiptLabels = new JPanel[8]; // To store every receipt labels
         for (int i = 0; i < 8; i++){
             paneReceiptLabels[i] = new JPanel(new FlowLayout(FlowLayout.LEFT));

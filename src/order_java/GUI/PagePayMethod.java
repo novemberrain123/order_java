@@ -88,11 +88,10 @@ public class PagePayMethod {
     }
 
     public static void createPagePayMethod(){
-        // Customer user = new Customer(); // Demonstration purpose 
-        // PaymentCalc paymentcalc = new CustomerPayment(); // Demonstration purpose
-        Customer user = new Member();
-        PaymentCalc paymentcalc = new MemberPayment();
-        ((Member)user).setPoints(3292);
+        Customer user = new Customer(); // Demonstration purpose 
+        PaymentCalc paymentcalc = new CustomerPayment(); // Demonstration purpose
+        // Customer user = new Member();
+        // PaymentCalc paymentcalc = new MemberPayment();
         // paymentcalc.calculateRawTotal(prices, quantities); // Calculate raw total
 
         JPanel pane = new JPanel(new BorderLayout());

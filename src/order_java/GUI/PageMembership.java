@@ -65,8 +65,10 @@ public class PageMembership {
         paneMemberDetails[3].add(tfHpBehind);
 
         // Member's address
+        JTextField[] tfAddress = new JTextField[3]; 
         for (int i = 4; i < 7; i++){
-            paneMemberDetails[i].add(new JTextField(30));
+            tfAddress[i-4] = new JTextField(30);
+            paneMemberDetails[i].add(tfAddress[i-4]);
         }
 
         // Address's poscode and state
@@ -137,6 +139,15 @@ public class PageMembership {
                     // user.setOrder(tempUser.getOrder());
                     Customer user = new Member(); // Demonstration purpose // Create new member
                     PaymentCalc paymentcalc = new MemberPayment(); // Point to a new member payment object
+
+                    // Store user details
+                    user.setName(tfFirstName.getText() + " " + tfLastName.getText()); // Store member name
+                    ((Member)user).setEmail(tfEmail.getText()); // Store member email
+                    ((Member)user).setDob((String)cbDate.getSelectedItem() + "-" + ((String)cbMonth.getSelectedItem()).substring(0, 3) + "-" + (String)cbYear.getSelectedItem()); // Store member dob
+                    user.setPhoneNo(tfHpFront.getText() + "-" + tfHpBehind.getText()); // Store member hp no.
+                    user.setAddress(tfAddress[0].getText() + ", " + tfAddress[1].getText() + ", " + tfAddress[2].getText() + ", " + tfPoscode.getText() + " " + (String)cbState.getSelectedItem()); // Store member address
+                    ((Member)user).setPassword(tfPassword.getText()); // Store member password
+
                     ((Member)user).writeToFile(); // Write new member into text file
                     ((Member)user).setLuckyNumber(Integer.parseInt(JOptionPane.showInputDialog(null, "Member fee: RM20.00\nEnter a lucky number and stand a chance to get free membership !\n(Any number from 0 to 5)")));
                     if (((MemberPayment)paymentcalc).matchLuckyNumber(user)){
