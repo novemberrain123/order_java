@@ -1,6 +1,10 @@
 package order_java.GUI;
 
-
+import java.io.File;  // Import the File class
+import java.io.FileNotFoundException;  // Import this class to handle errors
+import java.sql.SQLOutput;
+import java.util.Arrays;
+import java.util.Scanner; // Import the Scanner class to read text files
 import javax.lang.model.element.Name;
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -10,14 +14,19 @@ import java.util.Arrays;
 import javax.swing.table.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.lang.*;
+import java.lang.reflect.Member;
 
 
 public class PageMemberLogin  {
 
     public static void createPageMember(){
+        
+        
+
 
         JPanel pane = new JPanel(new BorderLayout());
-        MiscFunctions.addDefaultComponentsToPane(pane, "HomePage",2);
+        MiscFunctions.addDefaultComponentsToPane(pane, "Home",2);
         //create a controlPanel that included login panel and name Pane
         JPanel controlPanel = new JPanel();
         controlPanel.setLayout(new BoxLayout(controlPanel, BoxLayout.PAGE_AXIS));
@@ -28,14 +37,13 @@ public class PageMemberLogin  {
         login.add(loginx);
         loginx.setFont(new Font("SansSerif", Font.BOLD, 17));
         login.setAlignmentX(Component.CENTER_ALIGNMENT);
-        JPanel name=new JPanel();
-        name.setLayout(new BoxLayout(name, BoxLayout.X_AXIS));
-        name.add(new JLabel ("Name        :  "));
-        JTextField name1 = new JTextField(10);
-        name.add(name1);
-        name.setMaximumSize(new Dimension(171, 20));
-        name.setAlignmentX(Component.CENTER_ALIGNMENT);
-        String username = name1.getText();
+        JPanel memberID=new JPanel();
+        memberID.setLayout(new BoxLayout(memberID, BoxLayout.X_AXIS));
+        memberID.add(new JLabel ("Name        :  "));
+        JTextField memberIDlogin = new JTextField(10);
+        memberID.add(memberIDlogin);
+        memberID.setMaximumSize(new Dimension(171, 20));
+        memberID.setAlignmentX(Component.CENTER_ALIGNMENT);
         
         JButton btnLogin=new JButton("LOGIN");
         btnLogin.setLayout(new BoxLayout(btnLogin, BoxLayout.X_AXIS));
@@ -47,21 +55,29 @@ public class PageMemberLogin  {
         JPasswordField passwordField = new JPasswordField(10);
         passwordField.setMaximumSize(new Dimension(100, 20));
         
+        String memberId = memberIDlogin.getText();
+        String password = String.valueOf(passwordField.getPassword());
+        
+        
+
         btnLogin.addActionListener(new ActionListener() {
             @Override
                 public void actionPerformed(ActionEvent e) {
-                    char[] input = passwordField.getPassword();
-                    
-                    if (performCheck(input)) {
+                   
+                    if (performCheck(memberId, password)==true) {
                          CardLayout cl = (CardLayout)(MiscFunctions.masterCards.getLayout());
                          cl.show(MiscFunctions.masterCards,"Market");
-                            
+                         order_java.classes.Member newMember = new order_java.classes.Member(password);
+                         
+                         
+
                        
                     } else {
                         JOptionPane.showMessageDialog(null, "Incorrect password");
                     }
                 }
             });
+            
         passwordField.setEchoChar('*');
         pass.add(passwordField);
         pass.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -73,7 +89,7 @@ public class PageMemberLogin  {
         controlPanel.add(Box.createRigidArea(new Dimension(100,110)));
         controlPanel.add(login);
         controlPanel.add(Box.createRigidArea(new Dimension(100,60)));
-        controlPanel.add(name);
+        controlPanel.add(memberID);
         controlPanel.add(Box.createRigidArea(new Dimension(100,10)));
         controlPanel.add(pass);
         controlPanel.add(Box.createRigidArea(new Dimension(100,20)));
@@ -88,35 +104,35 @@ public class PageMemberLogin  {
         MiscFunctions.addCardtoMasterCards(pane, "MemberLogin");
     }
 
-    private static boolean performCheck(char[] input) {
-        boolean isCorrect = false;
-        char[] correctPass = { '1', '2', '3','4','5','o','o','p' };
 
-        if (input.length != correctPass.length) {
-            isCorrect = false;
-        }
-        if (Arrays.equals(input, correctPass)) {
-            isCorrect = true;
-        }
-        Arrays.fill(correctPass, '0');
 
-        return isCorrect;
+    private static boolean performCheck(String id, String pass) {
+        boolean match=false;
+        StringBuilder check = new StringBuilder(id);
+        check.append(id+"-"+pass+"-");
+       
+        try {
+            File myObj = new File("D:\\JAVA\\order_java\\ID\\members.txt");
+            Scanner myReader = new Scanner(myObj);
+            while (myReader.hasNextLine()) 
+            {
+                if (check.toString().equals(myReader.nextLine())) {
+                    match=true;
+                    break;
+                }
+                else
+                    match=false;
+            }
+
+
+            myReader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+        return match;
     }
-
-    private static boolean performCheckName(char[] name1) {
-        boolean isCorrect = false;
-        char[] correctPass = { '1', '2', '3','4','5'};
-
-        if (name1.length== correctPass.length) {
-            isCorrect = true;
-        }
-        else
-        isCorrect=false;
-
-        Arrays.fill(correctPass, '0');
-
-        return isCorrect;
-    }
+   
 
 
 

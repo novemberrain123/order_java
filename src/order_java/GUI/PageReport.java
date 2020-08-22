@@ -16,12 +16,12 @@ public class PageReport {
     final static String History = "HISTORY";
     final static int extraWindowWidth = 100;
 
+
     public static void createPageReport() {
         JPanel pane = new JPanel(new BorderLayout());
         MiscFunctions.addDefaultComponentsToPane(pane, "StaffLogin",2);
         //pane.setPreferredSize(new Dimension(400,400));
-        
-       
+  
         
         double sold_S_T=0,sold_M_T=0,sold_L_T=0;
         double sales_S_T=0,sales_M_T=0,sales_L_T=0;

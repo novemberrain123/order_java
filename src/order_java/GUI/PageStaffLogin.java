@@ -23,7 +23,7 @@ public class PageStaffLogin  {
     public static void createPageStaffLogin(){
 
         JPanel pane = new JPanel(new BorderLayout());
-        MiscFunctions.addDefaultComponentsToPane(pane, "HomePage",2);
+        MiscFunctions.addDefaultComponentsToPane(pane, "Home",2);
 
         //create a controlPanel that included login panel and name Pane
         JPanel controlPanel = new JPanel();
@@ -42,7 +42,7 @@ public class PageStaffLogin  {
         name.add(name1);
         name.setMaximumSize(new Dimension(171, 20));
         name.setAlignmentX(Component.CENTER_ALIGNMENT);
-        String username = name1.getText();
+        
 
         JButton btnLogin=new JButton("LOGIN");
         btnLogin.setLayout(new BoxLayout(btnLogin, BoxLayout.X_AXIS));
@@ -58,8 +58,8 @@ public class PageStaffLogin  {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     char[] pass = passwordField.getPassword();
-                    
-                    if (performCheck(pass)==true||performCheck2(username)==true) {
+                    String username = name1.getText();
+                    if (performCheck(pass)==true&&performCheck2(username)==true) {
                          CardLayout cl = (CardLayout)(MiscFunctions.masterCards.getLayout());
                          cl.show(MiscFunctions.masterCards,"Reports");
 
@@ -116,7 +116,7 @@ public class PageStaffLogin  {
     }
 
     private static boolean performCheck2(String input) {
-        Boolean match=null;
+        boolean match=false;
         try {
             File myObj = new File("D:\\JAVA\\order_java\\ID\\staffs.txt");
             Scanner myReader = new Scanner(myObj);
@@ -130,13 +130,6 @@ public class PageStaffLogin  {
                     match=false;
             }
 
-            if(match==true)
-            {
-                System.out.println("Id is matched");
-            }
-
-            else if(match==false)
-                System.out.println("Wrong");
 
             myReader.close();
         } catch (FileNotFoundException e) {

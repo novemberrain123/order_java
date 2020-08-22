@@ -48,4 +48,6 @@ public class Member extends Customer{
     public void addPoints(double rawTotal){
         points += rawTotal * convertPoints;
     }
+
+    
 }

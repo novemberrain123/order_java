@@ -15,7 +15,7 @@ public class MiscFunctions {
         
         //for testing change function
 
-        HomePage.createHome();  // “Hompage"
+        Home.createHome();  // “Hompage"
         PageMemberLogin.createPageMember(); // "MemberLogin", pass=12345oop , name=limjunshen,ganyihwee,johnwick
         PageMarket.createPageMarket();  //"Market"
         PageMarket.createPageBrowse(); //"Browse"
@@ -26,7 +26,7 @@ public class MiscFunctions {
         PageReceipt.createPageReceipt(); // "Receipt"
         PageStaffLogin.createPageStaffLogin(); // "StaffLogin", pass=12345fat
         PageReport.createPageReport(); // "Reports"
-        PageCart.createPageCart();  // "Cart"
+        //PageCart.createPageCart();  // "Cart"
          
         // PageMarket.createPageBrowse();
         frame.getContentPane().add(MiscFunctions.masterCards);
@@ -55,8 +55,7 @@ public class MiscFunctions {
             JButton btnCart = new JButton("");
             btnCart.addActionListener(new ActionListener(){
                 public void actionPerformed(ActionEvent e){
-                    CardLayout cl = (CardLayout)(MiscFunctions.masterCards.getLayout());
-                    cl.show(MiscFunctions.masterCards,"Cart");
+                    PageCart.createPageCart();
                 }
             });
             ImageIcon cart = new ImageIcon("img/cart.png");

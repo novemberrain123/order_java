@@ -10,7 +10,7 @@ import javax.swing.table.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class HomePage {
+public class Home {
 
      public static void createHome(){
          
@@ -87,7 +87,7 @@ public class HomePage {
          pane1.add(topPane,BorderLayout.PAGE_START);
         pane1.add(pane,BorderLayout.CENTER);
          
-         MiscFunctions.addCardtoMasterCards(pane1, "HomePage");
+         MiscFunctions.addCardtoMasterCards(pane1, "Home");
      }
     
 }

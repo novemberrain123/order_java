@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.event.*;
 
 
-public class PageCart {
+public class PageCart extends JFrame{
 
     public static Image rescaleImage(ImageIcon img,int x,int y,int s){
         Image image = img.getImage();
@@ -14,6 +14,26 @@ public class PageCart {
 
     public static void createPageCart()
     {
+
+        JFrame cartFrame = new JFrame("Cart");
+        cartFrame.setSize(500, 500);
+        cartFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        cartFrame.setVisible(true);
+        JPanel midPane1 = new JPanel(new BorderLayout());
+        //MiscFunctions.addDefaultComponentsToPane(midPane1, "Home",3);
+        //for logo
+        JPanel topPane = new JPanel();
+        topPane.setLayout(new BoxLayout(topPane, BoxLayout.X_AXIS));
+        ImageIcon logo = new ImageIcon("img/mindnew.png");
+        Image image = logo.getImage(); // Resize Image
+        Image newimg = image.getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
+        logo = new ImageIcon(newimg); // transform it back
+        JLabel logoLabel = new JLabel("");
+        logoLabel.setFont(new Font("", Font.PLAIN, 20)); // Set font style and size
+        logoLabel.setIcon(logo);
+        topPane.add(logoLabel);
+        topPane.add(Box.createHorizontalGlue());
+
 
         JPanel[] shirtPane = new JPanel[10];
 
@@ -69,8 +89,6 @@ public class PageCart {
          newpanel.setLayout(new BoxLayout(newpanel, BoxLayout.Y_AXIS));
 //        newpanel.setSize(20,20);
 
-
-
         for(int k=0;k<10;k++){
            newpanel.add(nested1[k],BorderLayout.CENTER);
 
@@ -79,8 +97,12 @@ public class PageCart {
         JButton proceed = new JButton("Proceed to Payment");
         proceed.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
+                
                 CardLayout cl = (CardLayout)(MiscFunctions.masterCards.getLayout());
                 cl.show(MiscFunctions.masterCards,"Pay Method");
+                cartFrame.dispose();
+                
+                
             }
         });
         newpanel.add(proceed,BorderLayout.CENTER);
@@ -92,15 +114,16 @@ public class PageCart {
 
 
         midPane.add(scrollpane,BorderLayout.CENTER);
-
         midPane.setAlignmentX(Component.LEFT_ALIGNMENT);
         //midPane.setMaximumSize(new Dimension(100, 700));
 
-        JPanel midPane1 = new JPanel();
-        midPane1.add(midPane,BorderLayout.PAGE_START);
-        MiscFunctions.addCardtoMasterCards(midPane1, "Cart");
-        //pane.add(midPane1,BorderLayout.CENTER);
-
+        
+        midPane1.setVisible(true);
+        midPane1.add(midPane,BorderLayout.CENTER);
+        midPane1.add(topPane,BorderLayout.PAGE_START);
+        //MiscFunctions.addCardtoMasterCards(midPane1, "Cart");
+        cartFrame.add(midPane1,BorderLayout.CENTER);
+       
 
 
 
