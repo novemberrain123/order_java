@@ -6,9 +6,22 @@ public abstract class PaymentCalc {
     private double discountAmount;
     private double change;
     private String payMethod;
+    private static PaymentCalc paymentCalc;
 
     protected PaymentCalc(){
         
+    }
+
+    public static void createCustomerPayment(){
+        paymentCalc = new CustomerPayment();
+    }
+
+    public static void createMemberPayment(){
+        paymentCalc = new MemberPayment();
+    }
+
+    public static PaymentCalc getPaymentCalc(){
+        return paymentCalc;
     }
 
     public void setRawTotal(double rawTotal){

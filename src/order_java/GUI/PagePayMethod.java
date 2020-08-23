@@ -94,11 +94,24 @@ public class PagePayMethod {
     }
 
     public static void createPagePayMethod(){
-        Customer user = new Customer(); // Demonstration purpose 
+        // Customer user = new Customer(); // Demonstration purpose 
         // Customer user = new Member();
         // PaymentCalc paymentCalc = new MemberPayment();
-        PaymentCalc paymentCalc = new CustomerPayment(); // Demonstration purpose
+        // PaymentCalc paymentCalc = new CustomerPayment(); // Demonstration purpose
         // paymentCalc.calculateRawTotal(prices, quantities); // Calculate raw total
+
+        // Order order = new Order(); // Customer demo
+        // Customer.createCustomer(order); // Customer demo
+        Customer.createMember("Lim Jun Shen", 110, "ventusora219", 2234); // Member demo
+        Customer user = Customer.getCustomer();
+        
+        if (user instanceof Member)
+            PaymentCalc.createMemberPayment();
+        else 
+            PaymentCalc.createCustomerPayment();
+
+        PaymentCalc paymentCalc = PaymentCalc.getPaymentCalc();
+        paymentCalc.setRawTotal(2039); // Demo
 
         JPanel pane = new JPanel(new BorderLayout());
         JPanel payMethodPane = new JPanel(new GridLayout(1,2,20,0)); // Create panel to store card and cash button

@@ -39,14 +39,16 @@ public class PagePaymentDetails {
     public static void createPagePaymentDetails(){
         // Customer user = new Customer(); // Regular customer Demo
         // PaymentCalc paymentCalc = new CustomerPayment(); // Regular customer Demo
-        Customer user = new Member("LimJUNSHEN", 105, "823hnr", 2039); // New member Demo
+        // Customer user = new Member("LimJUNSHEN", 105, "823hnr", 2039); // New member Demo
         // Customer user = new Member(); // Regular member Demo
-        PaymentCalc paymentCalc = new MemberPayment(); // Member Demo
-        paymentCalc.setRawTotal(2039); // Demo for all
-        paymentCalc.setDiscountAmount(283); // Demo for all 
-        paymentCalc.setAdjTotal(1792); // Demo for all 
-        paymentCalc.setPayMethod("Cash"); // Set pay method Demo for all 
-        // ((MemberPayment)paymentCalc).setIsRedeemPoints(false); // Set redeem or not Demo
+        // PaymentCalc paymentCalc = new MemberPayment(); // Member Demo
+        // paymentCalc.setRawTotal(2039); // Demo for all
+        // paymentCalc.setDiscountAmount(283); // Demo for all 
+        // paymentCalc.setAdjTotal(1792); // Demo for all 
+        // paymentCalc.setPayMethod("Card"); // Set pay method Demo for all 
+        // ((MemberPayment)paymentCalc).setIsRedeemPoints(true); // Set redeem or not Demo
+        Customer user = Customer.getCustomer(); // Static var demo
+        PaymentCalc paymentCalc = PaymentCalc.getPaymentCalc(); // Static var demo
 
         JPanel pane = new JPanel(new BorderLayout()); 
         Font wordFont = new Font("", Font.PLAIN, 15);

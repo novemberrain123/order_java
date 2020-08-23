@@ -11,16 +11,22 @@ public class Member extends Customer {
     private int luckyNumber;
     private final static double convertPoints = 0.3;
 
-    public Member() {
+    public Member() { // Constructor to create new member
         memberID = Member.getNextMemberID();
     }
 
-    // Constructor to create member object at the beginning
-    public Member(String name, int memberID, String password, int points){ 
+    public Member(String name, int memberID, String password, int points){ // Constructor to create regular member
         super(name);
         this.memberID = memberID;
         this.password = password;
         this.points = points;
+    }
+
+    public void setNewMemberDetails(String name, String address, String phoneNo, String email, String dob, String password){ // Set new member details
+        Customer.setNewMemberDetails(name, address, phoneNo);
+        this.email = email;
+        this.dob = dob;
+        this.password = password;
     }
 
     public static double getConvertPoints(){

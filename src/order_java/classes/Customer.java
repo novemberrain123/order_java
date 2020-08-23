@@ -7,6 +7,7 @@ public class Customer {
     Order order;
     CardInfo cardInfo;
     CashPayment cash;
+    private static Customer user;
 
     public Customer(){
 
@@ -14,6 +15,37 @@ public class Customer {
 
     public Customer(String name){
         this.name = name;
+    }
+
+    public Customer(Order order){
+        this.order = order;
+    }
+
+    public static void createCustomer(Order order){ // Create a customer object once an order is made
+        user = new Customer(order);
+    }
+
+    // Used to create regular member at the beginning of the program
+    public static void createMember(String name, int memberID, String password, int points){ 
+        user = new Member(name, memberID, password, points);
+    }
+
+    public static void setNewMember(){
+        user = new Member();
+    }
+
+    public static void transferOrder(Order order){
+        user.setOrder(order);
+    }
+
+    public static void setNewMemberDetails(String name, String address, String phoneNo){
+        user.setName(name);
+        user.setAddress(address);
+        user.setPhoneNo(phoneNo);
+    }
+
+    public static Customer getCustomer(){ 
+        return user;
     }
 
     public void setName(String name){

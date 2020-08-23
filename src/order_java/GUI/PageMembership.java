@@ -9,9 +9,11 @@ import java.awt.event.*;
 
 public class PageMembership {
     public static void createPageMembership(){
-        Customer user = new Customer(); // Demonstration purpose
+        // Customer user = new Customer(); // Demonstration purpose
         // PaymentCalc paymentCalc = new CustomerPayment(); // Demonstration purpose
-        
+        Customer user = Customer.getCustomer();
+        PaymentCalc paymentCalc = PaymentCalc.getPaymentCalc();
+
         JPanel pane = new JPanel(new BorderLayout());
         JPanel[] paneMemberDetails = new JPanel[10]; // To store every panel for member's details
         for (int i = 0; i < 10; i++){ 
@@ -135,20 +137,12 @@ public class PageMembership {
                 else {
                     if (Member.validatePassword(tfPassword.getText()) == "Valid"){
                         Customer tempUser = user; // Temporarily store customer data
-                        Customer user = new Member();
-                        user.setName(tempUser.getName()); // Transfer customer data to member data
-                        user.setAddress(tempUser.getAddress());
-                        user.setPhoneNo(tempUser.getPhoneNo());
-                        user.setOrder(tempUser.getOrder());
-                        PaymentCalc paymentCalc = new MemberPayment(); // Point to a new member payment object
+                        Customer.setNewMember(); // Set the static variable to point to a new member object
+                        Customer.transferOrder(tempUser.getOrder()); // Transfer customer order to new member order
+                        PaymentCalc.createMemberPayment(); // Point to a new member payment object
 
                         // Store user details
-                        user.setName(tfFirstName.getText() + " " + tfLastName.getText()); // Store member name
-                        ((Member)user).setEmail(tfEmail.getText()); // Store member email
-                        ((Member)user).setDob((String)cbDate.getSelectedItem() + "-" + ((String)cbMonth.getSelectedItem()).substring(0, 3) + "-" + (String)cbYear.getSelectedItem()); // Store member dob
-                        user.setPhoneNo(tfHpFront.getText() + "-" + tfHpBehind.getText()); // Store member hp no.
-                        user.setAddress(tfAddress[0].getText() + ", " + tfAddress[1].getText() + ", " + tfAddress[2].getText() + ", " + tfPoscode.getText() + " " + (String)cbState.getSelectedItem()); // Store member address
-                        ((Member)user).setPassword(tfPassword.getText()); // Store member password
+                        ((Member)user).setNewMemberDetails(tfFirstName.getText() + " " + tfLastName.getText(), tfAddress[0].getText() + ", " + tfAddress[1].getText() + ", " + tfAddress[2].getText() + ", " + tfPoscode.getText() + " " + (String)cbState.getSelectedItem(), tfHpFront.getText() + "-" + tfHpBehind.getText(), tfEmail.getText(), (String)cbDate.getSelectedItem() + "-" + ((String)cbMonth.getSelectedItem()).substring(0, 3) + "-" + (String)cbYear.getSelectedItem(), tfPassword.getText());
 
                         ((Member)user).writeToFile(); // Write new member into text file
                         ((Member)user).setLuckyNumber(Integer.parseInt(JOptionPane.showInputDialog(null, "Member fee: RM20.00\nEnter a lucky number and stand a chance to get free membership !\n(Any number from 1 to 5)")));

@@ -8,20 +8,22 @@ import java.awt.event.*;
 
 public class PageReceipt {
     public static void createPageReceipt(){
-        Customer user = new Customer(); // Regular customer Demo
-        PaymentCalc paymentCalc = new CustomerPayment(); // Regular customer Demo
+        // Customer user = new Customer(); // Regular customer Demo
+        // PaymentCalc paymentCalc = new CustomerPayment(); // Regular customer Demo
         // Customer user = new Member("LimJUNSHEN", 105, "823hnr", 2039); // New member Demo
         // Customer user = new Member(); // Regular member Demo
         // PaymentCalc paymentCalc = new MemberPayment(); // Member Demo
-        paymentCalc.setRawTotal(2039); // Demo for all
-        paymentCalc.setDiscountAmount(283); // Demo for all 
-        paymentCalc.setAdjTotal(1792); // Demo for all 
-        paymentCalc.setPayMethod("Card"); // Set pay method Demo for all 
-        CardInfo cardInfo = new CardInfo("823489234", "20/30", 321);
-        user.setCardInfo(cardInfo);
+        // paymentCalc.setRawTotal(2039); // Demo for all
+        // paymentCalc.setDiscountAmount(283); // Demo for all 
+        // paymentCalc.setAdjTotal(1792); // Demo for all 
+        // paymentCalc.setPayMethod("Card"); // Set pay method Demo for all 
+        // CardInfo cardInfo = new CardInfo("823489234", "20/30", 321);
+        // user.setCardInfo(cardInfo);
         
         // ((MemberPayment)paymentCalc).setIsRedeemPoints(false); // Set redeem or not Demo
-        Receipt receipt = new Receipt(user, paymentCalc); // Create receipt object
+        Customer user = Customer.getCustomer();
+        PaymentCalc paymentCalc = PaymentCalc.getPaymentCalc();
+        Receipt receipt = new Receipt(); // Create receipt object
         
         JPanel pane = new JPanel(new BorderLayout());
         Font wordFont = new Font("", Font.PLAIN, 15);
@@ -82,7 +84,7 @@ public class PageReceipt {
         paneReceiptLabels[indexMidPanel].add(lbTransactionDate);
         paneReceiptLabels[indexMidPanel + 1].add(lbTransactionTime);
         paneReceiptLabels[indexMidPanel + 2].add(lbPayMethod);
-        paneReceiptLabels[indexMidPanel + 3].add(lbAmount);
+        // paneReceiptLabels[indexMidPanel + 3].add(lbAmount); // ERROR
 
         // Bottom fixed panels for different pay method
         if (paymentCalc.getPayMethod() == "Card"){
@@ -106,25 +108,27 @@ public class PageReceipt {
 
         // Information for receipt details
         JLabel infoReceiptNo = new JLabel(String.valueOf(receipt.getReceiptNo()));
-        JLabel infoCustomerName = new JLabel(String.valueOf(receipt.getCustomer().getName()));
+        JLabel infoCustomerName = new JLabel(String.valueOf(user.getName()));
         JLabel infoMemberID = new JLabel();
         JLabel infoAccumulatedPoints = new JLabel();
         if (user instanceof Member) {
-            infoMemberID = new JLabel(String.valueOf(((Member)receipt.getCustomer()).getMemberID()));
-            infoAccumulatedPoints = new JLabel(String.valueOf(((Member)receipt.getCustomer()).getPoints()));
+            infoMemberID = new JLabel(String.valueOf(((Member)user).getMemberID()));
+            infoAccumulatedPoints = new JLabel(String.valueOf(((Member)user).getPoints()));
         }
         JLabel infoTransactionDate = new JLabel(receipt.getTransactionDate());
         JLabel infoTransactionTime = new JLabel(receipt.getTransactionTime());
-        JLabel infoPayMethod = new JLabel(receipt.getPaymentCalc().getPayMethod());
-        JLabel infoAmount = new JLabel(String.valueOf(receipt.getPaymentCalc().getAdjTotal()));
+        JLabel infoPayMethod = new JLabel(paymentCalc.getPayMethod());
+        JLabel infoAmount = new JLabel(String.valueOf(paymentCalc.getAdjTotal()));
         if (user instanceof Member && (Member.getNextMemberID() - 1) == ((Member)user).getMemberID()) // New Member
             infoAmount.setText(infoAmount.getText() + " (Included member fees)");
-        JLabel infoCardNumber = new JLabel(receipt.getCustomer().getCardInfo().getCardNo());
+        JLabel infoCardNumber = new JLabel();
         JLabel infoPaidCash = new JLabel();
         JLabel infoChange = new JLabel();
-        if (paymentCalc.getPayMethod() == "Cash"){
-            infoPaidCash = new JLabel(String.valueOf(receipt.getCustomer().getCashPayment().getPayment()));
-            infoChange = new JLabel(String.valueOf(receipt.getPaymentCalc().getChange()));
+        if (paymentCalc.getPayMethod() == "Card")
+            infoCardNumber = new JLabel(user.getCardInfo().getCardNo());
+        else {
+            // infoPaidCash = new JLabel(String.valueOf(user.getCashPayment().getPayment()));
+            infoChange = new JLabel(String.valueOf(paymentCalc.getChange()));
         }
 
         // Set Font
@@ -152,7 +156,7 @@ public class PageReceipt {
         paneReceiptInfo[indexMidPanel].add(infoTransactionDate);
         paneReceiptInfo[indexMidPanel + 1].add(infoTransactionTime);
         paneReceiptInfo[indexMidPanel + 2].add(infoPayMethod);
-        paneReceiptInfo[indexMidPanel + 3].add(infoAmount);
+        // paneReceiptInfo[indexMidPanel + 3].add(infoAmount); ERROR
 
         // Bottom fixed panels for different pay method
         if (paymentCalc.getPayMethod() == "Card"){
