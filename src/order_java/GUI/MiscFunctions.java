@@ -3,7 +3,8 @@ package order_java.GUI;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-
+import java.awt.image.*;
+import java.io.*;
 public class MiscFunctions {
     // Stores all pages
     static JPanel masterCards = new JPanel(new CardLayout());
@@ -89,4 +90,11 @@ public class MiscFunctions {
         pane.add(btmPane, BorderLayout.PAGE_END);
         pane.add(topPane, BorderLayout.PAGE_START);
     }
+	public static BufferedImage resizeImage(BufferedImage originalImage, int targetWidth, int targetHeight) throws IOException {
+	    BufferedImage resizedImage = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_ARGB);
+	    Graphics graphics2D = resizedImage.createGraphics();
+	    graphics2D.drawImage(originalImage, 0, 0, targetWidth, targetHeight, null);
+	    graphics2D.dispose();
+	    return resizedImage;
+	}
 }
