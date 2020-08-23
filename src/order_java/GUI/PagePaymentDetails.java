@@ -18,10 +18,10 @@ public class PagePaymentDetails {
             JOptionPane.showMessageDialog(null, "Your card information is incorrect.\nPlease check again", "Invalid card", JOptionPane.ERROR_MESSAGE);
     }
 
-    public static void checkCashPayment(Customer user, PaymentCalc paymentcalc, JTextField tfPaidAmount){
+    public static void checkCashPayment(Customer user, PaymentCalc paymentCalc, JTextField tfPaidAmount){
         CashPayment cashPayment;
         cashPayment = new CashPayment(Integer.parseInt(tfPaidAmount.getText()));
-        if (cashPayment.validateCash(paymentcalc.getAdjTotal())){
+        if (cashPayment.validateCash(paymentCalc.getAdjTotal())){
             user.setCashPayment(cashPayment);
             CardLayout cl = (CardLayout)(MiscFunctions.masterCards.getLayout());
             cl.show(MiscFunctions.masterCards,"Receipt");
@@ -37,24 +37,27 @@ public class PagePaymentDetails {
     }
 
     public static void createPagePaymentDetails(){
-        // Customer user = new Customer(); // Demonstration
-        // PaymentCalc paymentcalc = new CustomerPayment(); // Demonstration
-        // Customer user = new Member("LimJUNSHEN", 105, "823hnr", 2039); // Demo
-        Customer user = new Member(); // Demo
-        PaymentCalc paymentcalc = new MemberPayment(); // Demo
-        paymentcalc.setPayMethod("Card"); // Demo
-        ((MemberPayment)paymentcalc).setIsRedeemPoints(true); // Demo
+        // Customer user = new Customer(); // Regular customer Demo
+        // PaymentCalc paymentCalc = new CustomerPayment(); // Regular customer Demo
+        Customer user = new Member("LimJUNSHEN", 105, "823hnr", 2039); // New member Demo
+        // Customer user = new Member(); // Regular member Demo
+        PaymentCalc paymentCalc = new MemberPayment(); // Member Demo
+        paymentCalc.setRawTotal(2039); // Demo for all
+        paymentCalc.setDiscountAmount(283); // Demo for all 
+        paymentCalc.setAdjTotal(1792); // Demo for all 
+        paymentCalc.setPayMethod("Cash"); // Set pay method Demo for all 
+        // ((MemberPayment)paymentCalc).setIsRedeemPoints(false); // Set redeem or not Demo
 
         JPanel pane = new JPanel(new BorderLayout()); 
         Font wordFont = new Font("", Font.PLAIN, 15);
         int rowNum; // Number of rows presented in payment details page
-        if (user instanceof Member && ((MemberPayment)paymentcalc).getIsRedeemPoints() == false && paymentcalc.getPayMethod() == "Cash")
+        if (user instanceof Member && ((MemberPayment)paymentCalc).getIsRedeemPoints() == false && paymentCalc.getPayMethod() == "Cash" && (Member.getNextMemberID() - 1) != ((Member)user).getMemberID())
             rowNum = 5;
-        else if (user instanceof Member && (Member.getNextMemberID() - 1) == ((Member)user).getMemberID() && paymentcalc.getPayMethod() == "Cash" || user instanceof Member && ((MemberPayment)paymentcalc).getIsRedeemPoints() == true && paymentcalc.getPayMethod() == "Cash")
+        else if (user instanceof Member && (Member.getNextMemberID() - 1) == ((Member)user).getMemberID() && paymentCalc.getPayMethod() == "Cash" || user instanceof Member && ((MemberPayment)paymentCalc).getIsRedeemPoints() == true && paymentCalc.getPayMethod() == "Cash")
             rowNum = 6;
-        else if (user instanceof Member && ((MemberPayment)paymentcalc).getIsRedeemPoints() == false && paymentcalc.getPayMethod() == "Card" || (!(user instanceof Member)) && paymentcalc.getPayMethod() == "Cash") // No redeem
+        else if (user instanceof Member && ((MemberPayment)paymentCalc).getIsRedeemPoints() == false && paymentCalc.getPayMethod() == "Card" && (Member.getNextMemberID() - 1) != ((Member)user).getMemberID()|| (!(user instanceof Member)) && paymentCalc.getPayMethod() == "Cash") // No redeem
             rowNum = 7;
-        else if (user instanceof Member && (Member.getNextMemberID() - 1) == ((Member)user).getMemberID() && paymentcalc.getPayMethod() == "Card" || user instanceof Member && ((MemberPayment)paymentcalc).getIsRedeemPoints() == true && paymentcalc.getPayMethod() == "Card") // New member or redeem point
+        else if (user instanceof Member && (Member.getNextMemberID() - 1) == ((Member)user).getMemberID() && paymentCalc.getPayMethod() == "Card" || user instanceof Member && ((MemberPayment)paymentCalc).getIsRedeemPoints() == true && paymentCalc.getPayMethod() == "Card") // New member or redeem point
             rowNum = 8;
         else // Regular customer using card method
             rowNum = 9;
@@ -101,14 +104,14 @@ public class PagePaymentDetails {
             midPaneLabels[3].add(lbAmountToPay);
             midPaneLabels[4].add(lbAddPoints);
         }
-        else if (user instanceof Member && ((MemberPayment)paymentcalc).getIsRedeemPoints() == true){ // Redeem 
+        else if (user instanceof Member && ((MemberPayment)paymentCalc).getIsRedeemPoints() == true){ // Redeem 
             midPaneLabels[0].add(lbTotalAmount);
             midPaneLabels[1].add(lbDiscountAmount);
             midPaneLabels[2].add(lbAmountToPay);
             midPaneLabels[3].add(lbAddPoints);
             midPaneLabels[4].add(lbRedeemPoints);
         }
-        else if (user instanceof Member && ((MemberPayment)paymentcalc).getIsRedeemPoints() == false){ // No redeem
+        else if (user instanceof Member && ((MemberPayment)paymentCalc).getIsRedeemPoints() == false){ // No redeem
             midPaneLabels[0].add(lbTotalAmount);
             midPaneLabels[1].add(lbDiscountAmount);
             midPaneLabels[2].add(lbAmountToPay);
@@ -124,7 +127,7 @@ public class PagePaymentDetails {
         }
 
         // Bottom fixed panels for different pay method
-        if (paymentcalc.getPayMethod() == "Card"){
+        if (paymentCalc.getPayMethod() == "Card"){
             midPaneLabels[rowNum - 3].add(lbCardNumber);
             midPaneLabels[rowNum - 2].add(lbExpirationDate);
             midPaneLabels[rowNum - 1].add(lbCVCode);
@@ -136,14 +139,14 @@ public class PagePaymentDetails {
         JTextField infoName = new JTextField(35);
         JTextField infoAddress = new JTextField(70);
         JTextField infoPhoneNo = new JTextField(15);
-        JLabel infoTotalAmount = new JLabel("RM " + String.valueOf(paymentcalc.getRawTotal()));
-        JLabel infoDiscountAmount = new JLabel("RM " + String.valueOf(paymentcalc.getDiscountAmount())); 
+        JLabel infoTotalAmount = new JLabel("RM " + String.valueOf(paymentCalc.getRawTotal()));
+        JLabel infoDiscountAmount = new JLabel("RM " + String.valueOf(paymentCalc.getDiscountAmount())); 
         JLabel infoMemberFees = new JLabel("RM " + String.valueOf(MemberPayment.getMemberFees()));
-        JLabel infoAmountToPay = new JLabel("RM " + String.valueOf(paymentcalc.getAdjTotal()));
-        JLabel infoAddPoints = new JLabel(String.valueOf(Member.getAddPoints(paymentcalc.getRawTotal())));
+        JLabel infoAmountToPay = new JLabel("RM " + String.valueOf(paymentCalc.getAdjTotal()));
+        JLabel infoAddPoints = new JLabel(String.valueOf(Member.getAddPoints(paymentCalc.getRawTotal())));
         JLabel infoRedeemPoints = new JLabel();
         if (user instanceof Member)
-            infoRedeemPoints = new JLabel(String.valueOf(((MemberPayment)paymentcalc).getPointsRedeemed())); 
+            infoRedeemPoints = new JLabel(String.valueOf(((MemberPayment)paymentCalc).getPointsRedeemed())); 
         JTextField tfCardNumber = new JTextField(20);
         JComboBox<String> cbMonth = new JComboBox<>(new String[]{"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"});
         JLabel lbSlash = new JLabel("/");
@@ -180,14 +183,14 @@ public class PagePaymentDetails {
             midPaneInfo[3].add(infoAmountToPay);
             midPaneInfo[4].add(infoAddPoints);
         }
-        else if (user instanceof Member && ((MemberPayment)paymentcalc).getIsRedeemPoints() == true){ // Redeem 
+        else if (user instanceof Member && ((MemberPayment)paymentCalc).getIsRedeemPoints() == true){ // Redeem 
             midPaneInfo[0].add(infoTotalAmount);
             midPaneInfo[1].add(infoDiscountAmount);
             midPaneInfo[2].add(infoAmountToPay);
             midPaneInfo[3].add(infoAddPoints);
             midPaneInfo[4].add(infoRedeemPoints);
         }
-        else if (user instanceof Member && ((MemberPayment)paymentcalc).getIsRedeemPoints() == false){ // No redeem
+        else if (user instanceof Member && ((MemberPayment)paymentCalc).getIsRedeemPoints() == false){ // No redeem
             midPaneInfo[0].add(infoTotalAmount);
             midPaneInfo[1].add(infoDiscountAmount);
             midPaneInfo[2].add(infoAmountToPay);
@@ -203,7 +206,7 @@ public class PagePaymentDetails {
         }
 
         // Bottom fixed information for different pay method
-        if (paymentcalc.getPayMethod() == "Card"){
+        if (paymentCalc.getPayMethod() == "Card"){
             midPaneInfo[rowNum - 3].add(tfCardNumber);
             midPaneInfo[rowNum - 2].add(cbMonth);
             midPaneInfo[rowNum - 2].add(lbSlash);
@@ -236,7 +239,7 @@ public class PagePaymentDetails {
         btnPay.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 if (user instanceof Member){ // Check for member
-                    if (paymentcalc.getPayMethod() == "Card"){
+                    if (paymentCalc.getPayMethod() == "Card"){
                         if (tfCardNumber.getText() == null || tfCardNumber.getText().trim().isEmpty() || tfCVCode.getText() == null || tfCVCode.getText().trim().isEmpty()) 
                             JOptionPane.showMessageDialog(null, "There is column left blank.\nPlease check again.", "Unable to proceed", JOptionPane.ERROR_MESSAGE);
                         else {
@@ -247,12 +250,12 @@ public class PagePaymentDetails {
                         if (tfPaidAmount.getText() == null || tfPaidAmount.getText().trim().isEmpty()) 
                             JOptionPane.showMessageDialog(null, "There is column left blank.\nPlease check again.", "Unable to proceed", JOptionPane.ERROR_MESSAGE);
                         else {
-                            checkCashPayment(user, paymentcalc, tfPaidAmount);
+                            checkCashPayment(user, paymentCalc, tfPaidAmount);
                         }
                     }
                 }
                 else { // Check for customer
-                    if (paymentcalc.getPayMethod() == "Card"){
+                    if (paymentCalc.getPayMethod() == "Card"){
                         if (infoName.getText() == null || infoName.getText().trim().isEmpty() || infoAddress.getText() == null || infoAddress.getText().trim().isEmpty() || infoPhoneNo.getText() == null || infoPhoneNo.getText().trim().isEmpty() || tfCardNumber.getText() == null || tfCardNumber.getText().trim().isEmpty() || tfCVCode.getText() == null || tfCVCode.getText().trim().isEmpty()) 
                             JOptionPane.showMessageDialog(null, "There is column left blank.\nPlease check again.", "Unable to proceed", JOptionPane.ERROR_MESSAGE);
                         else {
@@ -265,7 +268,7 @@ public class PagePaymentDetails {
                             JOptionPane.showMessageDialog(null, "There is column left blank.\nPlease check again.", "Unable to proceed", JOptionPane.ERROR_MESSAGE);
                         else {
                             setCustomerDetails(user, infoName, infoAddress, infoPhoneNo);
-                            checkCashPayment(user, paymentcalc, tfPaidAmount);
+                            checkCashPayment(user, paymentCalc, tfPaidAmount);
                         }
                     }
                 }

@@ -14,58 +14,58 @@ public class PagePayMethod {
         return newimg;
     }
 
-    public static void checkRedeemPoints(Customer user, PaymentCalc paymentcalc){
+    public static void checkRedeemPoints(Customer user, PaymentCalc paymentCalc){
         if (((Member)user).getPoints() >= 1500){
             Object[] points1 = {"500(3%)", "1000(7%)", "1500(12%)", "Cancel"};
             int option1 = JOptionPane.showOptionDialog(null, "You have " + ((Member)user).getPoints() + " points.\nDo you want to redeem them for discount ?\nPoints :", "Redeem points", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, points1, points1[0]);
             if (option1 == 3)
-                ((MemberPayment)paymentcalc).calculateDiscountAmount();
+                ((MemberPayment)paymentCalc).calculateDiscountAmount();
             else {
                 ((Member)user).redeemPoints(option1);
-                ((MemberPayment)paymentcalc).setIsRedeemPoints(true);
-                ((MemberPayment)paymentcalc).setPointsRedeemed(option1);
-                ((MemberPayment)paymentcalc).calculateDiscountAmount(option1);
+                ((MemberPayment)paymentCalc).setIsRedeemPoints(true);
+                ((MemberPayment)paymentCalc).setPointsRedeemed(option1);
+                ((MemberPayment)paymentCalc).calculateDiscountAmount(option1);
             }
         }
         else if (((Member)user).getPoints() >= 1000){
             Object[] points2 = {"500(3%)", "1000(7%)", "Cancel"};
             int option2 = JOptionPane.showOptionDialog(null, "You have " + ((Member)user).getPoints() + " points.\nDo you want to redeem them for discount ?\nPoints :", "Redeem points", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, points2, points2[0]);
             if (option2 == 2)
-                ((MemberPayment)paymentcalc).calculateDiscountAmount();
+                ((MemberPayment)paymentCalc).calculateDiscountAmount();
             else {
                 ((Member)user).redeemPoints(option2);
-                ((MemberPayment)paymentcalc).setIsRedeemPoints(true);
-                ((MemberPayment)paymentcalc).setPointsRedeemed(option2);
-                ((MemberPayment)paymentcalc).calculateDiscountAmount(option2);
+                ((MemberPayment)paymentCalc).setIsRedeemPoints(true);
+                ((MemberPayment)paymentCalc).setPointsRedeemed(option2);
+                ((MemberPayment)paymentCalc).calculateDiscountAmount(option2);
             }
         }
         else if (((Member)user).getPoints() >= 500){
             Object[] points3 = {"500(3%)", "Cancel"};
             int option3 = JOptionPane.showOptionDialog(null, "You have " + ((Member)user).getPoints() + " points.\nDo you want to redeem them for discount ?\nPoints :", "Redeem points", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, points3, points3[0]);
             if (option3 == 1)
-                ((MemberPayment)paymentcalc).calculateDiscountAmount();
+                ((MemberPayment)paymentCalc).calculateDiscountAmount();
             else {
                 ((Member)user).redeemPoints(option3);
-                ((MemberPayment)paymentcalc).setIsRedeemPoints(true);
-                ((MemberPayment)paymentcalc).setPointsRedeemed(option3);
-                ((MemberPayment)paymentcalc).calculateDiscountAmount(option3);
+                ((MemberPayment)paymentCalc).setIsRedeemPoints(true);
+                ((MemberPayment)paymentCalc).setPointsRedeemed(option3);
+                ((MemberPayment)paymentCalc).calculateDiscountAmount(option3);
             }
         }
-        paymentcalc.calculateAdjTotal();
+        paymentCalc.calculateAdjTotal();
     }
 
-    public static void checkLuckyCharacter(Customer user, PaymentCalc paymentcalc, String luckyLetter){
+    public static void checkLuckyCharacter(Customer user, PaymentCalc paymentCalc, String luckyLetter){
         if (luckyLetter == "Ignore") {
             if (user instanceof Member)
-                checkRedeemPoints(user, paymentcalc);
+                checkRedeemPoints(user, paymentCalc);
             else
-                paymentcalc.calculateAdjTotal();
+                paymentCalc.calculateAdjTotal();
             CardLayout cl = (CardLayout)(MiscFunctions.masterCards.getLayout());
             cl.show(MiscFunctions.masterCards, "Payment Details"); 
         }
         else {
             if (user instanceof Member){
-                checkRedeemPoints(user, paymentcalc);
+                checkRedeemPoints(user, paymentCalc);
                 CardLayout cl = (CardLayout)(MiscFunctions.masterCards.getLayout());
                 cl.show(MiscFunctions.masterCards, "Payment Details");
             }
@@ -73,16 +73,16 @@ public class PagePayMethod {
                 if (luckyLetter.length() > 1)
                     JOptionPane.showMessageDialog(null, "Lucky letter can only be one character.\nPlease try again.", "Invalid lucky letter", JOptionPane.ERROR_MESSAGE);
                 else {
-                    ((CustomerPayment)paymentcalc).setLuckyLetter(luckyLetter.charAt(0));
-                    if (Character.isLetter(((CustomerPayment)paymentcalc).getLuckyLetter()) == true){
-                        if (((CustomerPayment)paymentcalc).matchLuckyLetter()){
+                    ((CustomerPayment)paymentCalc).setLuckyLetter(luckyLetter.charAt(0));
+                    if (Character.isLetter(((CustomerPayment)paymentCalc).getLuckyLetter()) == true){
+                        if (((CustomerPayment)paymentCalc).matchLuckyLetter()){
                             JOptionPane.showMessageDialog(null, "Your lucky letter is matched.\nYou are given a 5% discount for your purchase.\nHave a nice day!", "Congratulation!", JOptionPane.INFORMATION_MESSAGE);
-                            ((CustomerPayment)paymentcalc).calculateDiscountAmount();
-                            paymentcalc.calculateAdjTotal();
+                            ((CustomerPayment)paymentCalc).calculateDiscountAmount();
+                            paymentCalc.calculateAdjTotal();
                         }
                         else
                             JOptionPane.showMessageDialog(null, "Your lucky letter is not matched.\nIt's okay. Try again next time :) !", "Sorry!", JOptionPane.INFORMATION_MESSAGE);
-                        paymentcalc.calculateAdjTotal();
+                        paymentCalc.calculateAdjTotal();
                         CardLayout cl = (CardLayout)(MiscFunctions.masterCards.getLayout());
                         cl.show(MiscFunctions.masterCards, "Payment Details");
                     }
@@ -96,9 +96,9 @@ public class PagePayMethod {
     public static void createPagePayMethod(){
         Customer user = new Customer(); // Demonstration purpose 
         // Customer user = new Member();
-        // PaymentCalc paymentcalc = new MemberPayment();
-        PaymentCalc paymentcalc = new CustomerPayment(); // Demonstration purpose
-        // paymentcalc.calculateRawTotal(prices, quantities); // Calculate raw total
+        // PaymentCalc paymentCalc = new MemberPayment();
+        PaymentCalc paymentCalc = new CustomerPayment(); // Demonstration purpose
+        // paymentCalc.calculateRawTotal(prices, quantities); // Calculate raw total
 
         JPanel pane = new JPanel(new BorderLayout());
         JPanel payMethodPane = new JPanel(new GridLayout(1,2,20,0)); // Create panel to store card and cash button
@@ -145,23 +145,23 @@ public class PagePayMethod {
         cardButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 if (user instanceof Member)
-                    ((Member)user).addPoints(paymentcalc.getRawTotal());
+                    ((Member)user).addPoints(paymentCalc.getRawTotal());
                 String luckyLetter = tfLuckyLetter.getText();
                 if (luckyLetter == null || luckyLetter.trim().isEmpty())
                     luckyLetter = "Ignore";
-                paymentcalc.setPayMethod("Card");
-                checkLuckyCharacter(user, paymentcalc, luckyLetter); // Need change for same payment page
+                paymentCalc.setPayMethod("Card");
+                checkLuckyCharacter(user, paymentCalc, luckyLetter); // Need change for same payment page
             }
         });
         cashButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 if (user instanceof Member)
-                    ((Member)user).addPoints(paymentcalc.getRawTotal());
+                    ((Member)user).addPoints(paymentCalc.getRawTotal());
                 String luckyLetter = tfLuckyLetter.getText();
                 if (luckyLetter == null || luckyLetter.trim().isEmpty())
                     luckyLetter = "Ignore";
-                paymentcalc.setPayMethod("Cash");
-                checkLuckyCharacter(user, paymentcalc, luckyLetter); // Need change
+                paymentCalc.setPayMethod("Cash");
+                checkLuckyCharacter(user, paymentCalc, luckyLetter); // Need change
             }
         });
 

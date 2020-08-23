@@ -10,7 +10,7 @@ import javax.swing.table.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class HomePage {
+public class Home {
 
      public static void createHome(){
          

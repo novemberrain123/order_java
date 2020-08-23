@@ -10,7 +10,7 @@ import java.awt.event.*;
 public class PageMembership {
     public static void createPageMembership(){
         Customer user = new Customer(); // Demonstration purpose
-        PaymentCalc paymentcalc = new CustomerPayment(); // Demonstration purpose
+        // PaymentCalc paymentCalc = new CustomerPayment(); // Demonstration purpose
         
         JPanel pane = new JPanel(new BorderLayout());
         JPanel[] paneMemberDetails = new JPanel[10]; // To store every panel for member's details
@@ -140,7 +140,7 @@ public class PageMembership {
                         user.setAddress(tempUser.getAddress());
                         user.setPhoneNo(tempUser.getPhoneNo());
                         user.setOrder(tempUser.getOrder());
-                        PaymentCalc paymentcalc = new MemberPayment(); // Point to a new member payment object
+                        PaymentCalc paymentCalc = new MemberPayment(); // Point to a new member payment object
 
                         // Store user details
                         user.setName(tfFirstName.getText() + " " + tfLastName.getText()); // Store member name
@@ -152,12 +152,12 @@ public class PageMembership {
 
                         ((Member)user).writeToFile(); // Write new member into text file
                         ((Member)user).setLuckyNumber(Integer.parseInt(JOptionPane.showInputDialog(null, "Member fee: RM20.00\nEnter a lucky number and stand a chance to get free membership !\n(Any number from 1 to 5)")));
-                        if (((MemberPayment)paymentcalc).matchLuckyNumber(user)){
+                        if (((MemberPayment)paymentCalc).matchLuckyNumber(user)){
                             JOptionPane.showMessageDialog(null, "Your lucky number is matched.\nYou are given a free membership.\nHave a nice day!", "Congratulation!", JOptionPane.INFORMATION_MESSAGE);
                         }
                         else {
                             JOptionPane.showMessageDialog(null, "Your lucky number is not matched.\nIt's okay. Try better next time :) !", "Sorry!", JOptionPane.INFORMATION_MESSAGE);
-                            ((MemberPayment)paymentcalc).addMemberFees();
+                            ((MemberPayment)paymentCalc).addMemberFees();
                         }
                         CardLayout cl = (CardLayout)(MiscFunctions.masterCards.getLayout());
                         cl.show(MiscFunctions.masterCards,"Pay Method");

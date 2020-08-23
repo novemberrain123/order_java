@@ -52,7 +52,7 @@ public class Customer {
         this.cardInfo = cardInfo;
     }
 
-    public CardInfo getCardInto(){
+    public CardInfo getCardInfo(){
         return cardInfo;
     }
 
