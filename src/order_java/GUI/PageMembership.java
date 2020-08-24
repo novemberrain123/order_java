@@ -2,13 +2,21 @@ package order_java.GUI;
 
 import java.awt.*;
 import javax.swing.*;
+
+import order_java.classes.*;
+
 import java.awt.event.*;
 
 public class PageMembership {
     public static void createPageMembership(){
-        JPanel pane = new JPanel();
-        JPanel[] paneMemberDetails = new JPanel[8]; // To store every panel for member's details
-        for (int i = 0; i < 8; i++){ 
+        // Customer user = new Customer(); // Demonstration purpose
+        // PaymentCalc paymentCalc = new CustomerPayment(); // Demonstration purpose
+        Customer user = Customer.getCustomer();
+        PaymentCalc paymentCalc = PaymentCalc.getPaymentCalc();
+
+        JPanel pane = new JPanel(new BorderLayout());
+        JPanel[] paneMemberDetails = new JPanel[10]; // To store every panel for member's details
+        for (int i = 0; i < 10; i++){ 
             paneMemberDetails[i] = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 0));
         }
 
@@ -59,8 +67,10 @@ public class PageMembership {
         paneMemberDetails[3].add(tfHpBehind);
 
         // Member's address
+        JTextField[] tfAddress = new JTextField[3]; 
         for (int i = 4; i < 7; i++){
-            paneMemberDetails[i].add(new JTextField(30));
+            tfAddress[i-4] = new JTextField(30);
+            paneMemberDetails[i].add(tfAddress[i-4]);
         }
 
         // Address's poscode and state
@@ -73,15 +83,22 @@ public class PageMembership {
         paneMemberDetails[7].add(lbState);
         paneMemberDetails[7].add(cbState);
 
+        // Member's UserID and password
+        JLabel lbUserID = new JLabel(String.valueOf(Member.getNextMemberID()));
+        JTextField tfPassword = new JTextField(15);
+        tfPassword.setToolTipText("Password has to include at least 8 characters which are made up of at least one digit, one letter and one upper case letter.");
+        paneMemberDetails[8].add(lbUserID);
+        paneMemberDetails[9].add(tfPassword);
+
         // Create panel for membership details input
         JPanel midPaneDetails = new JPanel(); 
-        midPaneDetails.setLayout(new GridLayout(8,1)); // Set layout to grid layout
-        for (int i = 0; i < 8; i++){ 
+        midPaneDetails.setLayout(new GridLayout(10,1)); // Set layout to grid layout
+        for (int i = 0; i < 10; i++){ 
             midPaneDetails.add(paneMemberDetails[i]);
         }
         
-        JPanel[] paneSectionLabels = new JPanel[8]; // To store every panel for section labels
-        for (int i = 0; i < 8; i++){ 
+        JPanel[] paneSectionLabels = new JPanel[10]; // To store every panel for section labels
+        for (int i = 0; i < 10; i++){ 
             paneSectionLabels[i] = new JPanel(new FlowLayout(FlowLayout.LEFT));
         }
 
@@ -94,11 +111,13 @@ public class PageMembership {
         paneSectionLabels[5].add(new JLabel(""));
         paneSectionLabels[6].add(new JLabel(""));
         paneSectionLabels[7].add(new JLabel(""));
+        paneSectionLabels[8].add(new JLabel("User ID  :"));
+        paneSectionLabels[9].add(new JLabel("Password :"));
 
         // Create panel to include every panel of section labels
         JPanel midPaneLabels = new JPanel(); 
-        midPaneLabels.setLayout(new GridLayout(8,1)); // Set layout to grid layout
-        for (int i = 0; i < 8; i++){ 
+        midPaneLabels.setLayout(new GridLayout(10,1)); // Set layout to grid layout
+        for (int i = 0; i < 10; i++){ 
             midPaneLabels.add(paneSectionLabels[i]);
         }
 
@@ -107,14 +126,39 @@ public class PageMembership {
         JLabel lbTitle = new JLabel("Membership Application");
         lbTitle.setFont(new Font("", Font.BOLD, 30));
         midPaneTop.add(lbTitle);
-
+        
         // Buttons at bottom
         JPanel midPaneBtm = new JPanel();
         JButton btnSignUp = new JButton("Sign Up");
         btnSignUp.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
-                CardLayout cl = (CardLayout)(MiscFunctions.masterCards.getLayout());
-                cl.show(MiscFunctions.masterCards,"Pay Method");
+                if (tfFirstName.getText() == null || tfFirstName.getText().trim().isEmpty() || tfLastName.getText() == null || tfLastName.getText().trim().isEmpty() || tfEmail.getText() == null || tfEmail.getText().trim().isEmpty() || tfHpFront.getText() == null || tfHpFront.getText().trim().isEmpty() || tfHpBehind.getText() == null || tfHpBehind.getText().trim().isEmpty() || tfAddress[0].getText() == null || tfAddress[0].getText().trim().isEmpty() || tfAddress[1].getText() == null || tfAddress[1].getText().trim().isEmpty() || tfAddress[2].getText() == null || tfAddress[2].getText().trim().isEmpty() || tfPoscode.getText() == null || tfPoscode.getText().trim().isEmpty() || tfPassword.getText() == null || tfPassword.getText().trim().isEmpty())
+                    JOptionPane.showMessageDialog(null, "There is column left blank.\nPlease check again.", "Unable to proceed", JOptionPane.ERROR_MESSAGE);
+                else {
+                    if (Member.validatePassword(tfPassword.getText()) == "Valid"){
+                        Customer tempUser = user; // Temporarily store customer data
+                        Customer.setNewMember(); // Set the static variable to point to a new member object
+                        Customer.transferOrder(tempUser.getOrder()); // Transfer customer order to new member order
+                        PaymentCalc.createMemberPayment(); // Point to a new member payment object
+
+                        // Store user details
+                        ((Member)user).setNewMemberDetails(tfFirstName.getText() + " " + tfLastName.getText(), tfAddress[0].getText() + ", " + tfAddress[1].getText() + ", " + tfAddress[2].getText() + ", " + tfPoscode.getText() + " " + (String)cbState.getSelectedItem(), tfHpFront.getText() + "-" + tfHpBehind.getText(), tfEmail.getText(), (String)cbDate.getSelectedItem() + "-" + ((String)cbMonth.getSelectedItem()).substring(0, 3) + "-" + (String)cbYear.getSelectedItem(), tfPassword.getText());
+
+                        ((Member)user).writeToFile(); // Write new member into text file
+                        ((Member)user).setLuckyNumber(Integer.parseInt(JOptionPane.showInputDialog(null, "Member fee: RM20.00\nEnter a lucky number and stand a chance to get free membership !\n(Any number from 1 to 5)")));
+                        if (((MemberPayment)paymentCalc).matchLuckyNumber(user)){
+                            JOptionPane.showMessageDialog(null, "Your lucky number is matched.\nYou are given a free membership.\nHave a nice day!", "Congratulation!", JOptionPane.INFORMATION_MESSAGE);
+                        }
+                        else {
+                            JOptionPane.showMessageDialog(null, "Your lucky number is not matched.\nIt's okay. Try better next time :) !", "Sorry!", JOptionPane.INFORMATION_MESSAGE);
+                            ((MemberPayment)paymentCalc).addMemberFees();
+                        }
+                        CardLayout cl = (CardLayout)(MiscFunctions.masterCards.getLayout());
+                        cl.show(MiscFunctions.masterCards,"Pay Method");
+                    }
+                    else
+                        JOptionPane.showMessageDialog(null, Member.validatePassword(tfPassword.getText()), "Invalid Password", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
         JButton btnCancel = new JButton("Cancel");

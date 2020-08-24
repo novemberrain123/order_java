@@ -9,5 +9,4 @@ public class Apparel{
 
     static int totalSold[][];
     static double prices[][];
-
 }

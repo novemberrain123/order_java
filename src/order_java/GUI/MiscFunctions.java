@@ -14,15 +14,21 @@ public class MiscFunctions {
         frame.setSize(500, 500);
         
         //for testing change function
+<<<<<<< HEAD
 
         Home.createHome();  // “Hompage"
         PageMemberLogin.createPageMember(); // "MemberLogin", pass=12345oop , name=limjunshen,ganyihwee,johnwick
         PageMarket.createPageMarket();  //"Market"
         PageMarket.createPageBrowse(); //"Browse"
+=======
+        //Home.createHome();  // “Hompage"
+        //PageMemberLogin.createPageMember(); // "MemberLogin", pass=12345oop , name=limjunshen,ganyihwee,johnwick
+        //PageMarket.createPageMarket();  //"Market"
+        //PageMarket.createPageBrowse(); //"Browse"
+>>>>>>> ljs
         PagePayMethod.createPagePayMethod(); //"Pay Method"
         PageMembership.createPageMembership(); //"Membership"
-        PageCardPayment.createPageCardPayment();//"Card Payment"
-        PageCashPayment.createPageCashPayment();//"Cash Payment"
+        PagePaymentDetails.createPagePaymentDetails(); // "Payment Details"
         PageReceipt.createPageReceipt(); // "Receipt"
         PageStaffLogin.createPageStaffLogin(); // "StaffLogin", pass=12345fat
         PageReport.createPageReport(); // "Reports"
