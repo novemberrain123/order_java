@@ -86,32 +86,17 @@ public class PageCart extends JFrame{
 
         JPanel newpanel = new JPanel();
 
-<<<<<<< HEAD
          newpanel.setLayout(new BoxLayout(newpanel, BoxLayout.Y_AXIS));
 //        newpanel.setSize(20,20);
 
         for(int k=0;k<10;k++){
            newpanel.add(nested1[k],BorderLayout.CENTER);
-=======
-        newpanel.setLayout(new BoxLayout(newpanel, BoxLayout.Y_AXIS));
-        // newpanel.setSize(20,20);
->>>>>>> ljs
 
         for (int k = 0; k < 10; k++) {
             newpanel.add(nested1[k], BorderLayout.CENTER);
 
         }
         JButton proceed = new JButton("Proceed to Payment");
-<<<<<<< HEAD
-        proceed.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
-                
-                CardLayout cl = (CardLayout)(MiscFunctions.masterCards.getLayout());
-                cl.show(MiscFunctions.masterCards,"Pay Method");
-                cartFrame.dispose();
-                
-                
-=======
         proceed.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 int option = JOptionPane.showConfirmDialog(null, "Once proceed to payment section,\nyou can never navigate backward to previous page.\nAre you sure to continue ?", "Proceed to payment", JOptionPane.OK_CANCEL_OPTION);
@@ -119,7 +104,6 @@ public class PageCart extends JFrame{
                     CardLayout cl = (CardLayout)(MiscFunctions.masterCards.getLayout());
                     cl.show(MiscFunctions.masterCards,"Pay Method");
                 }
->>>>>>> ljs
             }
         });
         newpanel.add(proceed,BorderLayout.CENTER);
