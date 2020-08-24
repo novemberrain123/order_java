@@ -26,7 +26,7 @@ public class Customer {
     }
 
     // Used to create regular member at the beginning of the program
-    public static void createMember(String name, int memberID, String password, int points){ 
+    public static void createMember(String name, int memberID, String password, double points){ 
         user = new Member(name, memberID, password, points);
     }
 
