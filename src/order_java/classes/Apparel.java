@@ -6,6 +6,8 @@ public class Apparel{
     char bgColor;
     BufferedImage shirtImg;
     int quantity;
-    static int totalSold[][];
-    static double prices[][];
+    static int[][] totalSold= new int[2][4];
+    static double[][] prices= new double[2][4];
+
+
 }
