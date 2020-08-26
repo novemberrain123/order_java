@@ -35,7 +35,7 @@ public class PageMemberLogin {
         login.setAlignmentX(Component.CENTER_ALIGNMENT);
         JPanel memberID = new JPanel();
         memberID.setLayout(new BoxLayout(memberID, BoxLayout.X_AXIS));
-        memberID.add(new JLabel("Name        :  "));
+        memberID.add(new JLabel("MemberID :  "));
         JTextField memberIDlogin = new JTextField(10);
         memberID.add(memberIDlogin);
         memberID.setMaximumSize(new Dimension(171, 20));
@@ -47,7 +47,7 @@ public class PageMemberLogin {
         btnLogin.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         JPanel pass = new JPanel();
-        pass.add(new JLabel("Password :"));
+        pass.add(new JLabel("Password   :"));
         JPasswordField passwordField = new JPasswordField(10);
         passwordField.setMaximumSize(new Dimension(100, 20));
 

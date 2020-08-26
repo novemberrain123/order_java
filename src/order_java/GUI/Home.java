@@ -55,14 +55,25 @@ public class Home {
             }
         });
 
-         JButton btnCustomer=new JButton("Customer");
+         JButton btnMember=new JButton("Member");
+         btnMember.setLayout(new BoxLayout(btnMember, BoxLayout.X_AXIS));
+         btnMember.setMaximumSize(new Dimension(100, 20));
+         btnMember.setAlignmentX(Component.CENTER_ALIGNMENT);
+         btnMember.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                CardLayout cl = (CardLayout)(MiscFunctions.masterCards.getLayout());
+                cl.show(MiscFunctions.masterCards,"MemberLogin");
+            }
+        });
+
+        JButton btnCustomer=new JButton("Customer");
          btnCustomer.setLayout(new BoxLayout(btnCustomer, BoxLayout.X_AXIS));
          btnCustomer.setMaximumSize(new Dimension(100, 20));
          btnCustomer.setAlignmentX(Component.CENTER_ALIGNMENT);
          btnCustomer.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 CardLayout cl = (CardLayout)(MiscFunctions.masterCards.getLayout());
-                cl.show(MiscFunctions.masterCards,"MemberLogin");
+                cl.show(MiscFunctions.masterCards,"Market");
             }
         });
  
@@ -73,6 +84,8 @@ public class Home {
          controlPanel.add(identity);
          controlPanel.add(Box.createRigidArea(new Dimension(100,40)));
          controlPanel.add(btnStaff);
+         controlPanel.add(Box.createRigidArea(new Dimension(100,20)));
+         controlPanel.add(btnMember);
          controlPanel.add(Box.createRigidArea(new Dimension(100,20)));
          controlPanel.add(btnCustomer);
 
