@@ -8,16 +8,16 @@ import java.io.*;
 public class MiscFunctions {
     // Stores all pages
     static JPanel masterCards = new JPanel(new CardLayout());
-
-    public static void generateDefaultFrame() {
-        JFrame frame = new JFrame("Custom T-Shirt Shop");
+    public static JFrame frame;
+    public static void generateDefaultFrame() throws IOException{
+        frame = new JFrame("Custom T-Shirt Shop");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(500, 500);
         
         //for testing change function
 
-        Home.createHome();  // “Hompage"
-        PageMemberLogin.createPageMember(); // "MemberLogin", pass=12345oop , name=limjunshen,ganyihwee,johnwick
+        // Home.createHome();  // “Hompage"
+        // PageMemberLogin.createPageMember(); // "MemberLogin", pass=12345oop , name=limjunshen,ganyihwee,johnwick
         PageMarket.createPageMarket();  //"Market"
         PageMarket.createPageBrowse(); //"Browse"
         PagePayMethod.createPagePayMethod(); //"Pay Method"

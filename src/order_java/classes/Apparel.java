@@ -1,31 +1,32 @@
 package order_java.classes;
 import java.awt.image.*;
+import java.util.*;
+
+import javax.swing.*;
 public class Apparel{
-    private String size;
+    private char size;
     private double price;
     char bgColor;
-    BufferedImage shirtImg;
+    ImageIcon shirtImg;
     int quantity;
-    
+    public static ArrayList<Apparel> apparelsInOrder = new ArrayList<Apparel>();    
     static int totalSold[][];
     static double prices[][];
 
     public Apparel() {
     }
 
-    public Apparel(String size, double price, char bgColor, BufferedImage shirtImg, int quantity) {
+    public Apparel(char size, char bgColor, ImageIcon shirtImg, int quantity) {
         this.size = size;
-        this.price = price;
         this.bgColor = bgColor;
         this.shirtImg = shirtImg;
         this.quantity = quantity;
     }
 
-    public String getSize() {
+    public char getSize(){
         return this.size;
     }
-
-    public void setSize(String size) {
+    public void setSize(char size) {
         this.size = size;
     }
 
@@ -45,11 +46,11 @@ public class Apparel{
         this.bgColor = bgColor;
     }
 
-    public BufferedImage getShirtImg() {
+    public ImageIcon getShirtImg() {
         return this.shirtImg;
     }
 
-    public void setShirtImg(BufferedImage shirtImg) {
+    public void setShirtImg(ImageIcon shirtImg) {
         this.shirtImg = shirtImg;
     }
 
@@ -61,7 +62,7 @@ public class Apparel{
         this.quantity = quantity;
     }
 
-    public Apparel size(String size) {
+    public Apparel size(char size) {
         this.size = size;
         return this;
     }
@@ -76,7 +77,7 @@ public class Apparel{
         return this;
     }
 
-    public Apparel shirtImg(BufferedImage shirtImg) {
+    public Apparel shirtImg(ImageIcon shirtImg) {
         this.shirtImg = shirtImg;
         return this;
     }

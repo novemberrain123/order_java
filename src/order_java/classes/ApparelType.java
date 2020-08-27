@@ -11,18 +11,24 @@ import java.io.*;
 
 public class ApparelType implements ActionListener {
     private String shirtName;
-    private double basePrice;
+    private double basePrice; // t-shirt:s,m,l:15,20,25 hoodie:17,22,27
     private char shirtType;
     public JPanel pane;
+    public JPanel rightPane;
     BufferedImage img;
+    public static final ApparelType[] apparels = new ApparelType[10];
+    private static BufferedImage composite;
+    private static double shownPrice;
+
     public ApparelType() {
     }
 
-    public ApparelType(String shirtName, double basePrice, char shirtType, BufferedImage img) {
+    public ApparelType(String shirtName, double basePrice, char shirtType, BufferedImage img) throws IOException {
         this.shirtName = shirtName;
         this.basePrice = basePrice;
         this.shirtType = shirtType;
         this.img = img;
+        generatePane();
     }
 
     public String getShirtName() {
@@ -51,10 +57,6 @@ public class ApparelType implements ActionListener {
 
     public JPanel getPane() {
         return this.pane;
-    }
-
-    public void setPane(JPanel pane) {
-        this.pane = pane;
     }
 
     public BufferedImage getImg() {
@@ -97,6 +99,7 @@ public class ApparelType implements ActionListener {
     }
 
     JLabel picLabel;
+    JLabel price;
 
     public void generatePane() throws IOException {
         pane = new JPanel(new BorderLayout());
@@ -110,13 +113,13 @@ public class ApparelType implements ActionListener {
         back = MiscFunctions.resizeImage(back, 300, 300);
         img = MiscFunctions.resizeImage(img, 150, 200);
         // create combined img
-        BufferedImage composite = generateComposite(back);
+        composite = generateComposite(back);
         // give label to combined image and cast as ImageIcon and add to main JPanel
         picLabel = new JLabel(new ImageIcon(composite));
         pane.add(picLabel, BorderLayout.LINE_START);
         // create right side of pane with shirtname, choices for bgColor, for size, show
         // price and quantity
-        JPanel rightPane = new JPanel();
+        rightPane = new JPanel();
         rightPane.setLayout(new BoxLayout(rightPane, BoxLayout.Y_AXIS));
         JLabel name = new JLabel(shirtName);
         name.setFont(new Font(new JLabel().getFont().toString(), Font.PLAIN, 30));
@@ -150,11 +153,17 @@ public class ApparelType implements ActionListener {
         JRadioButton btnS = new JRadioButton("S");
         JRadioButton btnM = new JRadioButton("M");
         JRadioButton btnL = new JRadioButton("L");
+        btnS.setActionCommand("S");
+        btnM.setActionCommand("M");
+        btnL.setActionCommand("L");
+        btnS.addActionListener(new SizeActionListener());
+        btnM.addActionListener(new SizeActionListener());
+        btnL.addActionListener(new SizeActionListener());
         ButtonGroup sizeGroup = new ButtonGroup();
         sizeGroup.add(btnS);
         sizeGroup.add(btnM);
         sizeGroup.add(btnL);
-        btnS.setSelected(true);
+        btnM.setSelected(true);
         JPanel sizePanel = new JPanel();
         sizePanel.setLayout(new BoxLayout(sizePanel, BoxLayout.X_AXIS));
         sizePanel.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -163,13 +172,14 @@ public class ApparelType implements ActionListener {
         sizePanel.add(btnL);
         rightPane.add(sizePanel);
         // price
-        JLabel price = new JLabel(String.format("RM %.2f", basePrice));
+        shownPrice = basePrice;
+        JLabel price = new JLabel(String.format("RM %.2f", shownPrice));
         price.setFont(new Font(new JLabel().getFont().toString(), Font.PLAIN, 20));
         price.setAlignmentX(Component.LEFT_ALIGNMENT);
         rightPane.add(Box.createRigidArea(new Dimension(0, 50)));
         rightPane.add(price);
         // quantity
-        SpinnerModel value = new SpinnerNumberModel(1, 0, 99, 1);
+        SpinnerModel value = new SpinnerNumberModel(1, 1, 99, 1);
         JSpinner quantity = new JSpinner(value);
         quantity.setAlignmentX(Component.LEFT_ALIGNMENT);
         quantity.setMaximumSize(new Dimension(100, 40));
@@ -177,6 +187,18 @@ public class ApparelType implements ActionListener {
         rightPane.add(quantity);
         // add to cart button
         JButton btnAddtoCart = new JButton("Add to Cart");
+        btnAddtoCart.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                int q = (int) quantity.getValue();
+                char size = sizeGroup.getSelection().getActionCommand().charAt(0);
+                char bg = Character.toUpperCase(bgGroup.getSelection().getActionCommand().charAt(0));
+                Apparel.apparelsInOrder.add(new Apparel(size, bg, new ImageIcon(composite), q));
+                PageMarket.frame.dispatchEvent(new WindowEvent(PageMarket.frame, WindowEvent.WINDOW_CLOSING));
+                JOptionPane.showMessageDialog(MiscFunctions.frame, q + " " + size + " "
+                        + bgGroup.getSelection().getActionCommand() + " " + shirtName + " added to cart.", "",
+                        JOptionPane.INFORMATION_MESSAGE);
+            }
+        });
         btnAddtoCart.setAlignmentX(Component.LEFT_ALIGNMENT);
         rightPane.add(Box.createRigidArea(new Dimension(0, 10)));
         rightPane.add(btnAddtoCart);
@@ -186,16 +208,17 @@ public class ApparelType implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-        BufferedImage composite;
         if (shirtType == 'S') {
             try {
-                composite = generateComposite(MiscFunctions.resizeImage(ImageIO.read(new File("img/" + e.getActionCommand() + "shirt.png")),300,300));
+                composite = generateComposite(MiscFunctions
+                        .resizeImage(ImageIO.read(new File("img/" + e.getActionCommand() + "shirt.png")), 300, 300));
             } catch (IOException io) {
                 throw new RuntimeException(io);
             }
         } else {
             try {
-                composite = generateComposite(MiscFunctions.resizeImage(ImageIO.read(new File("img/" + e.getActionCommand() + "hoodie.png")),300,300));
+                composite = generateComposite(MiscFunctions
+                        .resizeImage(ImageIO.read(new File("img/" + e.getActionCommand() + "hoodie.png")), 300, 300));
             } catch (IOException io) {
                 throw new RuntimeException(io);
             }
@@ -204,7 +227,7 @@ public class ApparelType implements ActionListener {
         pane.revalidate();
         pane.repaint();
         picLabel = new JLabel(new ImageIcon(composite));
-        pane.add(picLabel,BorderLayout.LINE_START);
+        pane.add(picLabel, BorderLayout.LINE_START);
         pane.revalidate();
         pane.repaint();
     }
@@ -222,4 +245,65 @@ public class ApparelType implements ActionListener {
         return composite;
     }
 
+    // t-shirt:s,m,l:15,20,25 hoodie:17,22,27
+    public static void initApparels() throws IOException {
+        BufferedImage[] img = new BufferedImage[10];
+        for (int i = 0; i < 10; i++) {
+            img[i] = ImageIO.read(new File("img/browse9" + i + ".png"));
+        }
+        apparels[0] = new ApparelType("Supermind T-Shirt", 20.00, 'S', img[0]);
+        apparels[1] = new ApparelType("Mountain T-Shirt", 20.00, 'S', img[1]);
+        apparels[2] = new ApparelType("Jurassic T-Shirt", 20.00, 'S', img[2]);
+        apparels[3] = new ApparelType("Leonardo Da Corona T-Shirt", 20.00, 'S', img[3]);
+        apparels[4] = new ApparelType("Green T-Shirt", 20.00, 'S', img[4]);
+        apparels[5] = new ApparelType("Heaven T-Shirt", 20.00, 'S', img[5]);
+        apparels[6] = new ApparelType("Marriage Hoodie", 22.00, 'H', img[6]);
+        apparels[7] = new ApparelType("WayTooDank Hoodie", 22.00, 'H', img[7]);
+        apparels[8] = new ApparelType("FoxNews Hoodie", 22.00, 'H', img[8]);
+        apparels[9] = new ApparelType("Inspirational Hoodie", 22.00, 'H', img[9]);
+
+    }
+
+    class SizeActionListener implements ActionListener {
+        public void actionPerformed(ActionEvent e){
+           if(e.getActionCommand()=="S") {
+               if(shirtType=='S'){
+                    if(shownPrice!=15){
+                        shownPrice=15;
+                    }
+                
+               }
+               else if(shownPrice!=17){
+                    shownPrice=17;
+               }
+           }
+           else if(e.getActionCommand()=="M"){
+               if(shirtType=='S'){
+                   if (shownPrice!=20){
+                       shownPrice=20;
+                   }
+               }
+               else if(shownPrice!=22){
+                   shownPrice=22;
+               }
+           }
+           else if(shirtType=='S'){
+               if(shownPrice!=25){
+                   shownPrice=25;
+               }
+           }
+           else if(shownPrice!=27){
+               shownPrice=27;
+           }
+           rightPane.remove(5);
+           pane.revalidate();
+           pane.repaint();
+           JLabel price = new JLabel(String.format("RM %.2f", shownPrice));
+            price.setFont(new Font(new JLabel().getFont().toString(), Font.PLAIN, 20));
+            price.setAlignmentX(Component.LEFT_ALIGNMENT);
+           rightPane.add(price,5);
+           rightPane.revalidate();
+           rightPane.repaint();
+        }
+    }
 }
