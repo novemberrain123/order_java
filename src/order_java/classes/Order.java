@@ -12,7 +12,6 @@ public class Order{
     private LocalDateTime DateTime;
     private DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
     
-
     public Order (int orderID, int numofShirts, Apparel[] shirts, LocalDateTime DateTime)
     {
        this.orderID=orderID;

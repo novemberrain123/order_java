@@ -96,7 +96,7 @@ public class PageReport {
         card1.add(scrollPane,BorderLayout.CENTER);
 
         JPanel card2 = new JPanel();
-        JTextArea HistoryText = new JTextArea(20, 40);
+        JTextArea HistoryText = new JTextArea(20, 35);
 
 
         HistoryText.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -130,8 +130,6 @@ public class PageReport {
         
         
         pane.add(tabbedPane, BorderLayout.CENTER);
-        
-
         MiscFunctions.addCardtoMasterCards(pane, "Reports");
 
     }
