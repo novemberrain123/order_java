@@ -15,27 +15,16 @@ public class MiscFunctions {
         frame.setSize(500, 500);
         
         //for testing change function
-<<<<<<< HEAD
-
-        Home.createHome();  // “Hompage"
-        PageMemberLogin.createPageMember(); // "MemberLogin", pass=12345oop , name=limjunshen,ganyihwee,johnwick
-        PageMarket.createPageMarket();  //"Market"
-        PageMarket.createPageBrowse(); //"Browse"
-=======
         //Home.createHome();  // “Hompage"
         //PageMemberLogin.createPageMember(); // "MemberLogin", pass=12345oop , name=limjunshen,ganyihwee,johnwick
         //PageMarket.createPageMarket();  //"Market"
         //PageMarket.createPageBrowse(); //"Browse"
->>>>>>> ljs
-        PagePayMethod.createPagePayMethod(); //"Pay Method"
-        PageMembership.createPageMembership(); //"Membership"
-        PagePaymentDetails.createPagePaymentDetails(); // "Payment Details"
-        PageReceipt.createPageReceipt(); // "Receipt"
-        PageStaffLogin.createPageStaffLogin(); // "StaffLogin", pass=12345fat
-        PageReport.createPageReport(); // "Reports"
         //PageCart.createPageCart();  // "Cart"
-         
+        //PageStaffLogin.createPageStaffLogin(); // "StaffLogin", pass=12345fat
+        //PageReport.createPageReport(); // "Reports"
         // PageMarket.createPageBrowse();
+        PagePayMethod.createPagePayMethod(); //"Pay Method"
+        
         frame.getContentPane().add(MiscFunctions.masterCards);
         frame.setVisible(true);
     }

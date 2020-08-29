@@ -6,27 +6,30 @@ import javax.swing.*;
 import java.awt.event.*;
 
 public class PagePaymentDetails {
-    public static void checkCardInfo(Customer user, JTextField tfCardNumber, JTextField tfCVCode, JComboBox<String> cbMonth, JComboBox<String> cbYear){
+    public static void checkCardInfo(Customer user, JTextField tfCardNumber, JTextField tfCVCode, JComboBox<String> cbMonth, JComboBox<String> cbYear){ // Check whether card is valid or not
         CardInfo cardInfo; 
         cardInfo = new CardInfo(tfCardNumber.getText(), (String)cbMonth.getSelectedItem() + "/" + (String)cbYear.getSelectedItem(), Integer.parseInt(tfCVCode.getText())); // Create new card info
-        if (cardInfo.validateCard()){
-            user.setCardInfo(cardInfo);
+        if (cardInfo.validateCard()){ // Valid card
+            user.setCardInfo(cardInfo); // Set card info
             CardLayout cl = (CardLayout)(MiscFunctions.masterCards.getLayout());
+            PageReceipt.createPageReceipt(); // "Receipt"
             cl.show(MiscFunctions.masterCards,"Receipt");
         }
-        else 
+        else  // Invalid card
             JOptionPane.showMessageDialog(null, "Your card information is incorrect.\nPlease check again", "Invalid card", JOptionPane.ERROR_MESSAGE);
     }
 
     public static void checkCashPayment(Customer user, PaymentCalc paymentCalc, JTextField tfPaidAmount){
         CashPayment cashPayment;
-        cashPayment = new CashPayment(Integer.parseInt(tfPaidAmount.getText()));
-        if (cashPayment.validateCash(paymentCalc.getAdjTotal())){
+        cashPayment = new CashPayment(Double.parseDouble(tfPaidAmount.getText()));
+        if (cashPayment.validateCash(paymentCalc.getAdjTotal())){ // Sufficient cash amount
             user.setCashPayment(cashPayment);
+            paymentCalc.calculateChange(cashPayment);
             CardLayout cl = (CardLayout)(MiscFunctions.masterCards.getLayout());
+            PageReceipt.createPageReceipt(); // "Receipt"
             cl.show(MiscFunctions.masterCards,"Receipt");
         }
-        else 
+        else // Insufficient cash amount
             JOptionPane.showMessageDialog(null, "Your cash payment is insufficient.\nPlease check again", "Insufficient cash payment", JOptionPane.ERROR_MESSAGE);
     }
 
@@ -37,22 +40,13 @@ public class PagePaymentDetails {
     }
 
     public static void createPagePaymentDetails(){
-        // Customer user = new Customer(); // Regular customer Demo
-        // PaymentCalc paymentCalc = new CustomerPayment(); // Regular customer Demo
-        // Customer user = new Member("LimJUNSHEN", 105, "823hnr", 2039); // New member Demo
-        // Customer user = new Member(); // Regular member Demo
-        // PaymentCalc paymentCalc = new MemberPayment(); // Member Demo
-        // paymentCalc.setRawTotal(2039); // Demo for all
-        // paymentCalc.setDiscountAmount(283); // Demo for all 
-        // paymentCalc.setAdjTotal(1792); // Demo for all 
-        // paymentCalc.setPayMethod("Card"); // Set pay method Demo for all 
-        // ((MemberPayment)paymentCalc).setIsRedeemPoints(true); // Set redeem or not Demo
-        Customer user = Customer.getCustomer(); // Static var demo
-        PaymentCalc paymentCalc = PaymentCalc.getPaymentCalc(); // Static var demo
+        Customer user = Customer.getCustomer(); // Local variable pointing to user static variable
+        PaymentCalc paymentCalc = PaymentCalc.getPaymentCalc(); // Local variable pointing to paymentCalc static variable
 
-        JPanel pane = new JPanel(new BorderLayout()); 
+        JPanel pane = new JPanel(new BorderLayout()); // Main panel
         Font wordFont = new Font("", Font.PLAIN, 15);
         int rowNum; // Number of rows presented in payment details page
+        // Setting number of rows based on the status of current customer
         if (user instanceof Member && ((MemberPayment)paymentCalc).getIsRedeemPoints() == false && paymentCalc.getPayMethod() == "Cash" && (Member.getNextMemberID() - 1) != ((Member)user).getMemberID())
             rowNum = 5;
         else if (user instanceof Member && (Member.getNextMemberID() - 1) == ((Member)user).getMemberID() && paymentCalc.getPayMethod() == "Cash" || user instanceof Member && ((MemberPayment)paymentCalc).getIsRedeemPoints() == true && paymentCalc.getPayMethod() == "Cash")
@@ -63,7 +57,7 @@ public class PagePaymentDetails {
             rowNum = 8;
         else // Regular customer using card method
             rowNum = 9;
-        JPanel[] midPaneLabels = new JPanel[rowNum];
+        JPanel[] midPaneLabels = new JPanel[rowNum]; // Individual panels to include payment details labels
         for (int i = 0; i < rowNum; i++){
             midPaneLabels[i] = new JPanel(new FlowLayout(FlowLayout.LEFT));
         }
@@ -98,7 +92,7 @@ public class PagePaymentDetails {
         lbCVCode.setFont(wordFont);
         lbPaidAmount.setFont(wordFont);
 
-        // Add labels to each label panel
+        // Add labels to each individual label panel
         if (user instanceof Member && (Member.getNextMemberID() - 1) == ((Member)user).getMemberID()){ // New member
             midPaneLabels[0].add(lbTotalAmount);
             midPaneLabels[1].add(lbDiscountAmount);
@@ -119,7 +113,7 @@ public class PagePaymentDetails {
             midPaneLabels[2].add(lbAmountToPay);
             midPaneLabels[3].add(lbAddPoints);
         }
-        else { // Regular customer using card method
+        else { // Regular customer 
             midPaneLabels[0].add(lbName);
             midPaneLabels[1].add(lbAddress);
             midPaneLabels[2].add(lbPhoneNo);
@@ -129,26 +123,26 @@ public class PagePaymentDetails {
         }
 
         // Bottom fixed panels for different pay method
-        if (paymentCalc.getPayMethod() == "Card"){
+        if (paymentCalc.getPayMethod() == "Card"){ // Pay by card
             midPaneLabels[rowNum - 3].add(lbCardNumber);
             midPaneLabels[rowNum - 2].add(lbExpirationDate);
             midPaneLabels[rowNum - 1].add(lbCVCode);
         }
-        else    
+        else // Pay by cash
             midPaneLabels[rowNum - 1].add(lbPaidAmount);
         
         // Information for payment details
         JTextField infoName = new JTextField(35);
         JTextField infoAddress = new JTextField(70);
         JTextField infoPhoneNo = new JTextField(15);
-        JLabel infoTotalAmount = new JLabel("RM " + String.valueOf(paymentCalc.getRawTotal()));
-        JLabel infoDiscountAmount = new JLabel("RM " + String.valueOf(paymentCalc.getDiscountAmount())); 
-        JLabel infoMemberFees = new JLabel("RM " + String.valueOf(MemberPayment.getMemberFees()));
-        JLabel infoAmountToPay = new JLabel("RM " + String.valueOf(paymentCalc.getAdjTotal()));
-        JLabel infoAddPoints = new JLabel(String.valueOf(Member.getAddPoints(paymentCalc.getRawTotal())));
+        JLabel infoTotalAmount = new JLabel("RM " + String.format("%-7.2f",paymentCalc.getRawTotal()));
+        JLabel infoDiscountAmount = new JLabel("RM " + String.format("%-6.2f",paymentCalc.getDiscountAmount())); 
+        JLabel infoMemberFees = new JLabel("RM " + String.format("%-4.2f",MemberPayment.getMemberFees()));
+        JLabel infoAmountToPay = new JLabel("RM " + String.format("%-7.2f",paymentCalc.getAdjTotal()));
+        JLabel infoAddPoints = new JLabel(String.format("%-6.2f",Member.getAddPoints(paymentCalc.getRawTotal())));
         JLabel infoRedeemPoints = new JLabel();
         if (user instanceof Member)
-            infoRedeemPoints = new JLabel(String.valueOf(((MemberPayment)paymentCalc).getPointsRedeemed())); 
+            infoRedeemPoints = new JLabel(String.format("%-4d",((MemberPayment)paymentCalc).getPointsRedeemed())); 
         JTextField tfCardNumber = new JTextField(20);
         JComboBox<String> cbMonth = new JComboBox<>(new String[]{"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"});
         JLabel lbSlash = new JLabel("/");
@@ -173,8 +167,8 @@ public class PagePaymentDetails {
         tfCVCode.setToolTipText("Enter 3 numbers");
         tfPaidAmount.setFont(wordFont);
 
-        // Add information to each information panel
-        JPanel[] midPaneInfo = new JPanel[rowNum];
+        // Add information to each individual information panel
+        JPanel[] midPaneInfo = new JPanel[rowNum]; // Individual panels to include payment details information
         for (int i = 0; i < rowNum; i++){
             midPaneInfo[i] = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 0));
         }
@@ -218,7 +212,7 @@ public class PagePaymentDetails {
         else 
             midPaneInfo[rowNum - 1].add(tfPaidAmount);
 
-        // Add each label and information panel to mid left panel and mid right panel
+        // Add each label and information panel to middle left panel and middle right panel
         JPanel midPaneLeft = new JPanel(new GridLayout(rowNum,1));
         JPanel midPaneRight = new JPanel(new GridLayout(rowNum,1));
         for (int i = 0; i < rowNum; i++){
@@ -227,13 +221,13 @@ public class PagePaymentDetails {
         }
         
         // Top title part
-        JPanel midPaneTop = new JPanel(new FlowLayout());
+        JPanel paneTop = new JPanel(new FlowLayout());
         JLabel lbTitle = new JLabel("Payment Details");
         lbTitle.setFont(new Font("", Font.BOLD, 30));
-        midPaneTop.add(lbTitle);
+        paneTop.add(lbTitle);
 
         // Bottom button part
-        JPanel midPaneBtm = new JPanel(new FlowLayout());
+        JPanel paneBtm = new JPanel(new FlowLayout());
         JButton btnPay = new JButton("Pay");
         btnPay.setFont(new Font("", Font.BOLD, 20));
         btnPay.setBackground(Color.black);
@@ -242,26 +236,26 @@ public class PagePaymentDetails {
             public void actionPerformed(ActionEvent e){
                 if (user instanceof Member){ // Check for member
                     if (paymentCalc.getPayMethod() == "Card"){
-                        if (tfCardNumber.getText() == null || tfCardNumber.getText().trim().isEmpty() || tfCVCode.getText() == null || tfCVCode.getText().trim().isEmpty()) 
+                        if (tfCardNumber.getText() == null || tfCardNumber.getText().trim().isEmpty() || tfCVCode.getText() == null || tfCVCode.getText().trim().isEmpty()) // Emptied fields
                             JOptionPane.showMessageDialog(null, "There is column left blank.\nPlease check again.", "Unable to proceed", JOptionPane.ERROR_MESSAGE);
-                        else {
+                        else { // Check the validity of card information
                             checkCardInfo(user, tfCardNumber, tfCVCode, cbMonth, cbYear);
                         }
                     }
                     else {
                         if (tfPaidAmount.getText() == null || tfPaidAmount.getText().trim().isEmpty()) 
                             JOptionPane.showMessageDialog(null, "There is column left blank.\nPlease check again.", "Unable to proceed", JOptionPane.ERROR_MESSAGE);
-                        else {
+                        else { // Check the sufficiency of cash amount
                             checkCashPayment(user, paymentCalc, tfPaidAmount);
                         }
                     }
                 }
                 else { // Check for customer
                     if (paymentCalc.getPayMethod() == "Card"){
-                        if (infoName.getText() == null || infoName.getText().trim().isEmpty() || infoAddress.getText() == null || infoAddress.getText().trim().isEmpty() || infoPhoneNo.getText() == null || infoPhoneNo.getText().trim().isEmpty() || tfCardNumber.getText() == null || tfCardNumber.getText().trim().isEmpty() || tfCVCode.getText() == null || tfCVCode.getText().trim().isEmpty()) 
+                        if (infoName.getText() == null || infoName.getText().trim().isEmpty() || infoAddress.getText() == null || infoAddress.getText().trim().isEmpty() || infoPhoneNo.getText() == null || infoPhoneNo.getText().trim().isEmpty() || tfCardNumber.getText() == null || tfCardNumber.getText().trim().isEmpty() || tfCVCode.getText() == null || tfCVCode.getText().trim().isEmpty()) // Emptied fields
                             JOptionPane.showMessageDialog(null, "There is column left blank.\nPlease check again.", "Unable to proceed", JOptionPane.ERROR_MESSAGE);
-                        else {
-                            setCustomerDetails(user, infoName, infoAddress, infoPhoneNo);
+                        else { 
+                            setCustomerDetails(user, infoName, infoAddress, infoPhoneNo); // Set customer info
                             checkCardInfo(user, tfCardNumber, tfCVCode, cbMonth, cbYear);    
                         }
                     }
@@ -269,24 +263,22 @@ public class PagePaymentDetails {
                         if (infoName.getText() == null || infoName.getText().trim().isEmpty() || infoAddress.getText() == null || infoAddress.getText().trim().isEmpty() || infoPhoneNo.getText() == null || infoPhoneNo.getText().trim().isEmpty() || tfPaidAmount.getText() == null || tfPaidAmount.getText().trim().isEmpty()) 
                             JOptionPane.showMessageDialog(null, "There is column left blank.\nPlease check again.", "Unable to proceed", JOptionPane.ERROR_MESSAGE);
                         else {
-                            setCustomerDetails(user, infoName, infoAddress, infoPhoneNo);
+                            setCustomerDetails(user, infoName, infoAddress, infoPhoneNo); // Set customer info
                             checkCashPayment(user, paymentCalc, tfPaidAmount);
                         }
                     }
                 }
             }
         });
-        midPaneBtm.add(btnPay);
+        paneBtm.add(btnPay);
 
-        // Middle panel
-        JPanel midPane = new JPanel(new BorderLayout());
-        midPane.add(midPaneLeft, BorderLayout.LINE_START);
-        midPane.add(midPaneRight, BorderLayout.CENTER);
-        midPane.add(midPaneTop, BorderLayout.PAGE_START);
-        midPane.add(midPaneBtm, BorderLayout.PAGE_END);
+        // Add each panel to main panel
+        pane.add(midPaneLeft, BorderLayout.LINE_START);
+        pane.add(midPaneRight, BorderLayout.CENTER);
+        pane.add(paneTop, BorderLayout.PAGE_START);
+        pane.add(paneBtm, BorderLayout.PAGE_END);
 
-        // Main panel
-        pane.add(midPane, BorderLayout.CENTER);
+        // Add to master cards panel
         MiscFunctions.addCardtoMasterCards(pane, "Payment Details");
     }
 }

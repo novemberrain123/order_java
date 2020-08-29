@@ -1,23 +1,23 @@
 package order_java.classes;
 
 public class Customer {
-    String name;
-    String address;
-    String phoneNo;
-    Order order;
-    CardInfo cardInfo;
-    CashPayment cash;
+    private String name;
+    private String address;
+    private String phoneNo;
+    private Order order;
+    private CardInfo cardInfo;
+    private CashPayment cash;
     private static Customer user;
 
     public Customer(){
 
     }
 
-    public Customer(String name){
+    public Customer(String name){ // Constructor used by member class to assign name for regular member
         this.name = name;
     }
 
-    public Customer(Order order){
+    public Customer(Order order){ // Constructor to create a customer object when a new order has been made
         this.order = order;
     }
 
@@ -25,19 +25,22 @@ public class Customer {
         user = new Customer(order);
     }
 
-    // Used to create regular member at the beginning of the program
-    public static void createMember(String name, int memberID, String password, int points){ 
-        user = new Member(name, memberID, password, points);
-    }
-
-    public static void setNewMember(){
+    // Called by member class to points static var (user) to a new member object when new member signed up
+    public static void pointsToNewMem(){ 
         user = new Member();
     }
 
-    public static void transferOrder(Order order){
+    // Called by member class to points static var (user) to a new member object when regular member login
+    public static void pointsToRegMem(String name, int memberID, String password, int points){
+        user = new Member(name, memberID, password, points);
+    }
+
+    // Transfer customer order from a customer object to a new member object when new member signed up
+    public static void transferOrder(Order order){ 
         user.setOrder(order);
     }
 
+    // Set new member details
     public static void setNewMemberDetails(String name, String address, String phoneNo){
         user.setName(name);
         user.setAddress(address);

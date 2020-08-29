@@ -24,7 +24,7 @@ public class Receipt{
     }
 
     public String getTransactionTime(){
-        SimpleDateFormat formatTime = new SimpleDateFormat("dd-MMM-yyyy");
+        SimpleDateFormat formatTime = new SimpleDateFormat("HH:mm:ss");
         return formatTime.format(transactionDate);
     }
 }

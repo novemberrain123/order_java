@@ -1,17 +1,21 @@
 package order_java.classes;
 
 public class MemberPayment extends PaymentCalc{
-    private final static double memberDiscount = 0.1;
-    private final static double memberFees = 20.0;
-    private final double discountRate500 = 0.03;
-    private final double discountRate1000 = 0.07;
-    private final double discountRate1500 = 0.12;
-    private boolean isRedeemPoints;
-    private int pointsRedeemed;
-    private int generatedLuckyNumber;
+    private final static double memberDiscount = 0.1; // Permanent discount for member
+    private final static double memberFees = 20.0; // Amount of member fees
+    private final static double discountRate500 = 0.03; // Discount rate for redeeming 500 points
+    private final static double discountRate1000 = 0.07; // Discount rate for redeeming 1000 points
+    private final static double discountRate1500 = 0.12; // Discount rate for redeeming 1500 points
+    private boolean isRedeemPoints; // Check whether a member is redeeming their points
+    private int pointsRedeemed; // Quantity of points redeemed by member
+    private int generatedLuckyNumber; // To perform matching with lucky number entered by new member
 
     public MemberPayment(){
-        generatedLuckyNumber = (int)(1 + Math.random() * 5);
+
+    }
+
+    public static void createMemberPayment(){
+        pointsToMemPayment();
     }
 
     public static double getMemberFees(){
@@ -65,11 +69,15 @@ public class MemberPayment extends PaymentCalc{
         }
     }
 
+    public void generateLuckyNumber(){ // Generate lucky number when new member signed up
+        generatedLuckyNumber = (int)(1 + Math.random() * 5);
+    }
+
     public int getGeneratedLuckyNumber(){
         return generatedLuckyNumber;
     }
 
-    public boolean matchLuckyNumber(Customer member){
+    public boolean matchLuckyNumber(Customer member){ // Check for matching of lucky number for raffle purpose
         if (((Member)member).getLuckyNumber() == generatedLuckyNumber)
             return true;
         else

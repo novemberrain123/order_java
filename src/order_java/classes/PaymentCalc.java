@@ -5,18 +5,18 @@ public abstract class PaymentCalc {
     private double adjTotal;
     private double discountAmount;
     private double change;
-    private String payMethod;
+    private String payMethod; 
     private static PaymentCalc paymentCalc;
 
     protected PaymentCalc(){
         
     }
 
-    public static void createCustomerPayment(){
+    public static void pointsToCusPayment(){
         paymentCalc = new CustomerPayment();
     }
 
-    public static void createMemberPayment(){
+    public static void pointsToMemPayment(){
         paymentCalc = new MemberPayment();
     }
 

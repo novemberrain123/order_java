@@ -19,7 +19,8 @@ public class CashPayment{
       return amount;
    }
 
-   public boolean validateCash(double adjTotal){
+   // To identify whether cash paid by customer is sufficient or not
+   public boolean validateCash(double adjTotal){ 
       if (amount >= adjTotal)
          return true;
       else

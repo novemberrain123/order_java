@@ -8,24 +8,11 @@ import java.awt.event.*;
 
 public class PageReceipt {
     public static void createPageReceipt(){
-        // Customer user = new Customer(); // Regular customer Demo
-        // PaymentCalc paymentCalc = new CustomerPayment(); // Regular customer Demo
-        // Customer user = new Member("LimJUNSHEN", 105, "823hnr", 2039); // New member Demo
-        // Customer user = new Member(); // Regular member Demo
-        // PaymentCalc paymentCalc = new MemberPayment(); // Member Demo
-        // paymentCalc.setRawTotal(2039); // Demo for all
-        // paymentCalc.setDiscountAmount(283); // Demo for all 
-        // paymentCalc.setAdjTotal(1792); // Demo for all 
-        // paymentCalc.setPayMethod("Card"); // Set pay method Demo for all 
-        // CardInfo cardInfo = new CardInfo("823489234", "20/30", 321);
-        // user.setCardInfo(cardInfo);
-        
-        // ((MemberPayment)paymentCalc).setIsRedeemPoints(false); // Set redeem or not Demo
         Customer user = Customer.getCustomer();
         PaymentCalc paymentCalc = PaymentCalc.getPaymentCalc();
         Receipt receipt = new Receipt(); // Create receipt object
         
-        JPanel pane = new JPanel(new BorderLayout());
+        JPanel pane = new JPanel(new BorderLayout()); // Main panel
         Font wordFont = new Font("", Font.PLAIN, 15);
         int rowNum; // Number of rows presented in payment details page
         if (user instanceof Member && paymentCalc.getPayMethod() == "Cash")
@@ -84,7 +71,7 @@ public class PageReceipt {
         paneReceiptLabels[indexMidPanel].add(lbTransactionDate);
         paneReceiptLabels[indexMidPanel + 1].add(lbTransactionTime);
         paneReceiptLabels[indexMidPanel + 2].add(lbPayMethod);
-        // paneReceiptLabels[indexMidPanel + 3].add(lbAmount); // ERROR
+        paneReceiptLabels[indexMidPanel + 3].add(lbAmount); 
 
         // Bottom fixed panels for different pay method
         if (paymentCalc.getPayMethod() == "Card"){
@@ -113,12 +100,12 @@ public class PageReceipt {
         JLabel infoAccumulatedPoints = new JLabel();
         if (user instanceof Member) {
             infoMemberID = new JLabel(String.valueOf(((Member)user).getMemberID()));
-            infoAccumulatedPoints = new JLabel(String.valueOf(((Member)user).getPoints()));
+            infoAccumulatedPoints = new JLabel(String.format("%-7.2f",((Member)user).getPoints()));
         }
         JLabel infoTransactionDate = new JLabel(receipt.getTransactionDate());
         JLabel infoTransactionTime = new JLabel(receipt.getTransactionTime());
         JLabel infoPayMethod = new JLabel(paymentCalc.getPayMethod());
-        JLabel infoAmount = new JLabel(String.valueOf(paymentCalc.getAdjTotal()));
+        JLabel infoAmount = new JLabel(String.format("%-7.2f",paymentCalc.getAdjTotal()));
         if (user instanceof Member && (Member.getNextMemberID() - 1) == ((Member)user).getMemberID()) // New Member
             infoAmount.setText(infoAmount.getText() + " (Included member fees)");
         JLabel infoCardNumber = new JLabel();
@@ -127,8 +114,8 @@ public class PageReceipt {
         if (paymentCalc.getPayMethod() == "Card")
             infoCardNumber = new JLabel(user.getCardInfo().getCardNo());
         else {
-            // infoPaidCash = new JLabel(String.valueOf(user.getCashPayment().getPayment()));
-            infoChange = new JLabel(String.valueOf(paymentCalc.getChange()));
+            infoPaidCash = new JLabel(String.format("%-7.2f",user.getCashPayment().getPayment()));
+            infoChange = new JLabel(String.format("%-6.2f", paymentCalc.getChange()));
         }
 
         // Set Font
@@ -156,7 +143,7 @@ public class PageReceipt {
         paneReceiptInfo[indexMidPanel].add(infoTransactionDate);
         paneReceiptInfo[indexMidPanel + 1].add(infoTransactionTime);
         paneReceiptInfo[indexMidPanel + 2].add(infoPayMethod);
-        // paneReceiptInfo[indexMidPanel + 3].add(infoAmount); ERROR
+        paneReceiptInfo[indexMidPanel + 3].add(infoAmount); 
 
         // Bottom fixed panels for different pay method
         if (paymentCalc.getPayMethod() == "Card"){
@@ -174,13 +161,13 @@ public class PageReceipt {
         }
 
         // Create top panel
-        JPanel midTopPane = new JPanel();
+        JPanel topPane = new JPanel();
         JLabel lbTitle = new JLabel("Customer Receipt");
         lbTitle.setFont(new Font("", Font.BOLD, 30));
-        midTopPane.add(lbTitle);
+        topPane.add(lbTitle);
 
         // Create bottom panel
-        JPanel midBtmPane = new JPanel(new FlowLayout());
+        JPanel btmPane = new JPanel(new FlowLayout());
         JButton btnContShop = new JButton("Back to home page");
         JButton btnStopShop = new JButton("Stop shopping");
         btnContShop.setFont(new Font("", Font.BOLD, 20));
@@ -194,23 +181,27 @@ public class PageReceipt {
         btnContShop.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 CardLayout cl = (CardLayout)(MiscFunctions.masterCards.getLayout());
-                cl.show(MiscFunctions.masterCards,"Hompage");
+                Home.createHome();  // “Hompage"
+                cl.show(MiscFunctions.masterCards, "Hompage"); // Go back to homepage
             }
         });
-        // btnStopShop.addActionListener(new ActionListener(){
-        //    public void actionPerformed(ActionEvent e){
-        //        // Codes to stop shopping
-        // });
-        midBtmPane.add(btnContShop);
-        midBtmPane.add(btnStopShop);
+        btnStopShop.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                CardLayout cl = (CardLayout)(MiscFunctions.masterCards.getLayout());
+                PageStaffLogin.createPageStaffLogin(); // "StaffLogin", pass=12345fat
+                cl.show(MiscFunctions.masterCards, "StaffLogin"); // Go to staff login page
+            }
+        });
+        btmPane.add(btnContShop);
+        btmPane.add(btnStopShop);
 
-        // Create middle panel
-        JPanel midPane = new JPanel(new BorderLayout());
-        midPane.add(midTopPane, BorderLayout.PAGE_START);
-        midPane.add(midBtmPane, BorderLayout.PAGE_END);
-        midPane.add(midLeftPane, BorderLayout.LINE_START);
-        midPane.add(midRightPane, BorderLayout.CENTER);
-        pane.add(midPane, BorderLayout.CENTER);
+        // Add each panel to main panel
+        pane.add(topPane, BorderLayout.PAGE_START);
+        pane.add(btmPane, BorderLayout.PAGE_END);
+        pane.add(midLeftPane, BorderLayout.LINE_START);
+        pane.add(midRightPane, BorderLayout.CENTER);
+
+        // Add to master cards panel
         MiscFunctions.addCardtoMasterCards(pane, "Receipt");
     }
 }
