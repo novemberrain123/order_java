@@ -1,10 +1,9 @@
 package order_java.classes;
 
-import java.awt.image.*;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.*;
 
-import javax.swing.*;
+import javax.swing.ImageIcon;
 
 public class Apparel extends ApparelType {
     private char size;
@@ -12,9 +11,9 @@ public class Apparel extends ApparelType {
     private char bgColor;
     private ImageIcon shirtImg;
     private int quantity;
-    private static int totalSold[][]={{0,0,0},{0,0,0}}; //[Shirt[S,M,L],Hoodie[S,M,L]]
-    private final static double prices[][]={{15,20,25},{17,22,27}}; //[Shirt[S,M,L],Hoodie[S,M,L]
-    
+    public static int totalSold[][] = { { 0, 0, 0 }, { 0, 0, 0 } }; // [Shirt[S,M,L],Hoodie[S,M,L]]
+    public final static double prices[][] = { { 15, 20, 25 }, { 17, 22, 27 } }; // [Shirt[S,M,L],Hoodie[S,M,L]
+
     public Apparel() {
     }
 
@@ -25,62 +24,67 @@ public class Apparel extends ApparelType {
         this.bgColor = bgColor;
         this.shirtImg = shirtImg;
         this.quantity = quantity;
+        setPriceAndIncrementTotalSold();
+    }
+
+    public void setPriceAndIncrementTotalSold() {
         switch (size) {// t-shirt:s,m,l:15,20,25 hoodie:17,22,27
             case 'S':
-                switch (shirtType) {
+                switch (getShirtType()){
                     case 'S':
                         price = 15;
-                        totalSold[0][0]+=quantity;
+                        totalSold[0][0] += quantity;
                     case 'H':
                         price = 17;
-                        totalSold[1][0]+=quantity;
+                        totalSold[1][0] += quantity;
                 }
             case 'M':
-                switch (shirtType) {
+                switch (getShirtType()) {
                     case 'S':
                         price = 20;
-                        totalSold[0][1]+=quantity;
+                        totalSold[0][1] += quantity;
                     case 'H':
                         price = 22;
-                        totalSold[1][1]+=quantity;
+                        totalSold[1][1] += quantity;
                 }
             case 'L':
-                switch (shirtType) {
+                switch (getShirtType()){
                     case 'S':
                         price = 25;
-                        totalSold[0][2]+=quantity;
+                        totalSold[0][2] += quantity;
                     case 'H':
                         price = 27;
-                        totalSold[1][2]+=quantity;
+                        totalSold[1][2] += quantity;
                 }
         }
     }
 
-    public void decreaseTotalSold(){
-                switch (size) {// t-shirt:s,m,l:15,20,25 hoodie:17,22,27
+    public void decreaseTotalSold() {
+        switch (size) {// t-shirt:s,m,l:15,20,25 hoodie:17,22,27
             case 'S':
                 switch (this.getShirtType()) {
                     case 'S':
-                        totalSold[0][0]-=quantity;
+                        totalSold[0][0] -= quantity;
                     case 'H':
-                        totalSold[1][0]-=quantity;
+                        totalSold[1][0] -= quantity;
                 }
             case 'M':
                 switch (this.getShirtType()) {
                     case 'S':
-                        totalSold[0][1]-=quantity;
+                        totalSold[0][1] -= quantity;
                     case 'H':
-                        totalSold[1][1]-=quantity;
+                        totalSold[1][1] -= quantity;
                 }
             case 'L':
                 switch (this.getShirtType()) {
                     case 'S':
-                        totalSold[0][2]-=quantity;
+                        totalSold[0][2] -= quantity;
                     case 'H':
-                        totalSold[1][2]-=quantity;
+                        totalSold[1][2] -= quantity;
                 }
         }
     }
+
     public char getSize() {
         return this.size;
     }
@@ -128,6 +132,7 @@ public class Apparel extends ApparelType {
     public static double[][] getPrices() {
         return prices;
     }
+
     @Override
     public boolean equals(Object o) {
         final Apparel other = (Apparel) o;

@@ -1,19 +1,39 @@
 package order_java.GUI;
 
-import order_java.GUI.*;
-import order_java.classes.*;
-import java.awt.image.*;
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.filechooser.FileFilter;
-import javax.imageio.*;
-import java.io.*;
-import java.lang.reflect.Field;
-import java.util.Enumeration;
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
-import javax.swing.SwingUtilities;
-import javax.swing.filechooser.*;
+import javax.imageio.ImageIO;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
+import order_java.classes.Apparel;
+import order_java.classes.ApparelType;
 
 public class PageMarket {
     public static Image rescaleImage(ImageIcon img, int x, int y, int s) {
@@ -152,7 +172,6 @@ public class PageMarket {
 
         // set actionlistener for rbuttons
         btnAll.addActionListener(new ActionListener() {
-
             public void actionPerformed(ActionEvent e) {
                 leftPane.removeAll();
                 rightPane.removeAll();
@@ -164,7 +183,6 @@ public class PageMarket {
                 }
                 leftPane.revalidate();
                 rightPane.revalidate();
-
             }
         });
 
@@ -213,6 +231,7 @@ public class PageMarket {
         MiscFunctions.addCardtoMasterCards(pane, "Browse");
     }
 
+    public static char bgColour;
     public static JLabel picLabel;
     public static BufferedImage composite;
     public static JFileChooser fc;
@@ -220,6 +239,9 @@ public class PageMarket {
     static File file; // store user input file path
     public static Apparel custom;
     public static Color textColour;
+    public static boolean isShirt;
+    public static boolean hasGenerated = false;
+
     public static void createPageCustom() throws IOException {
         JPanel pane = new JPanel(new BorderLayout()); // main pane
         MiscFunctions.addDefaultComponentsToPane(pane, "Market", 1);
@@ -228,8 +250,8 @@ public class PageMarket {
         pane.add(picLabel, BorderLayout.LINE_START);
         JPanel rightPane = new JPanel();
         rightPane.setLayout(new BoxLayout(rightPane, BoxLayout.Y_AXIS));
-        rightPane.add(new JLabel("Name(Max 20 chars)")); //Name Label
-        JTextField tfName = new JTextField("", 20);
+        rightPane.add(new JLabel("Name(Max 20 chars)")); // Name Label
+        JTextField tfName = new JTextField(20);
         rightPane.add(tfName);
         tfName.setMaximumSize(new Dimension(380, 20));
         rightPane.add(new JLabel("Style"));
@@ -274,22 +296,27 @@ public class PageMarket {
         rightPane.add(new JLabel("Text Colour"));
         String s[] = { "White", "Black", "Red", "Blue", "Green" };
         JComboBox<String> cbColour = new JComboBox<String>(s);
-        cbColour.setMaximumSize(new Dimension(100,20));
+        cbColour.setMaximumSize(new Dimension(100, 20));
         cbColour.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
                 String s = (String) cbColour.getSelectedItem();
-                   if(s=="White") textColour = Color.WHITE;
-                   else if(s=="Black") textColour= Color.BLACK;
-                   else if(s=="Red") textColour= Color.RED;
-                   else if(s=="Blue") textColour= Color.BLUE;
-                   else textColour= Color.GREEN;
-            
-                }
+                if (s == "White")
+                    textColour = Color.WHITE;
+                else if (s == "Black")
+                    textColour = Color.BLACK;
+                else if (s == "Red")
+                    textColour = Color.RED;
+                else if (s == "Blue")
+                    textColour = Color.BLUE;
+                else
+                    textColour = Color.GREEN;
+
+            }
         });
         rightPane.add(cbColour);
-        JButton btnUpload = new JButton("Upload a .png...", new ImageIcon("img/folder.png"));
-        btnUpload.setMaximumSize(new Dimension(180, 30));
+        JButton btnUpload = new JButton("Upload .png...", new ImageIcon("img/folder.png"));
+        btnUpload.setMaximumSize(new Dimension(200, 30));
         btnUpload.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (fc == null) {
@@ -323,16 +350,23 @@ public class PageMarket {
                     BufferedImage back = composite;
                     String type;
                     String colour;
-                    if (btnTshirt.isSelected())
+                    if (btnTshirt.isSelected()) {
                         type = "shirt";
-                    else
+                        isShirt = true;
+                    } else {
                         type = "hoodie";
-                    if (btnBlack.isSelected())
+                        isShirt = false;
+                    }
+                    if (btnBlack.isSelected()) {
                         colour = "black";
-                    else if (btnTurquoise.isSelected())
+                        bgColour = 'B';
+                    } else if (btnTurquoise.isSelected()) {
                         colour = "turquoise";
-                    else
+                        bgColour = 'T';
+                    } else {
                         colour = "orange";
+                        bgColour = 'O';
+                    }
 
                     try {
                         back = MiscFunctions.resizeImage(ImageIO.read(new File("img/" + colour + type + ".png")), 300,
@@ -357,11 +391,49 @@ public class PageMarket {
                     pane.add(picLabel, BorderLayout.LINE_START);
                     pane.revalidate();
                     pane.repaint();
+                    hasGenerated = true;
                 }
             }
         });
-        btnGenerate.setMaximumSize(new Dimension(100, 30));
+        btnGenerate.setMaximumSize(new Dimension(150, 30));
+        rightPane.add(Box.createRigidArea(new Dimension(0, 10)));
         rightPane.add(btnGenerate);
+        JPanel btm = (JPanel) pane.getComponent(0); // get btmPane
+        btm.add(Box.createHorizontalGlue());
+        JButton btnFinal = new JButton("Finish");
+        btm.add(btnFinal);
+        btnFinal.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (tfName.getText().equals("")) {
+                    JOptionPane.showMessageDialog(pane, "Please enter a name!", "", JOptionPane.WARNING_MESSAGE);
+                } else if (!hasGenerated) {
+                    JOptionPane.showMessageDialog(pane, "Please generate a design!", "", JOptionPane.WARNING_MESSAGE);
+
+                } else {
+                    custom.setShirtName(tfName.getText());
+                    if (isShirt) {
+                        custom.setBasePrice(20.00);
+                        custom.setShirtType('S');
+                    } else {
+                        custom.setBasePrice(22.00);
+                        custom.setShirtType('H');
+                    }
+                    custom.setBgColor(bgColour);
+                    custom.setShirtImg(new ImageIcon(composite));
+                    try {
+
+                        custom.generatePane(ApparelType.CUSTOM);
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
+                    frame = new JFrame(custom.getShirtName());
+                    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    frame.setSize(600, 400);
+                    frame.add(custom.pane);
+                    frame.setVisible(true);
+                }
+            }
+        });
         pane.add(rightPane, BorderLayout.CENTER);
         MiscFunctions.addCardtoMasterCards(pane, "Custom");
     }

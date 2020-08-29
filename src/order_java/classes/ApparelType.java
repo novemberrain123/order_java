@@ -1,13 +1,35 @@
 package order_java.classes;
 
-import order_java.GUI.*;
-import java.awt.image.*;
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
-import javax.imageio.*;
-import java.io.*;
+import javax.imageio.ImageIO;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerModel;
+import javax.swing.SpinnerNumberModel;
+
+import order_java.GUI.MiscFunctions;
+import order_java.GUI.PageMarket;
 
 public class ApparelType implements ActionListener {
     private String shirtName;
@@ -33,7 +55,7 @@ public class ApparelType implements ActionListener {
                 basePrice = 22;
         }
         this.img = img;
-        generatePane();
+        generatePane(BROWSE);
     }
 
     public String getShirtName() {
@@ -105,20 +127,31 @@ public class ApparelType implements ActionListener {
 
     JLabel picLabel;
     JLabel price;
+    ButtonGroup bgGroup;
+    int g;
+    public static final int CUSTOM = 1;
+    public static final int BROWSE = 0;
 
-    public void generatePane() throws IOException {
+    public void generatePane(int t) throws IOException { // param for custom apparel add to cart window without bgColor
+                                                         // setting
         pane = new JPanel(new BorderLayout());
         BufferedImage back;
+        String typeString;
         // set background bufferedimage; either hoodie or shirt;
         if (shirtType == 'S') {
-            back = ImageIO.read(new File("img/blackshirt.png"));
+            typeString = "shirt";
         } else {
-            back = ImageIO.read(new File("img/blackhoodie.png"));
+            typeString = "hoodie";
         }
+        back = ImageIO.read(new File("img/black"+ typeString + ".png"));
         back = MiscFunctions.resizeImage(back, 300, 300);
         img = MiscFunctions.resizeImage(img, 150, 200);
         // create combined img
-        composite = generateComposite(back);
+        if (t == CUSTOM) {
+            composite = PageMarket.composite;
+        } else {
+            composite = generateComposite(back);
+        }
         // give label to combined image and cast as ImageIcon and add to main JPanel
         picLabel = new JLabel(new ImageIcon(composite));
         pane.add(picLabel, BorderLayout.LINE_START);
@@ -132,28 +165,33 @@ public class ApparelType implements ActionListener {
         rightPane.add(Box.createRigidArea(new Dimension(0, 50)));
         rightPane.add(name);
         // bgcolor radio buttons
-        JRadioButton btnBlack = new JRadioButton("Black");
-        JRadioButton btnTurquoise = new JRadioButton("Turquoise");
-        JRadioButton btnOrange = new JRadioButton("Orange");
-        btnBlack.setActionCommand("black");
-        btnTurquoise.setActionCommand("turquoise");
-        btnOrange.setActionCommand("orange");
-        btnBlack.addActionListener(this);
-        btnTurquoise.addActionListener(this);
-        btnOrange.addActionListener(this);
+        if (t == BROWSE) {
+            g = 5;
+            JRadioButton btnBlack = new JRadioButton("Black");
+            JRadioButton btnTurquoise = new JRadioButton("Turquoise");
+            JRadioButton btnOrange = new JRadioButton("Orange");
+            btnBlack.setActionCommand("black");
+            btnTurquoise.setActionCommand("turquoise");
+            btnOrange.setActionCommand("orange");
+            btnBlack.addActionListener(this);
+            btnTurquoise.addActionListener(this);
+            btnOrange.addActionListener(this);
 
-        ButtonGroup bgGroup = new ButtonGroup();
-        bgGroup.add(btnBlack);
-        bgGroup.add(btnTurquoise);
-        bgGroup.add(btnOrange);
-        btnBlack.setSelected(true);
-        JPanel bgPanel = new JPanel();
-        bgPanel.setLayout(new BoxLayout(bgPanel, BoxLayout.X_AXIS));
-        bgPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        bgPanel.add(btnBlack);
-        bgPanel.add(btnTurquoise);
-        bgPanel.add(btnOrange);
-        rightPane.add(bgPanel);
+            bgGroup = new ButtonGroup();
+            bgGroup.add(btnBlack);
+            bgGroup.add(btnTurquoise);
+            bgGroup.add(btnOrange);
+            btnBlack.setSelected(true);
+            JPanel bgPanel = new JPanel();
+            bgPanel.setLayout(new BoxLayout(bgPanel, BoxLayout.X_AXIS));
+            bgPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+            bgPanel.add(btnBlack);
+            bgPanel.add(btnTurquoise);
+            bgPanel.add(btnOrange);
+            rightPane.add(bgPanel);
+        } else
+            g = 4; // for replacing price label when switching size
+
         // size radio buttons
         JRadioButton btnS = new JRadioButton("S");
         JRadioButton btnM = new JRadioButton("M");
@@ -198,16 +236,33 @@ public class ApparelType implements ActionListener {
             public void actionPerformed(ActionEvent e) {
                 int q = (int) quantity.getValue();
                 char size = sizeGroup.getSelection().getActionCommand().charAt(0);
-                char bg = Character.toUpperCase(bgGroup.getSelection().getActionCommand().charAt(0));
-                try {
-                    user.getOrder().addShirtToOrder(
-                            new Apparel(shirtName, shirtType, img, size, bg, new ImageIcon(composite), q));
-                } catch (IOException e1) {
-                    e1.printStackTrace();
+                char bg;
+                String bgString = "";//
+                if (t == BROWSE) {
+                    bg = Character.toUpperCase(bgGroup.getSelection().getActionCommand().charAt(0));
+                    bgString = bgGroup.getSelection().getActionCommand();
+                    try {
+                        user.getOrder().addShirtToOrder(
+                                new Apparel(shirtName, shirtType, img, size, bg, new ImageIcon(composite), q));
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
+                } else { // for custom apparel
+                    PageMarket.custom.setSize(size);
+                    PageMarket.custom.setQuantity(q);
+                    PageMarket.custom.setPriceAndIncrementTotalSold();
+                    if (PageMarket.custom.getBgColor() == 'B')
+                        bgString = "black";
+                    else if (PageMarket.custom.getBgColor() == 'T')
+                        bgString = "turquoise";
+                    else
+                        bgString = "orange";
+
+                    user.getOrder().addShirtToOrder(PageMarket.custom);
                 }
                 PageMarket.frame.dispatchEvent(new WindowEvent(PageMarket.frame, WindowEvent.WINDOW_CLOSING));
-                JOptionPane.showMessageDialog(MiscFunctions.frame, q + " " + size + " "
-                        + bgGroup.getSelection().getActionCommand() + " " + shirtName + " added to cart.", "",
+                JOptionPane.showMessageDialog(MiscFunctions.frame,
+                        q + " " + size + " " + bgString + " " + shirtName + " added to cart.", "",
                         JOptionPane.INFORMATION_MESSAGE);
             }
         });
@@ -257,7 +312,7 @@ public class ApparelType implements ActionListener {
         Graphics g = composite.getGraphics();
         g.drawImage(back, 0, 0, null);
         g.drawImage(img, 75, 70, null);
-        if (c != null) {
+        if (s != null) {
             Font font = new Font("Comic Sans MS", Font.BOLD, 13);
             FontMetrics metrics = g.getFontMetrics(font);
             int x = back.getWidth() / 2 - metrics.stringWidth(s) / 2;
@@ -314,13 +369,13 @@ public class ApparelType implements ActionListener {
             } else if (shownPrice != 27) {
                 shownPrice = 27;
             }
-            rightPane.remove(5);
+            rightPane.remove(g);
             pane.revalidate();
             pane.repaint();
             JLabel price = new JLabel(String.format("RM %.2f", shownPrice));
             price.setFont(new Font(new JLabel().getFont().toString(), Font.PLAIN, 20));
             price.setAlignmentX(Component.LEFT_ALIGNMENT);
-            rightPane.add(price, 5);
+            rightPane.add(price, g);
             rightPane.revalidate();
             rightPane.repaint();
         }
