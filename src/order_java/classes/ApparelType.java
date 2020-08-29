@@ -200,10 +200,11 @@ public class ApparelType implements ActionListener {
                 char size = sizeGroup.getSelection().getActionCommand().charAt(0);
                 char bg = Character.toUpperCase(bgGroup.getSelection().getActionCommand().charAt(0));
                 try {
-					user.getOrder().addShirtToOrder(new Apparel(shirtName,shirtType,img,size,bg,new ImageIcon(composite),q));
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
+                    user.getOrder().addShirtToOrder(
+                            new Apparel(shirtName, shirtType, img, size, bg, new ImageIcon(composite), q));
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
                 PageMarket.frame.dispatchEvent(new WindowEvent(PageMarket.frame, WindowEvent.WINDOW_CLOSING));
                 JOptionPane.showMessageDialog(MiscFunctions.frame, q + " " + size + " "
                         + bgGroup.getSelection().getActionCommand() + " " + shirtName + " added to cart.", "",
@@ -219,20 +220,16 @@ public class ApparelType implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-        if (shirtType == 'S') {
-            try {
-                composite = generateComposite(MiscFunctions
-                        .resizeImage(ImageIO.read(new File("img/" + e.getActionCommand() + "shirt.png")), 300, 300));
-            } catch (IOException io) {
-                throw new RuntimeException(io);
-            }
-        } else {
-            try {
-                composite = generateComposite(MiscFunctions
-                        .resizeImage(ImageIO.read(new File("img/" + e.getActionCommand() + "hoodie.png")), 300, 300));
-            } catch (IOException io) {
-                throw new RuntimeException(io);
-            }
+        String type;
+        if (shirtType == 'S')
+            type = "shirt";
+        else
+            type = "hoodie";
+        try {
+            composite = generateComposite(MiscFunctions
+                    .resizeImage(ImageIO.read(new File("img/" + e.getActionCommand() + type + ".png")), 300, 300));
+        } catch (IOException io) {
+            throw new RuntimeException(io);
         }
         pane.remove(picLabel);
         pane.revalidate();
@@ -244,14 +241,30 @@ public class ApparelType implements ActionListener {
     }
 
     public BufferedImage generateComposite(BufferedImage back) {
-        int w = back.getWidth();
-        int h = back.getHeight();
-        BufferedImage composite = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+        BufferedImage composite = new BufferedImage(back.getWidth(), back.getHeight(), BufferedImage.TYPE_INT_ARGB);
 
         Graphics g = composite.getGraphics();
         g.drawImage(back, 0, 0, null);
         g.drawImage(img, 75, 70, null);
 
+        g.dispose();
+        return composite;
+    }
+
+    public BufferedImage generateComposite(BufferedImage back, String s, Color c) {
+        BufferedImage composite = new BufferedImage(back.getWidth(), back.getHeight(), BufferedImage.TYPE_INT_ARGB);
+
+        Graphics g = composite.getGraphics();
+        g.drawImage(back, 0, 0, null);
+        g.drawImage(img, 75, 70, null);
+        if (c != null) {
+            Font font = new Font("Comic Sans MS", Font.BOLD, 13);
+            FontMetrics metrics = g.getFontMetrics(font);
+            int x = back.getWidth() / 2 - metrics.stringWidth(s) / 2;
+            g.setFont(font);
+            g.setColor(c);
+            g.drawString(s, x, 60);
+        }
         g.dispose();
         return composite;
     }
@@ -263,13 +276,13 @@ public class ApparelType implements ActionListener {
             img[i] = ImageIO.read(new File("img/browse9" + i + ".png"));
         }
         apparels[0] = new ApparelType("Supermind T-Shirt", 'S', img[0]);
-        apparels[1] = new ApparelType("Mountain T-Shirt",  'S', img[1]);
-        apparels[2] = new ApparelType("Jurassic T-Shirt",  'S', img[2]);
-        apparels[3] = new ApparelType("Leonardo Da Corona T-Shirt",'S', img[3]);
+        apparels[1] = new ApparelType("Mountain T-Shirt", 'S', img[1]);
+        apparels[2] = new ApparelType("Jurassic T-Shirt", 'S', img[2]);
+        apparels[3] = new ApparelType("Leonardo Da Corona T-Shirt", 'S', img[3]);
         apparels[4] = new ApparelType("Green T-Shirt", 'S', img[4]);
-        apparels[5] = new ApparelType("Heaven T-Shirt",  'S', img[5]);
+        apparels[5] = new ApparelType("Heaven T-Shirt", 'S', img[5]);
         apparels[6] = new ApparelType("Marriage Hoodie", 'H', img[6]);
-        apparels[7] = new ApparelType("WayTooDank Hoodie",  'H', img[7]);
+        apparels[7] = new ApparelType("WayTooDank Hoodie", 'H', img[7]);
         apparels[8] = new ApparelType("FoxNews Hoodie", 'H', img[8]);
         apparels[9] = new ApparelType("Inspirational Hoodie", 'H', img[9]);
 

@@ -12,7 +12,6 @@ public class Order {
     public Order() {
         orderID = count + 100;
         count += 1;
-        this.shirts = shirts;
         numofShirts = shirts.size();
         date = new Date();
     }

@@ -20,6 +20,7 @@ public class MiscFunctions {
         // PageMemberLogin.createPageMember(); // "MemberLogin", pass=12345oop , name=limjunshen,ganyihwee,johnwick
         PageMarket.createPageMarket();  //"Market"
         PageMarket.createPageBrowse(); //"Browse"
+        PageMarket.createPageCustom(); //"Custom"
         PagePayMethod.createPagePayMethod(); //"Pay Method"
         PageMembership.createPageMembership(); //"Membership"
         PagePaymentDetails.createPagePaymentDetails(); // "Payment Details"

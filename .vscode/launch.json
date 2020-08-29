@@ -8,13 +8,6 @@
       "type": "java",
       "name": "CodeLens (Launch) - Main",
       "request": "launch",
-      "mainClass": "order_java.GUI.Main",
-      "projectName": "order_java_efbbdd73"
-    },
-    {
-      "type": "java",
-      "name": "CodeLens (Launch) - Main",
-      "request": "launch",
       "mainClass": "order_java.Main"
     },
     {
