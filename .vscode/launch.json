@@ -4,18 +4,13 @@
   // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
   "version": "0.2.0",
   "configurations": [
+  
     {
       "type": "java",
       "name": "CodeLens (Launch) - Main",
       "request": "launch",
       "mainClass": "order_java.GUI.Main",
       "projectName": "order_java_efbbdd73"
-    },
-    {
-      "type": "java",
-      "name": "CodeLens (Launch) - Main",
-      "request": "launch",
-      "mainClass": "order_java.Main"
     },
     {
       "type": "java",
