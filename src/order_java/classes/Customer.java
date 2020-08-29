@@ -1,98 +1,98 @@
 package order_java.classes;
 
 public class Customer {
-    String name;
-    String address;
-    String phoneNo;
-    Order order;
-    CardInfo cardInfo;
-    CashPayment cash;
+    private String name;
+    private String address;
+    private String phoneNo;
+    private Order order;
+    private CardInfo cardInfo;
+    private CashPayment cash;
     private static Customer user;
 
-    public Customer(){
+    public Customer() {
 
     }
 
-    public Customer(String name){
+    public Customer(String name) {
         this.name = name;
     }
 
-    public Customer(Order order){
+    public Customer(Order order) {
         this.order = order;
     }
 
-    public static void createCustomer(Order order){ // Create a customer object once an order is made
+    public static void createCustomer(Order order) { // Create a customer object once an order is made
         user = new Customer(order);
     }
 
     // Used to create regular member at the beginning of the program
-    public static void createMember(String name, int memberID, String password, int points){ 
+    public static void createMember(String name, int memberID, String password, int points) {
         user = new Member(name, memberID, password, points);
     }
 
-    public static void setNewMember(){
+    public static void setNewMember() {
         user = new Member();
     }
 
-    public static void transferOrder(Order order){
+    public static void transferOrder(Order order) {
         user.setOrder(order);
     }
 
-    public static void setNewMemberDetails(String name, String address, String phoneNo){
+    public static void setNewMemberDetails(String name, String address, String phoneNo) {
         user.setName(name);
         user.setAddress(address);
         user.setPhoneNo(phoneNo);
     }
 
-    public static Customer getCustomer(){ 
+    public static Customer getCustomer() {
         return user;
     }
 
-    public void setName(String name){
+    public void setName(String name) {
         this.name = name;
     }
 
-    public String getName(){
+    public String getName() {
         return name;
     }
 
-    public void setAddress(String address){
+    public void setAddress(String address) {
         this.address = address;
     }
 
-    public String getAddress(){
+    public String getAddress() {
         return address;
     }
 
-    public void setPhoneNo(String phoneNo){
+    public void setPhoneNo(String phoneNo) {
         this.phoneNo = phoneNo;
     }
 
-    public String getPhoneNo(){
+    public String getPhoneNo() {
         return phoneNo;
     }
 
-    public void setOrder(Order order){
+    public void setOrder(Order order) {
         this.order = order;
     }
 
-    public Order getOrder(){
+    public Order getOrder() {
         return order;
     }
 
-    public void setCardInfo(CardInfo cardInfo){
+    public void setCardInfo(CardInfo cardInfo) {
         this.cardInfo = cardInfo;
     }
 
-    public CardInfo getCardInfo(){
+    public CardInfo getCardInfo() {
         return cardInfo;
     }
 
-    public void setCashPayment(CashPayment cash){
+    public void setCashPayment(CashPayment cash) {
         this.cash = cash;
     }
 
-    public CashPayment getCashPayment(){
+    public CashPayment getCashPayment() {
         return cash;
     }
 }

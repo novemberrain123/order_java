@@ -23,10 +23,15 @@ public class ApparelType implements ActionListener {
     public ApparelType() {
     }
 
-    public ApparelType(String shirtName, double basePrice, char shirtType, BufferedImage img) throws IOException {
+    public ApparelType(String shirtName, char shirtType, BufferedImage img) throws IOException {
         this.shirtName = shirtName;
-        this.basePrice = basePrice;
         this.shirtType = shirtType;
+        switch (shirtType) {
+            case 'S':
+                basePrice = 20;
+            case 'H':
+                basePrice = 22;
+        }
         this.img = img;
         generatePane();
     }
@@ -187,12 +192,18 @@ public class ApparelType implements ActionListener {
         rightPane.add(quantity);
         // add to cart button
         JButton btnAddtoCart = new JButton("Add to Cart");
+        Customer.createCustomer(new Order());
+        Customer user = Customer.getCustomer();
         btnAddtoCart.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 int q = (int) quantity.getValue();
                 char size = sizeGroup.getSelection().getActionCommand().charAt(0);
                 char bg = Character.toUpperCase(bgGroup.getSelection().getActionCommand().charAt(0));
-                Apparel.apparelsInOrder.add(new Apparel(size, bg, new ImageIcon(composite), q));
+                try {
+					user.getOrder().addShirtToOrder(new Apparel(shirtName,shirtType,img,size,bg,new ImageIcon(composite),q));
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
                 PageMarket.frame.dispatchEvent(new WindowEvent(PageMarket.frame, WindowEvent.WINDOW_CLOSING));
                 JOptionPane.showMessageDialog(MiscFunctions.frame, q + " " + size + " "
                         + bgGroup.getSelection().getActionCommand() + " " + shirtName + " added to cart.", "",
@@ -251,59 +262,54 @@ public class ApparelType implements ActionListener {
         for (int i = 0; i < 10; i++) {
             img[i] = ImageIO.read(new File("img/browse9" + i + ".png"));
         }
-        apparels[0] = new ApparelType("Supermind T-Shirt", 20.00, 'S', img[0]);
-        apparels[1] = new ApparelType("Mountain T-Shirt", 20.00, 'S', img[1]);
-        apparels[2] = new ApparelType("Jurassic T-Shirt", 20.00, 'S', img[2]);
-        apparels[3] = new ApparelType("Leonardo Da Corona T-Shirt", 20.00, 'S', img[3]);
-        apparels[4] = new ApparelType("Green T-Shirt", 20.00, 'S', img[4]);
-        apparels[5] = new ApparelType("Heaven T-Shirt", 20.00, 'S', img[5]);
-        apparels[6] = new ApparelType("Marriage Hoodie", 22.00, 'H', img[6]);
-        apparels[7] = new ApparelType("WayTooDank Hoodie", 22.00, 'H', img[7]);
-        apparels[8] = new ApparelType("FoxNews Hoodie", 22.00, 'H', img[8]);
-        apparels[9] = new ApparelType("Inspirational Hoodie", 22.00, 'H', img[9]);
+        apparels[0] = new ApparelType("Supermind T-Shirt", 'S', img[0]);
+        apparels[1] = new ApparelType("Mountain T-Shirt",  'S', img[1]);
+        apparels[2] = new ApparelType("Jurassic T-Shirt",  'S', img[2]);
+        apparels[3] = new ApparelType("Leonardo Da Corona T-Shirt",'S', img[3]);
+        apparels[4] = new ApparelType("Green T-Shirt", 'S', img[4]);
+        apparels[5] = new ApparelType("Heaven T-Shirt",  'S', img[5]);
+        apparels[6] = new ApparelType("Marriage Hoodie", 'H', img[6]);
+        apparels[7] = new ApparelType("WayTooDank Hoodie",  'H', img[7]);
+        apparels[8] = new ApparelType("FoxNews Hoodie", 'H', img[8]);
+        apparels[9] = new ApparelType("Inspirational Hoodie", 'H', img[9]);
 
     }
 
     class SizeActionListener implements ActionListener {
-        public void actionPerformed(ActionEvent e){
-           if(e.getActionCommand()=="S") {
-               if(shirtType=='S'){
-                    if(shownPrice!=15){
-                        shownPrice=15;
+        public void actionPerformed(ActionEvent e) {
+            if (e.getActionCommand() == "S") {
+                if (shirtType == 'S') {
+                    if (shownPrice != 15) {
+                        shownPrice = 15;
                     }
-                
-               }
-               else if(shownPrice!=17){
-                    shownPrice=17;
-               }
-           }
-           else if(e.getActionCommand()=="M"){
-               if(shirtType=='S'){
-                   if (shownPrice!=20){
-                       shownPrice=20;
-                   }
-               }
-               else if(shownPrice!=22){
-                   shownPrice=22;
-               }
-           }
-           else if(shirtType=='S'){
-               if(shownPrice!=25){
-                   shownPrice=25;
-               }
-           }
-           else if(shownPrice!=27){
-               shownPrice=27;
-           }
-           rightPane.remove(5);
-           pane.revalidate();
-           pane.repaint();
-           JLabel price = new JLabel(String.format("RM %.2f", shownPrice));
+
+                } else if (shownPrice != 17) {
+                    shownPrice = 17;
+                }
+            } else if (e.getActionCommand() == "M") {
+                if (shirtType == 'S') {
+                    if (shownPrice != 20) {
+                        shownPrice = 20;
+                    }
+                } else if (shownPrice != 22) {
+                    shownPrice = 22;
+                }
+            } else if (shirtType == 'S') {
+                if (shownPrice != 25) {
+                    shownPrice = 25;
+                }
+            } else if (shownPrice != 27) {
+                shownPrice = 27;
+            }
+            rightPane.remove(5);
+            pane.revalidate();
+            pane.repaint();
+            JLabel price = new JLabel(String.format("RM %.2f", shownPrice));
             price.setFont(new Font(new JLabel().getFont().toString(), Font.PLAIN, 20));
             price.setAlignmentX(Component.LEFT_ALIGNMENT);
-           rightPane.add(price,5);
-           rightPane.revalidate();
-           rightPane.repaint();
+            rightPane.add(price, 5);
+            rightPane.revalidate();
+            rightPane.repaint();
         }
     }
 }
