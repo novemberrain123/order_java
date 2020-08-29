@@ -1,7 +1,7 @@
 package order_java.GUI;
 
-import java.io.File;  // Import the File class
-import java.io.FileNotFoundException;  // Import this class to handle errors
+import java.io.File; // Import the File class
+import java.io.FileNotFoundException; // Import this class to handle errors
 import java.sql.SQLOutput;
 import java.util.Arrays;
 import java.util.Scanner; // Import the Scanner class to read text files
@@ -17,64 +17,60 @@ import java.awt.event.ActionListener;
 import java.lang.*;
 import java.lang.reflect.Member;
 
+public class PageMemberLogin {
 
-public class PageMemberLogin  {
-
-    public static void createPageMember(){
-        
-        
-
+    public static void createPageMember() {
 
         JPanel pane = new JPanel(new BorderLayout());
-        MiscFunctions.addDefaultComponentsToPane(pane, "Home",2);
-        //create a controlPanel that included login panel and name Pane
+        MiscFunctions.addDefaultComponentsToPane(pane, "Home", 2);
+        // create a controlPanel that included login panel and name Pane
         JPanel controlPanel = new JPanel();
         controlPanel.setLayout(new BoxLayout(controlPanel, BoxLayout.PAGE_AXIS));
 
-        JPanel login =new JPanel();
+        JPanel login = new JPanel();
         login.setLayout(new BoxLayout(login, BoxLayout.X_AXIS));
         JLabel loginx = new JLabel("SUPERMIND T-SHIRT MEMBER LOGIN");
         login.add(loginx);
         loginx.setFont(new Font("SansSerif", Font.BOLD, 17));
         login.setAlignmentX(Component.CENTER_ALIGNMENT);
-        JPanel memberID=new JPanel();
+        JPanel memberID = new JPanel();
         memberID.setLayout(new BoxLayout(memberID, BoxLayout.X_AXIS));
-        memberID.add(new JLabel ("Name        :  "));
+        memberID.add(new JLabel("MemberID :  "));
         JTextField memberIDlogin = new JTextField(10);
         memberID.add(memberIDlogin);
         memberID.setMaximumSize(new Dimension(171, 20));
         memberID.setAlignmentX(Component.CENTER_ALIGNMENT);
-        
-        JButton btnLogin=new JButton("LOGIN");
+
+        JButton btnLogin = new JButton("LOGIN");
         btnLogin.setLayout(new BoxLayout(btnLogin, BoxLayout.X_AXIS));
         btnLogin.setMaximumSize(new Dimension(100, 20));
         btnLogin.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        JPanel pass=new JPanel();
-        pass.add(new JLabel("Password :"));
+        JPanel pass = new JPanel();
+        pass.add(new JLabel("Password   :"));
         JPasswordField passwordField = new JPasswordField(10);
         passwordField.setMaximumSize(new Dimension(100, 20));
-        
-        String memberId = memberIDlogin.getText();
-        String password = String.valueOf(passwordField.getPassword());
-        
-        
+
 
         btnLogin.addActionListener(new ActionListener() {
             @Override
-                public void actionPerformed(ActionEvent e) {
-                   
-                    if (performCheck(memberId, password)==true) {
-                         CardLayout cl = (CardLayout)(MiscFunctions.masterCards.getLayout());
-                         cl.show(MiscFunctions.masterCards,"Market");
-                         order_java.classes.Member newMember = new order_java.classes.Member(password);
-                         
-                         
+            public void actionPerformed(ActionEvent e) {
 
-                       
+                String memberId = memberIDlogin.getText();
+                String password = String.valueOf(passwordField.getPassword());
+                try {  
+                   
+                    if (performCheck(memberId, password) == true) {
+                        CardLayout cl = (CardLayout) (MiscFunctions.masterCards.getLayout());
+                        cl.show(MiscFunctions.masterCards, "Market");
+                        
+
                     } else {
                         JOptionPane.showMessageDialog(null, "Incorrect password");
                     }
+                } catch (HeadlessException | FileNotFoundException e1) {
+                    e1.printStackTrace();
+                }
                 }
             });
             
@@ -106,31 +102,40 @@ public class PageMemberLogin  {
 
 
 
-    private static boolean performCheck(String id, String pass) {
-        boolean match=false;
-        StringBuilder check = new StringBuilder(id);
-        check.append(id+"-"+pass+"-");
-       
-        try {
-            File myObj = new File("D:\\JAVA\\order_java\\ID\\members.txt");
-            Scanner myReader = new Scanner(myObj);
-            while (myReader.hasNextLine()) 
+    private static boolean performCheck(String id, String pass) throws FileNotFoundException {
+        boolean x =false;
+        File myObj = new File("./././ID/members.txt");
+        Scanner read = new Scanner(myObj);
+        read.useDelimiter("[\\s]+");
+
+        String memID;
+        String memPass;
+        String memPoints;
+        String name;
+        
+            while (read.hasNextLine() && read.hasNext() )
             {
-                if (check.toString().equals(myReader.nextLine())) {
-                    match=true;
-                    break;
-                }
-                else
-                    match=false;
+
+                    memID = read.next();
+                    memPass = read.next();
+                    memPoints = read.next();
+                    name=read.next();
+
+                    if(memID.equals(id) && memPass.equals(pass))
+                    {
+
+                        x=true;
+                        int ID =Integer.parseInt(memID);
+                        double points = Double.parseDouble(memPoints);
+                        order_java.classes.Member member = new order_java.classes.Member(name,ID,memPass,points);
+                        break;
+                    }
             }
+           
 
 
-            myReader.close();
-        } catch (FileNotFoundException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
-        }
-        return match;
+        read.close();
+        return x;
     }
    
 

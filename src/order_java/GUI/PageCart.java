@@ -8,6 +8,11 @@ import java.awt.event.*;
 
 public class PageCart extends JFrame{
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = -2575850135525617539L;
+
     public static Image rescaleImage(ImageIcon img, int x, int y, int s) {
         Image image = img.getImage();
         Image newimg = image.getScaledInstance(x, y, s);
@@ -86,11 +91,8 @@ public class PageCart extends JFrame{
 
         JPanel newpanel = new JPanel();
 
-         newpanel.setLayout(new BoxLayout(newpanel, BoxLayout.Y_AXIS));
-//        newpanel.setSize(20,20);
-
-        for(int k=0;k<10;k++){
-           newpanel.add(nested1[k],BorderLayout.CENTER);
+        newpanel.setLayout(new BoxLayout(newpanel, BoxLayout.Y_AXIS));
+        // newpanel.setSize(20,20);
 
         for (int k = 0; k < 10; k++) {
             newpanel.add(nested1[k], BorderLayout.CENTER);

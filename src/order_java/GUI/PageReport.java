@@ -54,12 +54,12 @@ public class PageReport {
         };
         //actual data for the table in a 2d array
         Object[][] data = new Object[][]{
-                {"T-Shirt", "S", sold_S_T, sold_S_T,sales_S_T},
-                {"T-Shirt", "M", sold_M_T, sold_M_T,sales_M_T},
-                {"T-Shirt", "L", sold_L_T, sold_L_T,sales_L_T},
-                {"Hoodie", "S", sold_S_H, sold_S_H,sales_S_H},
-                {"Hoodie", "M", sold_M_H, sold_M_H,sales_M_H},
-                {"Hoodie", "L", sold_L_H, sold_L_H,sales_L_H},
+                {"T-Shirt", "S", order_java.classes.ReportData.getQuantity_S_Shirt(), order_java.classes.ReportData.getRevenue_S_Shirt()},
+                {"T-Shirt", "M", order_java.classes.ReportData.getQuantity_M_Shirt(), order_java.classes.ReportData.getRevenue_M_Shirt()},
+                {"T-Shirt", "L", order_java.classes.ReportData.getQuantity_L_Shirt(), order_java.classes.ReportData.getRevenue_L_Shirt()},
+                {"Hoodie", "S", order_java.classes.ReportData.getQuantity_S_Hoodie(), order_java.classes.ReportData.getRevenue_S_Hoodie()},
+                {"Hoodie", "M",  order_java.classes.ReportData.getQuantity_M_Hoodie(), order_java.classes.ReportData.getRevenue_M_Hoodie()},
+                {"Hoodie", "L", order_java.classes.ReportData.getQuantity_L_Hoodie(), order_java.classes.ReportData.getRevenue_L_Hoodie()},
         };
 
 
@@ -96,7 +96,7 @@ public class PageReport {
         card1.add(scrollPane,BorderLayout.CENTER);
 
         JPanel card2 = new JPanel();
-        JTextArea HistoryText = new JTextArea(20, 40);
+        JTextArea HistoryText = new JTextArea(20, 35);
 
 
         HistoryText.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -130,8 +130,6 @@ public class PageReport {
         
         
         pane.add(tabbedPane, BorderLayout.CENTER);
-        
-
         MiscFunctions.addCardtoMasterCards(pane, "Reports");
 
     }
