@@ -1,16 +1,32 @@
 package order_java.classes;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerModel;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
-public class Apparel extends ApparelType {
+
+public class Apparel extends ApparelType implements ActionListener {
     private char size;
     private double price;
     private char bgColor;
     private ImageIcon shirtImg;
     private int quantity;
+    private JPanel apparelPane;
+
+  
+
     public static int totalSold[][] = { { 0, 0, 0 }, { 0, 0, 0 } }; // [Shirt[S,M,L],Hoodie[S,M,L]]
     public final static double prices[][] = { { 15, 20, 25 }, { 17, 22, 27 } }; // [Shirt[S,M,L],Hoodie[S,M,L]
 
@@ -25,12 +41,13 @@ public class Apparel extends ApparelType {
         this.shirtImg = shirtImg;
         this.quantity = quantity;
         setPriceAndIncrementTotalSold();
+
     }
 
     public void setPriceAndIncrementTotalSold() {
         switch (size) {// t-shirt:s,m,l:15,20,25 hoodie:17,22,27
             case 'S':
-                switch (getShirtType()){
+                switch (getShirtType()) {
                     case 'S':
                         price = 15;
                         totalSold[0][0] += quantity;
@@ -48,7 +65,7 @@ public class Apparel extends ApparelType {
                         totalSold[1][1] += quantity;
                 }
             case 'L':
-                switch (getShirtType()){
+                switch (getShirtType()) {
                     case 'S':
                         price = 25;
                         totalSold[0][2] += quantity;
@@ -85,6 +102,34 @@ public class Apparel extends ApparelType {
         }
     }
 
+    public void generateApparelPane() {
+        apparelPane = new JPanel();  
+        JButton cancelbtn = new JButton("x");
+        JSpinner spinner = new JSpinner();
+        JLabel imagelabel = new JLabel(shirtImg);
+
+        SpinnerModel value = new SpinnerNumberModel(quantity, 0, 100, 1);
+        spinner = new JSpinner(value);
+        spinner.addChangeListener(new ChangeListener(){
+            public void stateChanged(ChangeEvent e)
+            {
+
+            }
+        });
+        apparelPane.add(imagelabel);
+        apparelPane.add(new JLabel("Size: " + size + " Color: " + bgColor));
+        apparelPane.add(spinner);
+        apparelPane.add(cancelbtn);
+        cancelbtn.addActionListener(this);
+
+    
+    }
+
+    public void actionPerformed (ActionEvent e)
+    {
+        Customer.getCustomer().getOrder().removeShirtFromOrder(this);
+
+    } 
     public char getSize() {
         return this.size;
     }
@@ -133,6 +178,14 @@ public class Apparel extends ApparelType {
         return prices;
     }
 
+    public JPanel getApparelPane() {
+        return this.apparelPane;
+    }
+
+    public void setApparelPane(JPanel apparelPane) {
+        this.apparelPane = apparelPane;
+    }
+
     @Override
     public boolean equals(Object o) {
         final Apparel other = (Apparel) o;
@@ -147,6 +200,9 @@ public class Apparel extends ApparelType {
         return "{" + " size='" + getSize() + "'" + ", price='" + getPrice() + "'" + ", bgColor='" + getBgColor() + "'"
                 + ", shirtImg='" + getShirtImg() + "'" + ", quantity='" + getQuantity() + "'" + "}";
     }
+
+
+    
 
 
 }

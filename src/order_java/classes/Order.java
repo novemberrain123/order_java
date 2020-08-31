@@ -15,7 +15,6 @@ import order_java.GUI.PageCart;
 import order_java.classes.Apparel;
 import order_java.classes.ApparelType;
 
-
 import java.awt.image.*;
 import javax.swing.*;
 import java.awt.*;
@@ -33,13 +32,11 @@ public class Order {
     public static JPanel Cartpane;
     public boolean visible = true;
 
-
     public Order() {
         orderID = count + 100;
         count += 1;
         numofShirts = shirts.size();
         date = new Date();
-        
 
     }
 
@@ -80,8 +77,6 @@ public class Order {
         return this;
     }
 
-    
-
     public void addShirtToOrder(Apparel a) {
         boolean isAdded = false;
         for (Apparel x : shirts) {
@@ -92,31 +87,29 @@ public class Order {
             if (isAdded == true)
                 break;
         }
-        if (isAdded == false)
+        if (isAdded == false) {
             shirts.add(a);
-        numofShirts += 1;
-
-        if(isAdded==true)
-        {PageCart.addtocart(a,PageCart.NEW_APPAREL);
+            numofShirts += 1;
+            a.generateApparelPane();
+            PageCart.addtocart(a, PageCart.NEW_APPAREL);
         }
-        else
-        {
-            PageCart.addtocart(a,PageCart.OLD_APPAREL);
-        }        
 
+        else {
+            PageCart.addtocart(a, PageCart.OLD_APPAREL);
+        }
 
     }
 
-
-
-    public void removeShirtFromOrder(Apparel a) {
+    public void removeShirtFromOrder(Apparel a) {  
         for (Apparel x : shirts) {
             if (x.equals(a)) {
+                PageCart.removeFromCart(shirts.indexOf(x));
                 x.decreaseTotalSold();
                 shirts.remove(x);
-                numofShirts -= 1;
+                numofShirts -= 1;     
                 break;
             }
+            
         }
     }
 
@@ -132,6 +125,6 @@ public class Order {
         return newimg;
     }
 
-   
- 
+
+
 }

@@ -76,77 +76,20 @@ public class PageCart extends JFrame {
 
     }
 
-    public static void addtocart(Apparel apparel, int t) {
-        // Cartpane = new JPanel(new BorderLayout());
+    public static void addtocart(Apparel apparel, int t) 
+    {
+         JPanel apparelPane = apparel.getApparelPane();
+         newpanel.add(apparelPane);
+         newpanel.revalidate();
+         newpanel.repaint();
 
-        // JPanel[] shirtPane = new JPanel[10];
+    }
 
-        JPanel temp = new JPanel();
-        JButton cancelbtn = new JButton("x");
-        JSpinner spinner = new JSpinner();
-
-        newpanel = new JPanel();
-        newpanel.setLayout(new BoxLayout(newpanel, BoxLayout.Y_AXIS));
-        Customer user = Customer.getCustomer();
-
-        JLabel imagelabel = new JLabel(apparel.getShirtImg());
-
-        int count = 0;
-        try {
-
-            if (t == NEW_APPAREL) {
-
-                // count=nested.indexOf(apparel);
-                SpinnerModel value = new SpinnerNumberModel(apparel.getQuantity(), 0, 100, 1);
-                spinner = new JSpinner(value);
-                temp.add(imagelabel);
-                temp.add(new JLabel("Size: " + apparel.getSize() + " Color: " + apparel.getBgColor()));
-                temp.add(spinner);
-                temp.add(cancelbtn);
-                cancelbtn.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        user.getOrder().removeShirtFromOrder(apparel);
-
-                    }
-                });
-
-                nested.add(new JPanel());
-                // newpanel.setSize(20,20);
-                newpanel.add(temp, BorderLayout.CENTER);
-                //
-
-            } else {
-                SpinnerModel value = new SpinnerNumberModel(apparel.getQuantity(), 0, 100, 1);
-                nested.add(spinner);
-            }
-
-            // MiscFunctions.addCardtoMasterCards(midPane1, "Cart");
-
-            JButton proceedbtn = new JButton("Proceed to Payment");
-            proceedbtn.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    int option = JOptionPane.showConfirmDialog(null,
-                            "Once proceed to payment section,\nyou can never navigate backward to previous page.\nAre you sure to continue ?",
-                            "Proceed to payment", JOptionPane.OK_CANCEL_OPTION);
-                    if (option == JOptionPane.OK_OPTION) {
-                        CardLayout cl = (CardLayout) (MiscFunctions.masterCards.getLayout());
-                        cl.show(MiscFunctions.masterCards, "Pay Method");
-                    }
-                }
-            });
-            newpanel.add(proceedbtn, BorderLayout.CENTER);
-
-        } catch (NullPointerException e) {
-            JPanel temp = new JPanel();
-            JLabel noItem = new JLabel("NO ITEM IN CART. Please close this window to continue shopping");
-            noItem.setFont(new Font("", Font.BOLD, 14));
-            temp.add(noItem, BorderLayout.CENTER);
-
-        }
-
-        pane.revalidate();
-        pane.repaint();
-
+    public static void removeFromCart(int i)
+    {
+       newpanel.remove(i);
+       newpanel.revalidate();
+       newpanel.repaint();
     }
 
 }

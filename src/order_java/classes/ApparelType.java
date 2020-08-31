@@ -251,6 +251,8 @@ public class ApparelType implements ActionListener {
                     PageMarket.custom.setSize(size);
                     PageMarket.custom.setQuantity(q);
                     PageMarket.custom.setPriceAndIncrementTotalSold();
+                    PageMarket.custom.generateApparelPane();
+                    
                     if (PageMarket.custom.getBgColor() == 'B')
                         bgString = "black";
                     else if (PageMarket.custom.getBgColor() == 'T')
