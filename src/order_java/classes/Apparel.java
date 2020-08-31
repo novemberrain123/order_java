@@ -143,4 +143,5 @@ public class Apparel extends ApparelType {
                 + ", shirtImg='" + getShirtImg() + "'" + ", quantity='" + getQuantity() + "'" + "}";
     }
 
+
 }

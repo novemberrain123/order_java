@@ -202,9 +202,12 @@ public class ApparelType implements ActionListener {
                 char size = sizeGroup.getSelection().getActionCommand().charAt(0);
                 char bg = Character.toUpperCase(bgGroup.getSelection().getActionCommand().charAt(0));
                 try {
-                    user.getOrder().addShirtToOrder(
-                            new Apparel(shirtName, shirtType, img, size, bg, new ImageIcon(composite), q));
-                            PageCart.addTOCart(user);
+                    Apparel apparel =new Apparel(shirtName, shirtType, img, size, bg, new ImageIcon(composite), q);
+                    user.getOrder().addShirtToOrder(apparel);
+                  
+                    
+                   
+                            
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
@@ -212,6 +215,8 @@ public class ApparelType implements ActionListener {
                 JOptionPane.showMessageDialog(MiscFunctions.frame, q + " " + size + " "
                         + bgGroup.getSelection().getActionCommand() + " " + shirtName + " added to cart.", "",
                         JOptionPane.INFORMATION_MESSAGE);
+                    
+                
             }
                 
         });
