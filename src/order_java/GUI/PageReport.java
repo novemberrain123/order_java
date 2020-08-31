@@ -1,8 +1,14 @@
 package order_java.GUI;
+
 import java.awt.*;
 import javax.swing.*;
+
+import order_java.classes.Apparel;
+import order_java.classes.Customer;
+
 import java.awt.event.MouseEvent.*;
 import java.lang.Object;
+import java.util.ArrayList;
 import java.util.EventObject;
 import java.awt.AWTEvent;
 import java.awt.event.ComponentEvent;
@@ -18,6 +24,7 @@ public class PageReport {
 
 
     public static void createPageReport() {
+        
         JPanel pane = new JPanel(new BorderLayout());
         MiscFunctions.addDefaultComponentsToPane(pane, "StaffLogin",2);
         //pane.setPreferredSize(new Dimension(400,400));
@@ -92,12 +99,30 @@ public class PageReport {
 
 
         //card1.add(new JScrollPane(ReportTable));
+        
+        
+      
+
+
         JScrollPane scrollPane= new JScrollPane(ReportTable);
         card1.add(scrollPane,BorderLayout.CENTER);
-
+        String historyrecord=" ";
+        Customer user = Customer.getCustomer();
         JPanel card2 = new JPanel();
         JTextArea HistoryText = new JTextArea(20, 35);
+        HistoryText.setEditable(false);
+        try
+        {
+        ArrayList<Apparel> shirts = new ArrayList<Apparel>();
+        shirts= user.getOrder().getShirts();
+         user.getOrder().getDate();
+         
+        for(Apparel apparel : shirts)
+        {
+            historyrecord=new String(user.getOrder().getOrderID()+"\n"+user.getOrder().getDate()+" "+apparel.getShirtName()+" "+apparel.getQuantity()+" "+user.getOrder().getNumofShirts());
 
+        }
+        
 
         HistoryText.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -112,14 +137,22 @@ public class PageReport {
                 }
             }
         });
-
+        HistoryText.setText(historyrecord);
+        
+    }
+    catch(NullPointerException e)
+    {
+        historyrecord=" ";
+        JScrollPane scrollpane = new JScrollPane(HistoryText);
+        scrollpane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollpane.setVisible(true);
+    }
 
         JScrollPane scrollpane = new JScrollPane(HistoryText);
         scrollpane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         scrollpane.setVisible(true);
 
         card2.add(scrollpane);
-
         tabbedPane.addTab(Report, card1);
         tabbedPane.addTab(History, card2);
 

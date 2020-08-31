@@ -2,18 +2,45 @@ package order_java.classes;
 
 import java.util.*;
 
+import javax.swing.BoxLayout;
+import javax.swing.JPanel;
+import java.awt.*;
+import javax.swing.*;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
+import java.awt.Container;
+//import jdk.internal.platform.Container;
+import order_java.GUI.MiscFunctions;
+import order_java.GUI.PageCart;
+import order_java.classes.Apparel;
+import order_java.classes.ApparelType;
+
+
+import java.awt.image.*;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+
+import javax.imageio.*;
+import java.io.*;
+
 public class Order {
     private int orderID;
     private int numofShirts;
-    private ArrayList<Apparel> shirts = new ArrayList<Apparel>();
+    private static ArrayList<Apparel> shirts = new ArrayList<Apparel>();
     private Date date;
-    private static int count=1; 
+    private static int count = 1;
+    public static JPanel Cartpane;
+    public boolean visible = true;
+
 
     public Order() {
         orderID = count + 100;
         count += 1;
         numofShirts = shirts.size();
         date = new Date();
+        
+
     }
 
     public int getOrderID() {
@@ -48,6 +75,12 @@ public class Order {
         this.date = date;
     }
 
+    public Order Cartpane(JPanel Cartpane) {
+        this.Cartpane = Cartpane;
+        return this;
+    }
+
+    
 
     public void addShirtToOrder(Apparel a) {
         boolean isAdded = false;
@@ -61,15 +94,27 @@ public class Order {
         }
         if (isAdded == false)
             shirts.add(a);
-            numofShirts+=1;
+        numofShirts += 1;
+
+        if(isAdded==true)
+        {PageCart.addtocart(a,PageCart.NEW_APPAREL);
+        }
+        else
+        {
+            PageCart.addtocart(a,PageCart.OLD_APPAREL);
+        }        
+
+
     }
 
-    public void removeShirtFromOrder(Apparel a){
-        for(Apparel x:shirts) {
-            if(x.equals(a)){
+
+
+    public void removeShirtFromOrder(Apparel a) {
+        for (Apparel x : shirts) {
+            if (x.equals(a)) {
                 x.decreaseTotalSold();
                 shirts.remove(x);
-                numofShirts-=1;
+                numofShirts -= 1;
                 break;
             }
         }
@@ -77,12 +122,16 @@ public class Order {
 
     @Override
     public String toString() {
-        return "{" +
-            " orderID='" + orderID + "'" +
-            ", numofShirts='" + numofShirts + "'" +
-            ", shirts='" + shirts + "'" +
-            ", date='" + date + "'" +
-            "}";
+        return "{" + " orderID='" + orderID + "'" + ", numofShirts='" + numofShirts + "'" + ", shirts='" + shirts + "'"
+                + ", date='" + date + "'" + "}";
     }
+
+    public static Image rescaleImage(ImageIcon img, int x, int y, int s) {
+        Image image = img.getImage();
+        Image newimg = image.getScaledInstance(x, y, s);
+        return newimg;
+    }
+
+   
  
 }

@@ -20,7 +20,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 public class MiscFunctions {
     // Stores all pages
-    static JPanel masterCards = new JPanel(new CardLayout());
+    public static JPanel masterCards = new JPanel(new CardLayout());
     public static JFrame frame;
     public static void generateDefaultFrame() throws IOException{
         frame = new JFrame("Custom T-Shirt Shop");

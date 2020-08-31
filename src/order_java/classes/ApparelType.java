@@ -264,7 +264,10 @@ public class ApparelType implements ActionListener {
                 JOptionPane.showMessageDialog(MiscFunctions.frame,
                         q + " " + size + " " + bgString + " " + shirtName + " added to cart.", "",
                         JOptionPane.INFORMATION_MESSAGE);
+                    
+                
             }
+                
         });
         btnAddtoCart.setAlignmentX(Component.LEFT_ALIGNMENT);
         rightPane.add(Box.createRigidArea(new Dimension(0, 10)));

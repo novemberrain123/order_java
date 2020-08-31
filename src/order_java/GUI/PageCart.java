@@ -1,12 +1,19 @@
 package order_java.GUI;
+
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 
-import java.awt.event.*;
+import order_java.classes.Apparel;
+import order_java.classes.ApparelType;
+import order_java.classes.Customer;
+import order_java.classes.Order;
 
-public class PageCart extends JFrame{
+import java.awt.event.*;
+import java.util.ArrayList;
+
+public class PageCart extends JFrame {
 
     /**
      *
@@ -19,15 +26,20 @@ public class PageCart extends JFrame{
         return newimg;
     }
 
+    public static JPanel newpanel = new JPanel();
+    public static JPanel pane = new JPanel();
+    public static ArrayList<JPanel> nested = new ArrayList<>();
+
+    public static final int NEW_APPAREL = 0;
+    public static final int OLD_APPAREL = 1;
+
     public static void createPageCart() {
 
         JFrame cartFrame = new JFrame("Cart");
         cartFrame.setSize(500, 500);
         cartFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         cartFrame.setVisible(true);
-        JPanel midPane1 = new JPanel(new BorderLayout());
-        //MiscFunctions.addDefaultComponentsToPane(midPane1, "Home",3);
-        //for logo
+        //
         JPanel topPane = new JPanel();
         topPane.setLayout(new BoxLayout(topPane, BoxLayout.X_AXIS));
         ImageIcon logo = new ImageIcon("img/mindnew.png");
@@ -39,101 +51,102 @@ public class PageCart extends JFrame{
         logoLabel.setIcon(logo);
         topPane.add(logoLabel);
         topPane.add(Box.createHorizontalGlue());
-
-
-        JPanel[] shirtPane = new JPanel[10];
-
-        for (int i = 0; i < 10; i++) {
-            shirtPane[i] = new JPanel();
-
-            shirtPane[i].add(new JLabel(String.valueOf(i + 1 + ")  ")));
-            shirtPane[i].setLayout(new BoxLayout(shirtPane[i], BoxLayout.Y_AXIS));
-            shirtPane[i].setAlignmentX(Component.LEFT_ALIGNMENT);
-
-            ImageIcon img = new ImageIcon("img/browse" + Integer.toString(i) + ".png");
-            img = new ImageIcon(rescaleImage(img, 110, 110, 4));
-            JLabel lbl = new JLabel("");
-            lbl.setIcon(img);
-            shirtPane[i].add(lbl);
-            shirtPane[i].setAlignmentX(Component.LEFT_ALIGNMENT);
-        }
-
-        shirtPane[0].add(new JLabel("Supermind T-Shirt"));
-        shirtPane[1].add(new JLabel("  Mountain T-Shirt"));
-        shirtPane[2].add(new JLabel("  Jurassic T-Shirt"));
-        shirtPane[3].add(new JLabel(
-                "<html>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Leonardo Da <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Corona T-Shirt<html>"));
-        shirtPane[4].add(new JLabel("     Green T-Shirt"));
-        shirtPane[5].add(new JLabel("    Heaven T-Shirt"));
-        shirtPane[6].add(new JLabel("   Marriage T-Shirt"));
-        shirtPane[7].add(new JLabel(
-                "<html>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WayTooDank<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;T-Shirt<html>"));
-        shirtPane[8].add(new JLabel("   FoxNews T-Shirt"));
-        shirtPane[9].add(new JLabel(
-                "<html>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Inspirational<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;T-Shirt<html>"));
-
-        JPanel[] nested1 = new JPanel[10];
-        JSpinner[] spinner = new JSpinner[10];
-
-        for (int j = 0; j < 10; j++) {
-            SpinnerModel value = new SpinnerNumberModel(0, 0, 50, 1);
-            nested1[j] = new JPanel();
-            spinner[j] = new JSpinner(value);
-            nested1[j].add(shirtPane[j]);
-            nested1[j].add(new JLabel("      "));
-            nested1[j].add(spinner[j]);
-        }
+        //
+        JScrollPane scrollpane = new JScrollPane(newpanel);
+        scrollpane.setPreferredSize(new Dimension(350, 350));
+        scrollpane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollpane.setVisible(true);
+        //
+        JPanel pane = new JPanel(new BorderLayout()); // the main panel to put inside cart
+        pane.setVisible(true);
         JPanel midPane = new JPanel();
         midPane.setLayout(new BoxLayout(midPane, BoxLayout.Y_AXIS));
         JLabel cart1 = new JLabel("Your Cart");
         cart1.setFont(new Font("SansSerif", Font.BOLD, 18));
         midPane.add(cart1, BorderLayout.PAGE_START);
 
-        JPanel newpanel = new JPanel();
+        midPane.add(scrollpane, BorderLayout.CENTER);
+        midPane.setAlignmentX(Component.LEFT_ALIGNMENT);
+        // midPane.setMaximumSize(new Dimension(100, 700));
+        pane.setVisible(true);
+        pane.add(midPane, BorderLayout.CENTER);
+        pane.add(topPane, BorderLayout.PAGE_START);
+        //
+        cartFrame.add(pane);
 
+    }
+
+    public static void addtocart(Apparel apparel, int t) {
+        // Cartpane = new JPanel(new BorderLayout());
+
+        // JPanel[] shirtPane = new JPanel[10];
+
+        JPanel temp = new JPanel();
+        JButton cancelbtn = new JButton("x");
+        JSpinner spinner = new JSpinner();
+
+        newpanel = new JPanel();
         newpanel.setLayout(new BoxLayout(newpanel, BoxLayout.Y_AXIS));
-        // newpanel.setSize(20,20);
+        Customer user = Customer.getCustomer();
 
-        for (int k = 0; k < 10; k++) {
-            newpanel.add(nested1[k], BorderLayout.CENTER);
+        JLabel imagelabel = new JLabel(apparel.getShirtImg());
+
+        int count = 0;
+        try {
+
+            if (t == NEW_APPAREL) {
+
+                // count=nested.indexOf(apparel);
+                SpinnerModel value = new SpinnerNumberModel(apparel.getQuantity(), 0, 100, 1);
+                spinner = new JSpinner(value);
+                temp.add(imagelabel);
+                temp.add(new JLabel("Size: " + apparel.getSize() + " Color: " + apparel.getBgColor()));
+                temp.add(spinner);
+                temp.add(cancelbtn);
+                cancelbtn.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        user.getOrder().removeShirtFromOrder(apparel);
+
+                    }
+                });
+
+                nested.add(new JPanel());
+                // newpanel.setSize(20,20);
+                newpanel.add(temp, BorderLayout.CENTER);
+                //
+
+            } else {
+                SpinnerModel value = new SpinnerNumberModel(apparel.getQuantity(), 0, 100, 1);
+                nested.add(spinner);
+            }
+
+            // MiscFunctions.addCardtoMasterCards(midPane1, "Cart");
+
+            JButton proceedbtn = new JButton("Proceed to Payment");
+            proceedbtn.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    int option = JOptionPane.showConfirmDialog(null,
+                            "Once proceed to payment section,\nyou can never navigate backward to previous page.\nAre you sure to continue ?",
+                            "Proceed to payment", JOptionPane.OK_CANCEL_OPTION);
+                    if (option == JOptionPane.OK_OPTION) {
+                        CardLayout cl = (CardLayout) (MiscFunctions.masterCards.getLayout());
+                        cl.show(MiscFunctions.masterCards, "Pay Method");
+                    }
+                }
+            });
+            newpanel.add(proceedbtn, BorderLayout.CENTER);
+
+        } catch (NullPointerException e) {
+            JPanel temp = new JPanel();
+            JLabel noItem = new JLabel("NO ITEM IN CART. Please close this window to continue shopping");
+            noItem.setFont(new Font("", Font.BOLD, 14));
+            temp.add(noItem, BorderLayout.CENTER);
 
         }
-        JButton proceed = new JButton("Proceed to Payment");
-        proceed.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                int option = JOptionPane.showConfirmDialog(null, "Once proceed to payment section,\nyou can never navigate backward to previous page.\nAre you sure to continue ?", "Proceed to payment", JOptionPane.OK_CANCEL_OPTION);
-                if (option == JOptionPane.OK_OPTION){
-                    CardLayout cl = (CardLayout)(MiscFunctions.masterCards.getLayout());
-                    cl.show(MiscFunctions.masterCards,"Pay Method");
-                }
-            }
-        });
-        newpanel.add(proceed,BorderLayout.CENTER);
-        JScrollPane scrollpane = new JScrollPane(newpanel);
-        scrollpane.setPreferredSize(new Dimension(350,350));
-        scrollpane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        scrollpane.setVisible(true);
 
-
-
-        midPane.add(scrollpane,BorderLayout.CENTER);
-        midPane.setAlignmentX(Component.LEFT_ALIGNMENT);
-        //midPane.setMaximumSize(new Dimension(100, 700));
-
-        
-        midPane1.setVisible(true);
-        midPane1.add(midPane,BorderLayout.CENTER);
-        midPane1.add(topPane,BorderLayout.PAGE_START);
-        //MiscFunctions.addCardtoMasterCards(midPane1, "Cart");
-        cartFrame.add(midPane1,BorderLayout.CENTER);
-       
-
-
-
-
-
+        pane.revalidate();
+        pane.repaint();
 
     }
 
-    }
-
+}
