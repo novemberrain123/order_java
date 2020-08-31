@@ -126,14 +126,14 @@ public class PageCart extends JFrame{
         midPane1.add(topPane,BorderLayout.PAGE_START);
         //MiscFunctions.addCardtoMasterCards(midPane1, "Cart");
         cartFrame.add(midPane1,BorderLayout.CENTER);
-       
-
-
-
-
-
-
+     
     }
-
+        public static void addTOCart(order_java.classes.Customer user )
+        {
+            user.getOrder().getNumofShirts();
+            user.getOrder().getShirts().size();
+            user.getOrder().getShirts().
+            
+        }
     }
 

@@ -12,8 +12,8 @@ public class Apparel extends ApparelType {
     private char bgColor;
     private ImageIcon shirtImg;
     private int quantity;
-    private static int totalSold[][]={{0,0,0},{0,0,0}}; //[Shirt[S,M,L],Hoodie[S,M,L]]
-    private final static double prices[][]={{15,20,25},{17,22,27}}; //[Shirt[S,M,L],Hoodie[S,M,L]
+    public static int totalSold[][]={{0,0,0},{0,0,0}}; //[Shirt[S,M,L],Hoodie[S,M,L]]
+    public final static double prices[][]={{15,20,25},{17,22,27}}; //[Shirt[S,M,L],Hoodie[S,M,L]
     
     public Apparel() {
     }

@@ -1,6 +1,8 @@
 package order_java.classes;
 
 import order_java.GUI.*;
+//import sun.jvm.hotspot.debugger.Page;
+
 import java.awt.image.*;
 import javax.swing.*;
 import java.awt.*;
@@ -202,6 +204,7 @@ public class ApparelType implements ActionListener {
                 try {
                     user.getOrder().addShirtToOrder(
                             new Apparel(shirtName, shirtType, img, size, bg, new ImageIcon(composite), q));
+                            PageCart.addTOCart(user);
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
@@ -210,6 +213,7 @@ public class ApparelType implements ActionListener {
                         + bgGroup.getSelection().getActionCommand() + " " + shirtName + " added to cart.", "",
                         JOptionPane.INFORMATION_MESSAGE);
             }
+                
         });
         btnAddtoCart.setAlignmentX(Component.LEFT_ALIGNMENT);
         rightPane.add(Box.createRigidArea(new Dimension(0, 10)));
