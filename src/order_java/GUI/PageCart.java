@@ -76,20 +76,27 @@ public class PageCart extends JFrame {
 
     }
 
-    public static void addtocart(Apparel apparel, int t) 
-    {
-         JPanel apparelPane = apparel.getApparelPane();
-         newpanel.add(apparelPane);
-         newpanel.revalidate();
-         newpanel.repaint();
+    public static void addToCart(Apparel apparel, int t) {
+        int x=123123;
+        if (t == NEW_APPAREL) {
+            JPanel apparelPane = apparel.getApparelPane();
+            newpanel.add(apparelPane);
 
+        } else {
+            JPanel apparelPane = apparel.getApparelPane();
+            JSpinner newspinner = (JSpinner) apparelPane.getComponent(3);
+            newspinner.setValue(Integer.valueOf(apparel.getQuantity()));
+
+        }
+
+        newpanel.revalidate();
+        newpanel.repaint();
     }
 
-    public static void removeFromCart(int i)
-    {
-       newpanel.remove(i);
-       newpanel.revalidate();
-       newpanel.repaint();
+    public static void removeFromCart(int i) {
+        newpanel.remove(i);
+        newpanel.revalidate();
+        newpanel.repaint();
     }
 
 }

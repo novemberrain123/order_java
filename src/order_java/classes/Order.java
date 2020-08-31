@@ -83,6 +83,7 @@ public class Order {
             if (x.equals(a)) {
                 x.setQuantity(a.getQuantity());
                 isAdded = true;
+                PageCart.addToCart(x, PageCart.OLD_APPAREL);
             }
             if (isAdded == true)
                 break;
@@ -91,12 +92,11 @@ public class Order {
             shirts.add(a);
             numofShirts += 1;
             a.generateApparelPane();
-            PageCart.addtocart(a, PageCart.NEW_APPAREL);
+            PageCart.addToCart(a, PageCart.NEW_APPAREL);
         }
+       
 
-        else {
-            PageCart.addtocart(a, PageCart.OLD_APPAREL);
-        }
+    
 
     }
 

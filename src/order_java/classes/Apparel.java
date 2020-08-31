@@ -107,7 +107,7 @@ public class Apparel extends ApparelType implements ActionListener {
         JButton cancelbtn = new JButton("x");
         JSpinner spinner = new JSpinner();
         JLabel imagelabel = new JLabel(shirtImg);
-
+        
         SpinnerModel value = new SpinnerNumberModel(quantity, 0, 100, 1);
         spinner = new JSpinner(value);
         spinner.addChangeListener(new ChangeListener(){
@@ -117,6 +117,7 @@ public class Apparel extends ApparelType implements ActionListener {
             }
         });
         apparelPane.add(imagelabel);
+        apparelPane.add(new JLabel("Name :"+getShirtName()));
         apparelPane.add(new JLabel("Size: " + size + " Color: " + bgColor));
         apparelPane.add(spinner);
         apparelPane.add(cancelbtn);
@@ -179,7 +180,7 @@ public class Apparel extends ApparelType implements ActionListener {
     }
 
     public JPanel getApparelPane() {
-        return this.apparelPane;
+        return apparelPane;
     }
 
     public void setApparelPane(JPanel apparelPane) {
@@ -189,7 +190,7 @@ public class Apparel extends ApparelType implements ActionListener {
     @Override
     public boolean equals(Object o) {
         final Apparel other = (Apparel) o;
-        if (this.size == other.size && this.bgColor == other.bgColor && this.shirtImg == other.shirtImg) {
+        if (this.size == other.size && this.bgColor == other.bgColor && this.getShirtName().equals(other.getShirtName())) {
             return true;
         } else
             return false;
