@@ -2,11 +2,9 @@ package order_java.GUI;
 
 import java.awt.*;
 import javax.swing.*;
-
 import order_java.classes.*;
-
 import java.awt.event.*;
-import java.io.IOException;
+import java.io.*;
 
 public class PagePayMethod {
     public static Image rescaleImage(ImageIcon img,int x,int y,int s){

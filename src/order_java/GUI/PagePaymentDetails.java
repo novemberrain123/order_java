@@ -23,7 +23,7 @@ public class PagePaymentDetails {
         CashPayment cashPayment;
         cashPayment = new CashPayment(Double.parseDouble(tfPaidAmount.getText()));
         if (cashPayment.validateCash(paymentCalc.getAdjTotal())){ // Sufficient cash amount
-            user.setCashPayment(cashPayment);
+            user.setCashPayment(cashPayment); // Set cash payment
             paymentCalc.calculateChange(cashPayment);
             CardLayout cl = (CardLayout)(MiscFunctions.masterCards.getLayout());
             PageReceipt.createPageReceipt(); // "Receipt"

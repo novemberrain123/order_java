@@ -1,11 +1,9 @@
 package order_java.GUI;
 
 import java.awt.*;
-import javax.swing.*;
-
-import order_java.classes.*;
-
 import java.awt.event.*;
+import javax.swing.*;
+import order_java.classes.*;
 
 public class PageMembership {
     public static void createPageMembership(){
