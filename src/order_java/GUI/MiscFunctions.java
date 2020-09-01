@@ -21,34 +21,28 @@ import javax.swing.JPanel;
 
 import order_java.classes.Customer;
 import order_java.classes.Order;
+
 public class MiscFunctions {
     // Stores all pages
     public static JPanel masterCards = new JPanel(new CardLayout());
     public static JFrame frame;
-    public static void generateDefaultFrame() throws IOException{
+
+    public static void generateDefaultFrame() throws IOException {
         frame = new JFrame("Custom T-Shirt Shop");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(500, 500);
-        
-        //for testing change function
 
-         Home.createHome();  // “Hompage"
-         PageMemberLogin.createPageMember(); // "MemberLogin", pass=12345oop , name=limjunshen,ganyihwee,johnwick
-        PageMarket.createPageMarket();  //"Market"
-        PageMarket.createPageBrowse(); //"Browse"
-        PageMarket.createPageCustom(); //"Custom"
-        PagePayMethod.createPagePayMethod(); //"Pay Method"
-        PageMembership.createPageMembership(); //"Membership"
-        PagePaymentDetails.createPagePaymentDetails(); // "Payment Details"
-        PageReceipt.createPageReceipt(); // "Receipt"
+        // for testing change function
+
+        Home.createHome(); // “Hompage"
+        PageMemberLogin.createPageMember(); // "MemberLogin", pass=12345oop , name=limjunshen,ganyihwee,johnwick
+        PageMarket.createPageMarket(); // "Market"
+        PageMarket.createPageBrowse(); // "Browse"
+        PageMarket.createPageCustom(); // "Custom"
+        PagePayMethod.createPagePayMethod(); // "Pay Method"
         PageStaffLogin.createPageStaffLogin(); // "StaffLogin", pass=12345fat
         PageReport.createPageReport(); // "Reports"
-        //PageCart.createPageCart();  // "Cart"
-        //PageStaffLogin.createPageStaffLogin(); // "StaffLogin", pass=12345fat
-        //PageReport.createPageReport(); // "Reports"
-        // PageMarket.createPageBrowse();
-        PagePayMethod.createPagePayMethod(); //"Pay Method"
-        
+
         frame.getContentPane().add(MiscFunctions.masterCards);
         frame.setVisible(true);
         Customer.createCustomer(new Order());
@@ -75,8 +69,8 @@ public class MiscFunctions {
         // Set cart button
         if (c == 1) {
             JButton btnCart = new JButton("");
-            btnCart.addActionListener(new ActionListener(){
-                public void actionPerformed(ActionEvent e){
+            btnCart.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
                     PageCart.createPageCart();
                 }
             });
@@ -110,11 +104,13 @@ public class MiscFunctions {
         pane.add(btmPane, BorderLayout.PAGE_END);
         pane.add(topPane, BorderLayout.PAGE_START);
     }
-	public static BufferedImage resizeImage(BufferedImage originalImage, int targetWidth, int targetHeight) throws IOException {
-	    BufferedImage resizedImage = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_ARGB);
-	    Graphics graphics2D = resizedImage.createGraphics();
-	    graphics2D.drawImage(originalImage, 0, 0, targetWidth, targetHeight, null);
-	    graphics2D.dispose();
-	    return resizedImage;
-	}
+
+    public static BufferedImage resizeImage(BufferedImage originalImage, int targetWidth, int targetHeight)
+            throws IOException {
+        BufferedImage resizedImage = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_ARGB);
+        Graphics graphics2D = resizedImage.createGraphics();
+        graphics2D.drawImage(originalImage, 0, 0, targetWidth, targetHeight, null);
+        graphics2D.dispose();
+        return resizedImage;
+    }
 }
