@@ -1,20 +1,13 @@
 package order_java.GUI;
 
 import java.awt.*;
-import javax.swing.*;
-
-import order_java.classes.*;
-
 import java.awt.event.*;
+import javax.swing.*;
+import order_java.classes.*;
 
 public class PageMembership {
     public static void createPageMembership(){
-        // Customer user = new Customer(); // Demonstration purpose
-        // PaymentCalc paymentCalc = new CustomerPayment(); // Demonstration purpose
-        Customer user = Customer.getCustomer();
-        PaymentCalc paymentCalc = PaymentCalc.getPaymentCalc();
-
-        JPanel pane = new JPanel(new BorderLayout());
+        JPanel pane = new JPanel(new BorderLayout()); // Main panel
         JPanel[] paneMemberDetails = new JPanel[10]; // To store every panel for member's details
         for (int i = 0; i < 10; i++){ 
             paneMemberDetails[i] = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 0));
@@ -122,49 +115,55 @@ public class PageMembership {
         }
 
         // Theme at top
-        JPanel midPaneTop = new JPanel();
+        JPanel paneTop = new JPanel();
         JLabel lbTitle = new JLabel("Membership Application");
         lbTitle.setFont(new Font("", Font.BOLD, 30));
-        midPaneTop.add(lbTitle);
+        paneTop.add(lbTitle);
         
         // Buttons at bottom
-        JPanel midPaneBtm = new JPanel();
-        JButton btnSignUp = new JButton("Sign Up");
+        JPanel paneBtm = new JPanel();
+        JButton btnSignUp = new JButton("Sign Up"); // Sign up button
         btnSignUp.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
+                // Check for empty text field
                 if (tfFirstName.getText() == null || tfFirstName.getText().trim().isEmpty() || tfLastName.getText() == null || tfLastName.getText().trim().isEmpty() || tfEmail.getText() == null || tfEmail.getText().trim().isEmpty() || tfHpFront.getText() == null || tfHpFront.getText().trim().isEmpty() || tfHpBehind.getText() == null || tfHpBehind.getText().trim().isEmpty() || tfAddress[0].getText() == null || tfAddress[0].getText().trim().isEmpty() || tfAddress[1].getText() == null || tfAddress[1].getText().trim().isEmpty() || tfAddress[2].getText() == null || tfAddress[2].getText().trim().isEmpty() || tfPoscode.getText() == null || tfPoscode.getText().trim().isEmpty() || tfPassword.getText() == null || tfPassword.getText().trim().isEmpty())
                     JOptionPane.showMessageDialog(null, "There is column left blank.\nPlease check again.", "Unable to proceed", JOptionPane.ERROR_MESSAGE);
                 else {
-                    if (Member.validatePassword(tfPassword.getText()) == "Valid"){
-                        Customer tempUser = user; // Temporarily store customer data
-                        Customer.setNewMember(); // Set the static variable to point to a new member object
-                        Customer.transferOrder(tempUser.getOrder()); // Transfer customer order to new member order
-                        PaymentCalc.createMemberPayment(); // Point to a new member payment object
+                    if (Member.validatePassword(tfPassword.getText()) == "Valid"){ // Check password validity
+                        Customer tempUser = Customer.getCustomer(); // Temporarily store customer data
+                        Member.createNewMember(); // Set the static variable to point to a new member object
+                        Customer.transferOrder(tempUser.getOrder()); // Transfer order to the new member object
+                        Customer user = Customer.getCustomer(); // Local variable to get user static variable 
+                        MemberPayment.createMemberPayment(); // Point to a new member payment object
+                        PaymentCalc paymentCalc = PaymentCalc.getPaymentCalc(); // Local variable to get paymentCalc static variable
+                        ((MemberPayment)paymentCalc).generateLuckyNumber(); // Generate lucky number for matching
 
-                        // Store user details
+                        // Store all details of new member 
                         ((Member)user).setNewMemberDetails(tfFirstName.getText() + " " + tfLastName.getText(), tfAddress[0].getText() + ", " + tfAddress[1].getText() + ", " + tfAddress[2].getText() + ", " + tfPoscode.getText() + " " + (String)cbState.getSelectedItem(), tfHpFront.getText() + "-" + tfHpBehind.getText(), tfEmail.getText(), (String)cbDate.getSelectedItem() + "-" + ((String)cbMonth.getSelectedItem()).substring(0, 3) + "-" + (String)cbYear.getSelectedItem(), tfPassword.getText());
 
                         ((Member)user).writeToFile(); // Write new member into text file
-                        ((Member)user).setLuckyNumber(Integer.parseInt(JOptionPane.showInputDialog(null, "Member fee: RM20.00\nEnter a lucky number and stand a chance to get free membership !\n(Any number from 1 to 5)")));
-                        if (((MemberPayment)paymentCalc).matchLuckyNumber(user)){
-                            JOptionPane.showMessageDialog(null, "Your lucky number is matched.\nYou are given a free membership.\nHave a nice day!", "Congratulation!", JOptionPane.INFORMATION_MESSAGE);
+                        ((Member)user).setLuckyNumber(Integer.parseInt(JOptionPane.showInputDialog(null, "Member fee: RM20.00\nEnter a lucky number and stand a chance to get free membership !\n(Any number from 1 to 5)"))); // Lucky number raffle
+                        if (((MemberPayment)paymentCalc).matchLuckyNumber(user)){ // Lucky number is matched
+                            JOptionPane.showMessageDialog(null, "Your lucky number is matched.\nYou are given a free membership.\nHave a nice day!", "Congratulation!", JOptionPane.INFORMATION_MESSAGE); // Get free membership
                         }
-                        else {
+                        else { // Lucky number is not matched
                             JOptionPane.showMessageDialog(null, "Your lucky number is not matched.\nIt's okay. Try better next time :) !", "Sorry!", JOptionPane.INFORMATION_MESSAGE);
-                            ((MemberPayment)paymentCalc).addMemberFees();
+                            ((MemberPayment)paymentCalc).addMemberFees(); // Add member fees
                         }
                         CardLayout cl = (CardLayout)(MiscFunctions.masterCards.getLayout());
+                        PagePayMethod.createPagePayMethod(); //"Pay Method"
                         cl.show(MiscFunctions.masterCards,"Pay Method");
                     }
-                    else
+                    else // Password entered invalid
                         JOptionPane.showMessageDialog(null, Member.validatePassword(tfPassword.getText()), "Invalid Password", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
-        JButton btnCancel = new JButton("Cancel");
+        JButton btnCancel = new JButton("Cancel"); // Cancel button
         btnCancel.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
+            public void actionPerformed(ActionEvent e){ // Go back to pay method page
                 CardLayout cl = (CardLayout)(MiscFunctions.masterCards.getLayout());
+                PagePayMethod.createPagePayMethod(); //"Pay Method"
                 cl.show(MiscFunctions.masterCards,"Pay Method");
             }
         });
@@ -174,18 +173,16 @@ public class PageMembership {
         btnCancel.setForeground(Color.red);
         btnSignUp.setBackground(Color.black);
         btnCancel.setBackground(Color.black);
-        midPaneBtm.add(btnSignUp);
-        midPaneBtm.add(btnCancel);
+        paneBtm.add(btnSignUp); 
+        paneBtm.add(btnCancel);
 
-        // Middle panel
-        JPanel midPane = new JPanel(new BorderLayout());
-        midPane.add(midPaneDetails, BorderLayout.CENTER);
-        midPane.add(midPaneLabels, BorderLayout.LINE_START);
-        midPane.add(midPaneTop, BorderLayout.PAGE_START);
-        midPane.add(midPaneBtm, BorderLayout.PAGE_END);
+        // Add every panel to main panel
+        pane.add(midPaneDetails, BorderLayout.CENTER);
+        pane.add(midPaneLabels, BorderLayout.LINE_START);
+        pane.add(paneTop, BorderLayout.PAGE_START);
+        pane.add(paneBtm, BorderLayout.PAGE_END);
 
-        // Add middle panel to middle of main panel
-        pane.add(midPane, BorderLayout.CENTER);
+        // Add to master cards panel
         MiscFunctions.addCardtoMasterCards(pane, "Membership");
     }
 }

@@ -2,10 +2,9 @@ package order_java.GUI;
 
 import java.awt.*;
 import javax.swing.*;
-
 import order_java.classes.*;
-
 import java.awt.event.*;
+import java.io.*;
 
 public class PagePayMethod {
     public static Image rescaleImage(ImageIcon img,int x,int y,int s){
@@ -14,11 +13,12 @@ public class PagePayMethod {
         return newimg;
     }
 
+    // Check if member is going to redeem points
     public static void checkRedeemPoints(Customer user, PaymentCalc paymentCalc){
-        if (((Member)user).getPoints() >= 1500){
+        if (((Member)user).getPoints() >= 1500){ // Member accumulated points more than or equal to 1500
             Object[] points1 = {"500(3%)", "1000(7%)", "1500(12%)", "Cancel"};
             int option1 = JOptionPane.showOptionDialog(null, "You have " + ((Member)user).getPoints() + " points.\nDo you want to redeem them for discount ?\nPoints :", "Redeem points", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, points1, points1[0]);
-            if (option1 == 3)
+            if (option1 == 3) // Cancel button is clicked
                 ((MemberPayment)paymentCalc).calculateDiscountAmount();
             else {
                 ((Member)user).redeemPoints(option1);
@@ -27,10 +27,10 @@ public class PagePayMethod {
                 ((MemberPayment)paymentCalc).calculateDiscountAmount(option1);
             }
         }
-        else if (((Member)user).getPoints() >= 1000){
+        else if (((Member)user).getPoints() >= 1000){ // Member accumulated points more than or equal to 1000
             Object[] points2 = {"500(3%)", "1000(7%)", "Cancel"};
             int option2 = JOptionPane.showOptionDialog(null, "You have " + ((Member)user).getPoints() + " points.\nDo you want to redeem them for discount ?\nPoints :", "Redeem points", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, points2, points2[0]);
-            if (option2 == 2)
+            if (option2 == 2) // Cancel button is clicked
                 ((MemberPayment)paymentCalc).calculateDiscountAmount();
             else {
                 ((Member)user).redeemPoints(option2);
@@ -39,10 +39,10 @@ public class PagePayMethod {
                 ((MemberPayment)paymentCalc).calculateDiscountAmount(option2);
             }
         }
-        else if (((Member)user).getPoints() >= 500){
+        else if (((Member)user).getPoints() >= 500){ // Member accumulated points more than or equal to 500
             Object[] points3 = {"500(3%)", "Cancel"};
             int option3 = JOptionPane.showOptionDialog(null, "You have " + ((Member)user).getPoints() + " points.\nDo you want to redeem them for discount ?\nPoints :", "Redeem points", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, points3, points3[0]);
-            if (option3 == 1)
+            if (option3 == 1) // Cancel button is clicked
                 ((MemberPayment)paymentCalc).calculateDiscountAmount();
             else {
                 ((Member)user).redeemPoints(option3);
@@ -51,42 +51,50 @@ public class PagePayMethod {
                 ((MemberPayment)paymentCalc).calculateDiscountAmount(option3);
             }
         }
+        try { // Update member points in text file
+            ((Member)user).updatePoints();
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
         paymentCalc.calculateAdjTotal();
     }
 
-    public static void checkLuckyCharacter(Customer user, PaymentCalc paymentCalc, String luckyLetter){
-        if (luckyLetter == "Ignore") {
+    // Check for lucky letter matching
+    public static void checkLuckyLetter(Customer user, PaymentCalc paymentCalc, String luckyLetter){
+        if (luckyLetter == "Ignore") { // Text field for lucky letter left blank
             if (user instanceof Member)
                 checkRedeemPoints(user, paymentCalc);
             else
                 paymentCalc.calculateAdjTotal();
             CardLayout cl = (CardLayout)(MiscFunctions.masterCards.getLayout());
+            PagePaymentDetails.createPagePaymentDetails(); // "Payment Details"
             cl.show(MiscFunctions.masterCards, "Payment Details"); 
         }
         else {
             if (user instanceof Member){
                 checkRedeemPoints(user, paymentCalc);
                 CardLayout cl = (CardLayout)(MiscFunctions.masterCards.getLayout());
+                PagePaymentDetails.createPagePaymentDetails(); // "Payment Details"
                 cl.show(MiscFunctions.masterCards, "Payment Details");
             }
             else {
-                if (luckyLetter.length() > 1)
+                if (luckyLetter.length() > 1) // Lucky letter more than one character
                     JOptionPane.showMessageDialog(null, "Lucky letter can only be one character.\nPlease try again.", "Invalid lucky letter", JOptionPane.ERROR_MESSAGE);
                 else {
                     ((CustomerPayment)paymentCalc).setLuckyLetter(luckyLetter.charAt(0));
                     if (Character.isLetter(((CustomerPayment)paymentCalc).getLuckyLetter()) == true){
-                        if (((CustomerPayment)paymentCalc).matchLuckyLetter()){
+                        if (((CustomerPayment)paymentCalc).matchLuckyLetter()){ // Lucky letter is matched
                             JOptionPane.showMessageDialog(null, "Your lucky letter is matched.\nYou are given a 5% discount for your purchase.\nHave a nice day!", "Congratulation!", JOptionPane.INFORMATION_MESSAGE);
                             ((CustomerPayment)paymentCalc).calculateDiscountAmount();
-                            paymentCalc.calculateAdjTotal();
                         }
-                        else
+                        else // Lucky letter is not matched
                             JOptionPane.showMessageDialog(null, "Your lucky letter is not matched.\nIt's okay. Try again next time :) !", "Sorry!", JOptionPane.INFORMATION_MESSAGE);
                         paymentCalc.calculateAdjTotal();
                         CardLayout cl = (CardLayout)(MiscFunctions.masterCards.getLayout());
+                        PagePaymentDetails.createPagePaymentDetails(); // "Payment Details"
                         cl.show(MiscFunctions.masterCards, "Payment Details");
                     }
-                    else 
+                    else // Lucky letter is not letter
                         JOptionPane.showMessageDialog(null, "Lucky letter entered is not a letter.\nPlease try again", "Invalid Lucky letter", JOptionPane.ERROR_MESSAGE);
                 }
             }
@@ -94,39 +102,34 @@ public class PagePayMethod {
     }
 
     public static void createPagePayMethod(){
-        // Customer user = new Customer(); // Demonstration purpose 
-        // Customer user = new Member();
-        // PaymentCalc paymentCalc = new MemberPayment();
-        // PaymentCalc paymentCalc = new CustomerPayment(); // Demonstration purpose
-        // paymentCalc.calculateRawTotal(prices, quantities); // Calculate raw total
+        // Order order = new Order(); // Customer demo (Before this page)
+        // Customer.createCustomer(order); // Customer demo (Before this page)
+        Member.createRegMember("Lim Jun Shen", 106, "MarisaWong2002", 2239); // Member demo (Before this page)
 
-        // Order order = new Order(); // Customer demo
-        // Customer.createCustomer(order); // Customer demo
-        Customer.createMember("Lim Jun Shen", 110, "ventusora219", 2234); // Member demo
-        Customer user = Customer.getCustomer();
-        
-        if (user instanceof Member)
-            PaymentCalc.createMemberPayment();
-        else 
-            PaymentCalc.createCustomerPayment();
+        Customer user = Customer.getCustomer(); // Local variable to get user static var
+        if (user instanceof Member && (Member.getNextMemberID() - 1) != ((Member)user).getMemberID()){ // Reg Mem
+            MemberPayment.createMemberPayment(); 
+        }
+        else if (!(user instanceof Member)){ // Customer
+            CustomerPayment.createCustomerPayment();
+        }
+        PaymentCalc paymentCalc = PaymentCalc.getPaymentCalc(); // Local variable to get paymentCalc static var
 
-        PaymentCalc paymentCalc = PaymentCalc.getPaymentCalc();
-        paymentCalc.setRawTotal(2039); // Demo
-
-        JPanel pane = new JPanel(new BorderLayout());
-        JPanel payMethodPane = new JPanel(new GridLayout(1,2,20,0)); // Create panel to store card and cash button
-        Font wordFont = new Font("", Font.PLAIN, 15); // For setting word font purpose
-        Font importantWordFont = new Font ("", Font.BOLD, 13); 
+        JPanel pane = new JPanel(new BorderLayout()); // Main panel 
+        Font wordFont = new Font("", Font.PLAIN, 15); // Normal word font
+        Font importantWordFont = new Font ("", Font.BOLD, 13); // Important word font
         
         // Create card and cash button
         ImageIcon cardIcon = new ImageIcon("img/cardIcon.png");
         cardIcon = new ImageIcon(rescaleImage(cardIcon, 135, 135, 4));
         JButton cardButton = new JButton("By Card", cardIcon);
-        cardButton.setFont(importantWordFont);
-        cardButton.setForeground(Color.red);
         ImageIcon cashIcon = new ImageIcon("img/cashIcon.png");
         cashIcon = new ImageIcon(rescaleImage(cashIcon, 135, 135, 4));
         JButton cashButton = new JButton("By Cash", cashIcon);
+
+        // Set font and color for card and cash button
+        cardButton.setFont(importantWordFont);
+        cardButton.setForeground(Color.red);
         cashButton.setFont(importantWordFont);
         cashButton.setForeground(Color.red);
 
@@ -136,45 +139,53 @@ public class PagePayMethod {
         cashButton.setHorizontalAlignment(SwingConstants.CENTER);
         cashButton.setHorizontalTextPosition(SwingConstants.LEFT);
         
-        // Add button to payment method panel
+        // Add the two buttons to payment method panel
+        JPanel payMethodPane = new JPanel(new GridLayout(1,2,20,0)); // Panel to store card and cash button
         payMethodPane.add(cardButton);
         payMethodPane.add(cashButton);
 
-        // Create panel at the center of middle of main panel 
-        JPanel midPaneCenter = new JPanel(new BorderLayout());
-        JPanel luckyLetterEnter = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 0)); //To store discount code info
-        JLabel lbLuckyLetter = new JLabel("Enter a lucky letter and stand a chance to get 5% discount (Only eligible for customer without membership) : ");
-        lbLuckyLetter.setFont(wordFont);
+        // Text area and text field for lucky letter for raffle
+        JTextArea taLuckyLetter = new JTextArea("Enter a lucky letter and stand a chance to get 5% discount" + " (Only eligible for customer without membership) : ", 2, 33);
+        taLuckyLetter.setFont(wordFont);
+        taLuckyLetter.setLineWrap(true);
+        taLuckyLetter.setOpaque(false);
+        taLuckyLetter.setEditable(false);
         JTextField tfLuckyLetter = new JTextField(1);
         tfLuckyLetter.setFont(wordFont);
-        luckyLetterEnter.add(lbLuckyLetter);
+
+        // Add both text area and text field to lucky letter panel
+        JPanel luckyLetterEnter = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 0)); 
+        luckyLetterEnter.add(taLuckyLetter);
         luckyLetterEnter.add(tfLuckyLetter);
 
-        // Add lucky letter and payment method panel into midPaneCenter panel
-        midPaneCenter.add(luckyLetterEnter, BorderLayout.PAGE_START);
-        midPaneCenter.add(payMethodPane, BorderLayout.CENTER);
+        // Add lucky letter and payment method panel into middle panel
+        JPanel midPane = new JPanel(new BorderLayout());
+        midPane.add(luckyLetterEnter, BorderLayout.PAGE_START);
+        midPane.add(payMethodPane, BorderLayout.CENTER);
 
         // Add action listener to buttons
         cardButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
+                paymentCalc.setRawTotal(1628); // need to modify -> calculateRawTotal()
                 if (user instanceof Member)
-                    ((Member)user).addPoints(paymentCalc.getRawTotal());
+                    ((Member)user).addPoints(paymentCalc.getRawTotal()); // Add member points
                 String luckyLetter = tfLuckyLetter.getText();
                 if (luckyLetter == null || luckyLetter.trim().isEmpty())
                     luckyLetter = "Ignore";
-                paymentCalc.setPayMethod("Card");
-                checkLuckyCharacter(user, paymentCalc, luckyLetter); // Need change for same payment page
+                paymentCalc.setPayMethod("Card"); // Set pay method to card
+                checkLuckyLetter(user, paymentCalc, luckyLetter); // Check for matching of lucky letter
             }
         });
-        cashButton.addActionListener(new ActionListener(){
+        cashButton.addActionListener(new ActionListener(){ 
             public void actionPerformed(ActionEvent e){
+                paymentCalc.setRawTotal(1628); // need to modify -> calculateRawTotal()
                 if (user instanceof Member)
-                    ((Member)user).addPoints(paymentCalc.getRawTotal());
+                    ((Member)user).addPoints(paymentCalc.getRawTotal()); // Add member points
                 String luckyLetter = tfLuckyLetter.getText();
                 if (luckyLetter == null || luckyLetter.trim().isEmpty())
                     luckyLetter = "Ignore";
-                paymentCalc.setPayMethod("Cash");
-                checkLuckyCharacter(user, paymentCalc, luckyLetter); // Need change
+                paymentCalc.setPayMethod("Cash"); // Set pay method to cash
+                checkLuckyLetter(user, paymentCalc, luckyLetter); // Check for matching of lucky letter
             }
         });
 
@@ -187,7 +198,7 @@ public class PagePayMethod {
         // Bottom panel 
         JLabel lbBottom = new JLabel("Not a member? Sign up now for more priviledges!");
         lbBottom.setFont(wordFont);
-        JButton btnSignUp = new JButton("Sign Up");
+        JButton btnSignUp = new JButton("Sign Up"); // Sign up button
         btnSignUp.setFont(importantWordFont);
         btnSignUp.setForeground(Color.red);
         btnSignUp.addActionListener(new ActionListener(){
@@ -197,6 +208,7 @@ public class PagePayMethod {
                 }
                 else {
                     CardLayout cl = (CardLayout)(MiscFunctions.masterCards.getLayout());
+                    PageMembership.createPageMembership(); //"Membership"
                     cl.show(MiscFunctions.masterCards,"Membership");
                 }
             }
@@ -205,14 +217,12 @@ public class PagePayMethod {
         bottomPane.add(lbBottom);
         bottomPane.add(btnSignUp);
 
-        // Add title panel, bottom panel and midPaneCenter to the middle of main panel
-        JPanel midPane = new JPanel(new BorderLayout());
-        midPane.add(titlePane, BorderLayout.PAGE_START);
-        midPane.add(bottomPane, BorderLayout.PAGE_END);
-        midPane.add(midPaneCenter, BorderLayout.CENTER);
-        
-        // Add to center of main panel
+        // Add title panel, bottom panel and middle panel to main panel
+        pane.add(titlePane, BorderLayout.PAGE_START);
+        pane.add(bottomPane, BorderLayout.PAGE_END);
         pane.add(midPane, BorderLayout.CENTER);
+        
+        // Add to master cards panel
         MiscFunctions.addCardtoMasterCards(pane, "Pay Method");
     }
 }

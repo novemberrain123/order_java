@@ -44,8 +44,11 @@ public class MiscFunctions {
         PageStaffLogin.createPageStaffLogin(); // "StaffLogin", pass=12345fat
         PageReport.createPageReport(); // "Reports"
         //PageCart.createPageCart();  // "Cart"
-         
+        //PageStaffLogin.createPageStaffLogin(); // "StaffLogin", pass=12345fat
+        //PageReport.createPageReport(); // "Reports"
         // PageMarket.createPageBrowse();
+        PagePayMethod.createPagePayMethod(); //"Pay Method"
+        
         frame.getContentPane().add(MiscFunctions.masterCards);
         frame.setVisible(true);
         Customer.createCustomer(new Order());

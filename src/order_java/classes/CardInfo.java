@@ -22,7 +22,7 @@ public class CardInfo{
         return cardNo;
     }
 
-    public boolean validateCard(){
+    public boolean validateCard(){ // Validate card information key in by customer
         int totalCardOddNo = 0;
         int totalCardEvenNo = 0;
         if (String.valueOf(cvCode).matches("[\\d]{3}") == false)

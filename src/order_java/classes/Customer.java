@@ -13,11 +13,11 @@ public class Customer {
 
     }
 
-    public Customer(String name) {
+    public Customer(String name){ // Constructor used by member class to assign name for regular member
         this.name = name;
     }
 
-    public Customer(Order order) {
+    public Customer(Order order){ // Constructor to create a customer object when a new order has been made
         this.order = order;
     }
 
@@ -34,11 +34,23 @@ public class Customer {
         user = new Member();
     }
 
-    public static void transferOrder(Order order) {
+    // Called by member class to points static var (user) to a new member object when new member signed up
+    public static void pointsToNewMem(){ 
+        user = new Member();
+    }
+
+    // Called by member class to points static var (user) to a new member object when regular member login
+    public static void pointsToRegMem(String name, int memberID, String password, double points){
+        user = new Member(name, memberID, password, points);
+    }
+
+    // Transfer customer order from a customer object to a new member object when new member signed up
+    public static void transferOrder(Order order){ 
         user.setOrder(order);
     }
 
-    public static void setNewMemberDetails(String name, String address, String phoneNo) {
+    // Set new member details
+    public static void setNewMemberDetails(String name, String address, String phoneNo){
         user.setName(name);
         user.setAddress(address);
         user.setPhoneNo(phoneNo);
