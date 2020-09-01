@@ -180,8 +180,7 @@ public class PageReceipt {
         btnContShop.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 CardLayout cl = (CardLayout)(MiscFunctions.masterCards.getLayout());
-                Home.createHome();  // “Hompage"
-                cl.show(MiscFunctions.masterCards, "Hompage"); // Go back to homepage
+                cl.show(MiscFunctions.masterCards, "Home"); // Go back to homepage
             }
         });
         btnStopShop.addActionListener(new ActionListener(){

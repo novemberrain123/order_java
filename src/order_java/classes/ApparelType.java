@@ -51,6 +51,7 @@ public class ApparelType implements ActionListener {
         switch (shirtType) {
             case 'S':
                 basePrice = 20;
+                break;
             case 'H':
                 basePrice = 22;
         }

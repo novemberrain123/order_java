@@ -162,7 +162,7 @@ public class PagePayMethod {
         // Add action listener to buttons
         cardButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
-                paymentCalc.setRawTotal(1628); // need to modify -> calculateRawTotal()
+                paymentCalc.calculateRawTotal();
                 if (user instanceof Member)
                     ((Member)user).addPoints(paymentCalc.getRawTotal()); // Add member points
                 String luckyLetter = tfLuckyLetter.getText();
@@ -174,7 +174,7 @@ public class PagePayMethod {
         });
         cashButton.addActionListener(new ActionListener(){ 
             public void actionPerformed(ActionEvent e){
-                paymentCalc.setRawTotal(1628); // need to modify -> calculateRawTotal()
+                paymentCalc.calculateRawTotal();
                 if (user instanceof Member)
                     ((Member)user).addPoints(paymentCalc.getRawTotal()); // Add member points
                 String luckyLetter = tfLuckyLetter.getText();

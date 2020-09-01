@@ -68,6 +68,7 @@ public class PageCart extends JFrame {
                 int option = JOptionPane.showConfirmDialog(null, "Once proceed to payment section,\nyou can never navigate backward to previous page.\nAre you sure to continue ?", "Proceed to payment", JOptionPane.OK_CANCEL_OPTION);
                 if (option == JOptionPane.OK_OPTION){
                     CardLayout cl = (CardLayout)(MiscFunctions.masterCards.getLayout());
+                    PagePayMethod.createPagePayMethod(); // "Pay Method"
                     cl.show(MiscFunctions.masterCards,"Pay Method");
                     cartFrame.dispose();
                 }

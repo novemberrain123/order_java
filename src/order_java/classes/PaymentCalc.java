@@ -1,5 +1,7 @@
 package order_java.classes;
 
+import java.util.*;
+
 public abstract class PaymentCalc {
     private double rawTotal;
     private double adjTotal;
@@ -64,9 +66,10 @@ public abstract class PaymentCalc {
         return payMethod;
     }
 
-    public void calculateRawTotal(double[] prices, int[] quantities){
-        for (int i = 0; i < prices.length; i++){
-            rawTotal += prices[i] * quantities[i];
+    public void calculateRawTotal(){
+        ArrayList<Apparel> apparel = Customer.getCustomer().getOrder().getShirts();
+        for (Apparel app : apparel){
+            rawTotal += app.getQuantity() * app.getPrice();
         }
     }
 
