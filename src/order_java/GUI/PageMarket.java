@@ -6,7 +6,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -36,13 +35,13 @@ import order_java.classes.Apparel;
 import order_java.classes.ApparelType;
 
 public class PageMarket {
-    public static Image rescaleImage(ImageIcon img, int x, int y, int s) {
-        Image image = img.getImage();
-        Image newimg = image.getScaledInstance(x, y, s);
-        return newimg;
+    public PageMarket() throws IOException {
+        createPageMarket();
+        createPageBrowse();
+        createPageCustom();
     }
 
-    public static void createPageMarket() {
+    public void createPageMarket() {
         JPanel pane = new JPanel(new BorderLayout()); // main pane
         MiscFunctions.addDefaultComponentsToPane(pane, "Home", 1);
         JPanel midPane = new JPanel();
@@ -68,12 +67,12 @@ public class PageMarket {
             }
         });
         ImageIcon customShirt = new ImageIcon("img/shirt1.png");
-        customShirt = new ImageIcon(rescaleImage(customShirt, 200, 200, 4));
+        customShirt = new ImageIcon(MiscFunctions.rescaleImage(customShirt, 200, 200, 4));
         JLabel customShirtLabel = new JLabel("");
         customShirtLabel.setIcon(customShirt);
 
         ImageIcon browse = new ImageIcon("img/shirts.png");
-        browse = new ImageIcon(rescaleImage(browse, 200, 200, 4));
+        browse = new ImageIcon(MiscFunctions.rescaleImage(browse, 200, 200, 4));
         JLabel browseLabel = new JLabel("");
         browseLabel.setIcon(browse);
 
@@ -89,14 +88,14 @@ public class PageMarket {
         MiscFunctions.addCardtoMasterCards(pane, "Market");
     }
 
-    static String allStr = "All";
-    static String hoodieStr = "Hoodie";
-    static String tshirtStr = "T-Shirt";
-    static JPanel leftPane = new JPanel();
-    static JPanel rightPane = new JPanel();
+    private final static String allStr = "All";
+    private final static String hoodieStr = "Hoodie";
+    private final static String tshirtStr = "T-Shirt";
+    private JPanel leftPane = new JPanel();
+    private JPanel rightPane = new JPanel();
     public static JFrame frame;
 
-    public static void createPageBrowse() throws IOException {
+    public void createPageBrowse() throws IOException {
         JPanel pane = new JPanel(new BorderLayout());
         // pass in main JPanel and name of previous page for back btn
         MiscFunctions.addDefaultComponentsToPane(pane, "Market", 1);
@@ -131,7 +130,7 @@ public class PageMarket {
             shirtPane[i].setLayout(new BoxLayout(shirtPane[i], BoxLayout.Y_AXIS));
 
             ImageIcon img = new ImageIcon("img/browse" + Integer.toString(i) + ".png");
-            img = new ImageIcon(rescaleImage(img, 150, 150, 4));
+            img = new ImageIcon(MiscFunctions.rescaleImage(img, 150, 150, 4));
             JLabel lbl = new JLabel("");
             lbl.setIcon(img);
 
@@ -139,20 +138,20 @@ public class PageMarket {
         }
 
         // add shirts to pane
-        shirtPane[0].add(new JLabel("Supermind T-Shirt"));
-        shirtPane[1].add(new JLabel("Mountain T-Shirt"));
-        shirtPane[2].add(new JLabel("Jurassic T-Shirt"));
-        shirtPane[3].add(new JLabel("Leonardo Da Corona T-Shirt"));
-        shirtPane[4].add(new JLabel("Green T-Shirt"));
-        shirtPane[5].add(new JLabel("Heaven T-Shirt"));
-        shirtPane[6].add(new JLabel("Marriage Hoodie"));
-        shirtPane[7].add(new JLabel("WayTooDank Hoodie"));
-        shirtPane[8].add(new JLabel("FoxNews Hoodie"));
-        shirtPane[9].add(new JLabel("Inspirational Hoodie"));
+        // shirtPane[0].add(new JLabel("Supermind T-Shirt"));
+        // shirtPane[1].add(new JLabel("Mountain T-Shirt"));
+        // shirtPane[2].add(new JLabel("Jurassic T-Shirt"));
+        // shirtPane[3].add(new JLabel("Leonardo Da Corona T-Shirt"));
+        // shirtPane[4].add(new JLabel("Green T-Shirt"));
+        // shirtPane[5].add(new JLabel("Heaven T-Shirt"));
+        // shirtPane[6].add(new JLabel("Marriage Hoodie"));
+        // shirtPane[7].add(new JLabel("WayTooDank Hoodie"));
+        // shirtPane[8].add(new JLabel("FoxNews Hoodie"));
+        // shirtPane[9].add(new JLabel("Inspirational Hoodie"));
         // set buy button for all shirtpanels
         JButton[] btnBuy = new JButton[10];
-        ApparelType.initApparels();
         for (int i = 0; i < 10; i++) {
+            shirtPane[i].add(new JLabel(ApparelType.apparels[i].getShirtName()));
             btnBuy[i] = new JButton("Buy Now");
             shirtPane[i].add(btnBuy[i]);
             final Integer innerI = i;
@@ -231,18 +230,18 @@ public class PageMarket {
         MiscFunctions.addCardtoMasterCards(pane, "Browse");
     }
 
-    public static char bgColour;
-    public static JLabel picLabel;
+    private char bgColour;
+    private JLabel picLabel;
     public static BufferedImage composite;
-    public static JFileChooser fc;
-    public static String newline = "\n";
-    static File file; // store user input file path
+    private JFileChooser fc;
+    private File file; // store user input file path
     public static Apparel custom;
-    public static Color textColour;
-    public static boolean isShirt;
-    public static boolean hasGenerated = false;
+	public static PageMarket pm;
+    private Color textColour;
+    private boolean isShirt;
+    private boolean hasGenerated = false;
 
-    public static void createPageCustom() throws IOException {
+    public void createPageCustom() throws IOException {
         JPanel pane = new JPanel(new BorderLayout()); // main pane
         MiscFunctions.addDefaultComponentsToPane(pane, "Market", 1);
         composite = MiscFunctions.resizeImage(ImageIO.read(new File("img/blackshirt.png")), 300, 300);
@@ -437,5 +436,6 @@ public class PageMarket {
         pane.add(rightPane, BorderLayout.CENTER);
         MiscFunctions.addCardtoMasterCards(pane, "Custom");
     }
+
 
 }

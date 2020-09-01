@@ -1,12 +1,9 @@
 package order_java.classes;
 
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -17,9 +14,9 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import order_java.GUI.PageMarket;
+import order_java.GUI.MiscFunctions;
 
-public class Apparel extends ApparelType implements ActionListener {
+public class Apparel extends ApparelType {
     private char size;
     private double price;
     private char bgColor;
@@ -106,15 +103,12 @@ public class Apparel extends ApparelType implements ActionListener {
                 }
         }
     }
-    
 
     public void generateApparelPane() {
         apparelPane = new JPanel();
         JButton cancelbtn = new JButton("x");
         JSpinner spinner = new JSpinner();
-        JLabel imagelabel = new JLabel(new ImageIcon(PageMarket.rescaleImage(shirtImg, 80, 100, 4)));
-        
-        
+        JLabel imagelabel = new JLabel(new ImageIcon(MiscFunctions.rescaleImage(shirtImg, 80, 100, 4)));
 
         SpinnerModel value = new SpinnerNumberModel(quantity, 1, 100, 1);
         spinner = new JSpinner(value);
@@ -207,7 +201,8 @@ public class Apparel extends ApparelType implements ActionListener {
 
     class SpinnerListener implements ChangeListener {
         public void stateChanged(ChangeEvent e) {
-            Customer.getCustomer().getOrder().changeQuantityOfShirt(Apparel.this, (int)((JSpinner)e.getSource()).getValue());
+            Customer.getCustomer().getOrder().changeQuantityOfShirt(Apparel.this,
+                    (int) ((JSpinner) e.getSource()).getValue());
         }
     }
 

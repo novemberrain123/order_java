@@ -25,7 +25,11 @@ import order_java.classes.Member;
 
 public class PageMemberLogin {
 
-    public static void createPageMember() {
+    public static PageMemberLogin pml;
+
+
+
+	public PageMemberLogin(){
 
         JPanel pane = new JPanel(new BorderLayout());
         MiscFunctions.addDefaultComponentsToPane(pane, "Home", 2);

@@ -39,7 +39,7 @@ public class ApparelType implements ActionListener {
     public JPanel rightPane;
     BufferedImage img;
     public static final ApparelType[] apparels = new ApparelType[10];
-    private static BufferedImage composite;
+    private BufferedImage baseComposite;
     private static double shownPrice;
 
     public ApparelType() {
@@ -149,12 +149,12 @@ public class ApparelType implements ActionListener {
         img = MiscFunctions.resizeImage(img, 150, 200);
         // create combined img
         if (t == CUSTOM) {
-            composite = PageMarket.composite;
+            baseComposite = PageMarket.composite;
         } else {
-            composite = generateComposite(back);
+            baseComposite = generateComposite(back);
         }
         // give label to combined image and cast as ImageIcon and add to main JPanel
-        picLabel = new JLabel(new ImageIcon(composite));
+        picLabel = new JLabel(new ImageIcon(baseComposite));
         pane.add(picLabel, BorderLayout.LINE_START);
         // create right side of pane with shirtname, choices for bgColor, for size, show
         // price and quantity
@@ -243,7 +243,7 @@ public class ApparelType implements ActionListener {
                     bgString = bgGroup.getSelection().getActionCommand();
                     try {
                         user.getOrder().addShirtToOrder(
-                                new Apparel(shirtName, shirtType, img, size, bg, new ImageIcon(composite), q));
+                                new Apparel(shirtName, shirtType, img, size, bg, new ImageIcon(baseComposite), q));
                     } catch (IOException e1) {
                         e1.printStackTrace();
                     }
@@ -286,7 +286,7 @@ public class ApparelType implements ActionListener {
         else
             type = "hoodie";
         try {
-            composite = generateComposite(MiscFunctions
+            baseComposite = generateComposite(MiscFunctions
                     .resizeImage(ImageIO.read(new File("img/" + e.getActionCommand() + type + ".png")), 300, 300));
         } catch (IOException io) {
             throw new RuntimeException(io);
@@ -294,27 +294,27 @@ public class ApparelType implements ActionListener {
         pane.remove(picLabel);
         pane.revalidate();
         pane.repaint();
-        picLabel = new JLabel(new ImageIcon(composite));
+        picLabel = new JLabel(new ImageIcon(baseComposite));
         pane.add(picLabel, BorderLayout.LINE_START);
         pane.revalidate();
         pane.repaint();
     }
 
     public BufferedImage generateComposite(BufferedImage back) {
-        BufferedImage composite = new BufferedImage(back.getWidth(), back.getHeight(), BufferedImage.TYPE_INT_ARGB);
+        BufferedImage baseComposite = new BufferedImage(back.getWidth(), back.getHeight(), BufferedImage.TYPE_INT_ARGB);
 
-        Graphics g = composite.getGraphics();
+        Graphics g = baseComposite.getGraphics();
         g.drawImage(back, 0, 0, null);
         g.drawImage(img, 75, 70, null);
 
         g.dispose();
-        return composite;
+        return baseComposite;
     }
 
     public BufferedImage generateComposite(BufferedImage back, String s, Color c) {
-        BufferedImage composite = new BufferedImage(back.getWidth(), back.getHeight(), BufferedImage.TYPE_INT_ARGB);
+        BufferedImage baseComposite = new BufferedImage(back.getWidth(), back.getHeight(), BufferedImage.TYPE_INT_ARGB);
 
-        Graphics g = composite.getGraphics();
+        Graphics g = baseComposite.getGraphics();
         g.drawImage(back, 0, 0, null);
         g.drawImage(img, 75, 70, null);
         if (s != null) {
@@ -326,7 +326,7 @@ public class ApparelType implements ActionListener {
             g.drawString(s, x, 60);
         }
         g.dispose();
-        return composite;
+        return baseComposite;
     }
 
     // t-shirt:s,m,l:15,20,25 hoodie:17,22,27
@@ -338,7 +338,7 @@ public class ApparelType implements ActionListener {
         apparels[0] = new ApparelType("Supermind T-Shirt", 'S', img[0]);
         apparels[1] = new ApparelType("Mountain T-Shirt", 'S', img[1]);
         apparels[2] = new ApparelType("Jurassic T-Shirt", 'S', img[2]);
-        apparels[3] = new ApparelType("Leonardo Da Corona T-Shirt", 'S', img[3]);
+        apparels[3] = new ApparelType("Corona T-Shirt", 'S', img[3]);
         apparels[4] = new ApparelType("Green T-Shirt", 'S', img[4]);
         apparels[5] = new ApparelType("Heaven T-Shirt", 'S', img[5]);
         apparels[6] = new ApparelType("Marriage Hoodie", 'H', img[6]);

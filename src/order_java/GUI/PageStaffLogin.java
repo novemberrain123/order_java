@@ -1,24 +1,31 @@
     package order_java.GUI;
 
-import java.io.File; // Import the File class
-import java.io.FileNotFoundException; // Import this class to handle errors
-import java.sql.SQLOutput;
-import java.util.Arrays;
-import java.util.Scanner; // Import the Scanner class to read text files
-import javax.lang.model.element.Name;
-import javax.lang.model.util.ElementScanner6;
-import javax.swing.*;
-import javax.swing.border.Border;
-import java.awt.*;
-import java.awt.event.*;
-import java.util.Arrays;
-import javax.swing.table.*;
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File; // Import the File class
+import java.io.FileNotFoundException; // Import this class to handle errors
+import java.util.Arrays;
+import java.util.Scanner; // Import the Scanner class to read text files
+
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
 
 public class PageStaffLogin {
 
-    public static void createPageStaffLogin() {
+    public static PageStaffLogin psl;
+
+	public PageStaffLogin() {
 
         JPanel pane = new JPanel(new BorderLayout());
         MiscFunctions.addDefaultComponentsToPane(pane, "Home", 2);
@@ -56,7 +63,7 @@ public class PageStaffLogin {
                     char[] pass = passwordField.getPassword();
                     String username = name1.getText();
                     if (performCheck(pass)==true&&performCheck2(username)==true) {
-                         PageReport.createPageReport(); // "Reports"
+                         PageReport.pr = new PageReport(); // "Reports"
                          CardLayout cl = (CardLayout)(MiscFunctions.masterCards.getLayout());
                          cl.show(MiscFunctions.masterCards,"Reports");
 

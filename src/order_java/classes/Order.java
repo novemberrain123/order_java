@@ -13,7 +13,6 @@ public class Order implements Cloneable {
     private int orderID;
     private int numofShirts;
     private ArrayList<Apparel> shirts = new ArrayList<Apparel>();
-    private static ArrayList<Order> orders = new ArrayList<Order>(); //cloned for record purposes
     private Date date;
     private static int count = 1;
     public static JPanel Cartpane;
@@ -50,15 +49,6 @@ public class Order implements Cloneable {
     public void setShirts(ArrayList<Apparel> shirts) {
         this.shirts = shirts;
     }
-    
-    public ArrayList<Order> getOrders()
-    {
-        return this.orders;
-    }
-    public void setOrders(ArrayList<Order> orders)
-    {
-        this.orders=orders;
-    }
 
     public Date getDate() {
         return this.date;
@@ -68,18 +58,13 @@ public class Order implements Cloneable {
         this.date = date;
     }
 
-    public Order Cartpane(JPanel Cartpane) {
-        this.Cartpane = Cartpane;
-        return this;
-    }
-
     public void addShirtToOrder(Apparel a) {
         boolean isAdded = false;
         for (Apparel x : shirts) {
             if (x.equals(a)) {
                 x.setQuantity(a.getQuantity()+x.getQuantity());
                 isAdded = true;
-                PageCart.addToCart(x, PageCart.OLD_APPAREL);
+                PageCart.pg.addToCart(x, PageCart.OLD_APPAREL);
                 break;
             }
         }
@@ -87,7 +72,7 @@ public class Order implements Cloneable {
             shirts.add(a);
             numofShirts += 1;
             a.generateApparelPane();
-            PageCart.addToCart(a, PageCart.NEW_APPAREL);
+            PageCart.pg.addToCart(a, PageCart.NEW_APPAREL);
         }
        
 
@@ -98,7 +83,7 @@ public class Order implements Cloneable {
     public void removeShirtFromOrder(Apparel a) {  
         for (Apparel x : shirts) {
             if (x.equals(a)) {
-                PageCart.removeFromCart(shirts.indexOf(x));
+                PageCart.pg.removeFromCart(shirts.indexOf(x));
                 x.decreaseTotalSold();
                 shirts.remove(x);
                 numofShirts -= 1;     
@@ -117,9 +102,6 @@ public class Order implements Cloneable {
         }
     }
 
-	public static void cloneToOrders(Order order) throws CloneNotSupportedException {
-        orders.add((Order)order.clone());
-	}
 
     @Override 
     public Object clone() throws CloneNotSupportedException{

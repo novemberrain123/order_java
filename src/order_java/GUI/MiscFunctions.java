@@ -19,34 +19,10 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import order_java.classes.Customer;
-import order_java.classes.Order;
-
-public class MiscFunctions {
+public class MiscFunctions { // Random Static functions
     // Stores all pages
     public static JPanel masterCards = new JPanel(new CardLayout());
     public static JFrame frame;
-
-    public static void generateDefaultFrame() throws IOException {
-        frame = new JFrame("Custom T-Shirt Shop");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(500, 500);
-
-        // for testing change function
-
-        Home.createHome(); // “Hompage"
-        PageMemberLogin.createPageMember(); // "MemberLogin", pass=12345oop , name=limjunshen,ganyihwee,johnwick
-        PageMarket.createPageMarket(); // "Market"
-        PageMarket.createPageBrowse(); // "Browse"
-        PageMarket.createPageCustom(); // "Custom"
-        PageStaffLogin.createPageStaffLogin(); // "StaffLogin", pass=12345fat
-        
-
-        frame.getContentPane().add(MiscFunctions.masterCards);
-        frame.setVisible(true);
-        Customer.createCustomer(new Order());
-
-    }
 
     public static void addCardtoMasterCards(JPanel card, String s) {
         masterCards.add(card, s);
@@ -70,7 +46,7 @@ public class MiscFunctions {
             JButton btnCart = new JButton("");
             btnCart.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    PageCart.createPageCart();
+                    PageCart.pg.cartFrame.setVisible(true);
                 }
             });
             ImageIcon cart = new ImageIcon("img/cart.png");
@@ -111,5 +87,11 @@ public class MiscFunctions {
         graphics2D.drawImage(originalImage, 0, 0, targetWidth, targetHeight, null);
         graphics2D.dispose();
         return resizedImage;
+    }
+
+    public static Image rescaleImage(ImageIcon img, int x, int y, int s) {
+        Image image = img.getImage();
+        Image newimg = image.getScaledInstance(x, y, s);
+        return newimg;
     }
 }

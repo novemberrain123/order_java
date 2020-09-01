@@ -6,7 +6,9 @@ import javax.swing.*;
 import order_java.classes.*;
 
 public class PageMembership {
-    public static void createPageMembership(){
+    protected static PageMembership pm;
+
+	public PageMembership(){
         JPanel pane = new JPanel(new BorderLayout()); // Main panel
         JPanel[] paneMemberDetails = new JPanel[10]; // To store every panel for member's details
         for (int i = 0; i < 10; i++){ 
@@ -151,7 +153,6 @@ public class PageMembership {
                             ((MemberPayment)paymentCalc).addMemberFees(); // Add member fees
                         }
                         CardLayout cl = (CardLayout)(MiscFunctions.masterCards.getLayout());
-                        PagePayMethod.createPagePayMethod(); //"Pay Method"
                         cl.show(MiscFunctions.masterCards,"Pay Method");
                     }
                     else // Password entered invalid
@@ -163,7 +164,6 @@ public class PageMembership {
         btnCancel.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){ // Go back to pay method page
                 CardLayout cl = (CardLayout)(MiscFunctions.masterCards.getLayout());
-                PagePayMethod.createPagePayMethod(); //"Pay Method"
                 cl.show(MiscFunctions.masterCards,"Pay Method");
             }
         });

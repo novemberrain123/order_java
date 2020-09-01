@@ -15,22 +15,21 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
-import javax.swing.border.Border;
-
-
 
 import order_java.classes.Apparel;
 import order_java.classes.Customer;
+import order_java.classes.Log;
 import order_java.classes.Order;
 import order_java.classes.ReportData;
 
 public class PageReport {
-    final static String Report = "REPORT";
-    final static String History = "HISTORY";
-    final static int extraWindowWidth = 100;
+    private final static String Report = "REPORT";
+    private final static String History = "HISTORY";
+    private final static int extraWindowWidth = 100;
     public static JPanel historyPane = new JPanel();
+	protected static PageReport pr;
 
-    public static void createPageReport() {
+    public PageReport() {
 
         JPanel pane = new JPanel(new BorderLayout());
         MiscFunctions.addDefaultComponentsToPane(pane, "StaffLogin", 2);
@@ -147,31 +146,32 @@ public class PageReport {
 
     }
 
-    public static void addToHistory() {
+    public static void addToLog() {
 
-        ArrayList<Order> orders = Customer.getCustomer().getOrder().getOrders();
+        ArrayList<Order> orders = Log.log.getOrders();
 
         for (Order y : orders) {
             historyPane = new JPanel(new BorderLayout());
             historyPane.setAlignmentX(java.awt.Component.LEFT_ALIGNMENT);
             JPanel contentPane = new JPanel();
             contentPane.setAlignmentX(java.awt.Component.LEFT_ALIGNMENT);
-            
 
             historyPane.setLayout(new BoxLayout(historyPane, BoxLayout.Y_AXIS));
-            historyPane.add(new JLabel(String.valueOf(" Order ID : "+Customer.getCustomer().getOrder().getOrderID()) + "  Date : "
-                    + String.valueOf(Customer.getCustomer().getOrder().getDate())), BorderLayout.PAGE_START);
+            historyPane.add(
+                    new JLabel(String.valueOf(" Order ID : " + Customer.getCustomer().getOrder().getOrderID())
+                            + "  Date : " + String.valueOf(Customer.getCustomer().getOrder().getDate())),
+                    BorderLayout.PAGE_START);
 
             for (Apparel x : y.getShirts()) {
-                JLabel imagelabel = new JLabel(new ImageIcon(PageMarket.rescaleImage(x.getShirtImg(), 30, 40, 4)));
+                JLabel imagelabel = new JLabel(new ImageIcon(MiscFunctions.rescaleImage(x.getShirtImg(), 30, 40, 4)));
 
                 contentPane.add(imagelabel);
                 contentPane.add(new JLabel(String.valueOf("Shirt Name :" + x.getShirtName() + " Type : "
                         + x.getShirtType() + " \nSize : " + x.getSize() + " Qty : " + x.getQuantity())));
 
-                        contentPane.revalidate();
-                        contentPane.repaint();
-                        historyPane.add(contentPane,BorderLayout.CENTER);
+                contentPane.revalidate();
+                contentPane.repaint();
+                historyPane.add(contentPane, BorderLayout.CENTER);
             }
         }
     }

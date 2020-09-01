@@ -7,13 +7,9 @@ import java.awt.event.*;
 import java.io.*;
 
 public class PagePayMethod {
-    public static Image rescaleImage(ImageIcon img,int x,int y,int s){
-        Image image = img.getImage();
-        Image newimg = image.getScaledInstance(x, y, s);
-        return newimg;
-    }
+    public static PagePayMethod ppm;
 
-    // Check if member is going to redeem points
+	// Check if member is going to redeem points
     public static void checkRedeemPoints(Customer user, PaymentCalc paymentCalc){
         if (((Member)user).getPoints() >= 1500){ // Member accumulated points more than or equal to 1500
             Object[] points1 = {"500(3%)", "1000(7%)", "1500(12%)", "Cancel"};
@@ -67,14 +63,14 @@ public class PagePayMethod {
             else
                 paymentCalc.calculateAdjTotal();
             CardLayout cl = (CardLayout)(MiscFunctions.masterCards.getLayout());
-            PagePaymentDetails.createPagePaymentDetails(); // "Payment Details"
+            PagePaymentDetails.ppd = new PagePaymentDetails(); // "Payment Details"
             cl.show(MiscFunctions.masterCards, "Payment Details"); 
         }
         else {
             if (user instanceof Member){
                 checkRedeemPoints(user, paymentCalc);
                 CardLayout cl = (CardLayout)(MiscFunctions.masterCards.getLayout());
-                PagePaymentDetails.createPagePaymentDetails(); // "Payment Details"
+                PagePaymentDetails.ppd = new PagePaymentDetails(); // "Payment Details"
                 cl.show(MiscFunctions.masterCards, "Payment Details");
             }
             else {
@@ -91,7 +87,7 @@ public class PagePayMethod {
                             JOptionPane.showMessageDialog(null, "Your lucky letter is not matched.\nIt's okay. Try again next time :) !", "Sorry!", JOptionPane.INFORMATION_MESSAGE);
                         paymentCalc.calculateAdjTotal();
                         CardLayout cl = (CardLayout)(MiscFunctions.masterCards.getLayout());
-                        PagePaymentDetails.createPagePaymentDetails(); // "Payment Details"
+                        PagePaymentDetails.ppd = new PagePaymentDetails(); // "Payment Details"
                         cl.show(MiscFunctions.masterCards, "Payment Details");
                     }
                     else // Lucky letter is not letter
@@ -101,7 +97,7 @@ public class PagePayMethod {
         }
     }
 
-    public static void createPagePayMethod(){
+    public PagePayMethod(){
         Customer user = Customer.getCustomer(); // Local variable to get user static var
         if (user instanceof Member && (Member.getNextMemberID() - 1) != ((Member)user).getMemberID()){ // Reg Mem
             MemberPayment.createMemberPayment(); 
@@ -117,10 +113,10 @@ public class PagePayMethod {
         
         // Create card and cash button
         ImageIcon cardIcon = new ImageIcon("img/cardIcon.png");
-        cardIcon = new ImageIcon(rescaleImage(cardIcon, 135, 135, 4));
+        cardIcon = new ImageIcon(MiscFunctions.rescaleImage(cardIcon, 135, 135, 4));
         JButton cardButton = new JButton("By Card", cardIcon);
         ImageIcon cashIcon = new ImageIcon("img/cashIcon.png");
-        cashIcon = new ImageIcon(rescaleImage(cashIcon, 135, 135, 4));
+        cashIcon = new ImageIcon(MiscFunctions.rescaleImage(cashIcon, 135, 135, 4));
         JButton cashButton = new JButton("By Cash", cashIcon);
 
         // Set font and color for card and cash button
@@ -204,7 +200,7 @@ public class PagePayMethod {
                 }
                 else {
                     CardLayout cl = (CardLayout)(MiscFunctions.masterCards.getLayout());
-                    PageMembership.createPageMembership(); //"Membership"
+                    PageMembership.pm = new PageMembership();//"Membership"
                     cl.show(MiscFunctions.masterCards,"Membership");
                 }
             }

@@ -8,7 +8,6 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -23,34 +22,24 @@ import javax.swing.JSpinner;
 
 import order_java.classes.Apparel;
 import order_java.classes.Customer;
-import order_java.classes.Order;
+import order_java.classes.Log;
 
-public class PageCart extends JFrame {
+public class PageCart {
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = -2575850135525617539L;
-
-    public static Image rescaleImage(ImageIcon img, int x, int y, int s) {
-        Image image = img.getImage();
-        Image newimg = image.getScaledInstance(x, y, s);
-        return newimg;
-    }
-
-    public static JPanel newpanel = new JPanel();
-    public static JPanel pane = new JPanel();
-    public static ArrayList<JPanel> nested = new ArrayList<>();
+    public static PageCart pg;
+	public JPanel newpanel = new JPanel();
+    public JPanel pane = new JPanel();
+    public JFrame cartFrame;
 
     public static final int NEW_APPAREL = 0;
     public static final int OLD_APPAREL = 1;
 
-    public static void createPageCart() {
+    public PageCart() {
 
-        JFrame cartFrame = new JFrame("Cart");
+        cartFrame = new JFrame("Cart");
         cartFrame.setSize(500, 500);
-        cartFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        cartFrame.setVisible(true);
+        cartFrame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        cartFrame.setVisible(false);
         //
         JPanel topPane = new JPanel();
         topPane.setLayout(new BoxLayout(topPane, BoxLayout.X_AXIS));
@@ -72,13 +61,13 @@ public class PageCart extends JFrame {
                         "Proceed to payment", JOptionPane.OK_CANCEL_OPTION);
                 if (option == JOptionPane.OK_OPTION) {
                     try {
-                        Order.cloneToOrders(Customer.getCustomer().getOrder());
+                        Log.log = new Log();
+                        Log.log.cloneToOrders(Customer.getCustomer().getOrder());
                     } catch (CloneNotSupportedException e1) {
                         e1.printStackTrace();
                     }
-                    PageReport.addToHistory();
+                    PageReport.addToLog();
                     CardLayout cl = (CardLayout) (MiscFunctions.masterCards.getLayout());
-                    PagePayMethod.createPagePayMethod(); // "Pay Method"
                     cl.show(MiscFunctions.masterCards, "Pay Method");
                     cartFrame.dispose();
                 }
@@ -110,7 +99,7 @@ public class PageCart extends JFrame {
 
     }
 
-    public static void addToCart(Apparel apparel, int t) {
+    public void addToCart(Apparel apparel, int t) {
         if (t == NEW_APPAREL) {
             JPanel apparelPane = apparel.getApparelPane();
             newpanel.setLayout(new BoxLayout(newpanel, BoxLayout.Y_AXIS));
@@ -127,7 +116,7 @@ public class PageCart extends JFrame {
         newpanel.repaint();
     }
 
-    public static void removeFromCart(int i) {
+    public void removeFromCart(int i) {
         newpanel.remove(i);
         newpanel.revalidate();
         newpanel.repaint();

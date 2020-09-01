@@ -1,18 +1,38 @@
 package order_java.GUI;
 
-import order_java.classes.*;
-import java.awt.*;
-import javax.swing.*;
-import java.awt.event.*;
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+import order_java.classes.CardInfo;
+import order_java.classes.CashPayment;
+import order_java.classes.Customer;
+import order_java.classes.Member;
+import order_java.classes.MemberPayment;
+import order_java.classes.PaymentCalc;
 
 public class PagePaymentDetails {
-    public static void checkCardInfo(Customer user, JTextField tfCardNumber, JTextField tfCVCode, JComboBox<String> cbMonth, JComboBox<String> cbYear){ // Check whether card is valid or not
+    public static PagePaymentDetails ppd;
+
+	public static void checkCardInfo(Customer user, JTextField tfCardNumber, JTextField tfCVCode, JComboBox<String> cbMonth, JComboBox<String> cbYear){ // Check whether card is valid or not
         CardInfo cardInfo; 
         cardInfo = new CardInfo(tfCardNumber.getText(), (String)cbMonth.getSelectedItem() + "/" + (String)cbYear.getSelectedItem(), Integer.parseInt(tfCVCode.getText())); // Create new card info
         if (cardInfo.validateCard()){ // Valid card
             user.setCardInfo(cardInfo); // Set card info
             CardLayout cl = (CardLayout)(MiscFunctions.masterCards.getLayout());
-            PageReceipt.createPageReceipt(); // "Receipt"
+            PageReceipt.pr = new PageReceipt(); // "Receipt"
             cl.show(MiscFunctions.masterCards,"Receipt");
         }
         else  // Invalid card
@@ -26,7 +46,7 @@ public class PagePaymentDetails {
             user.setCashPayment(cashPayment); // Set cash payment
             paymentCalc.calculateChange(cashPayment);
             CardLayout cl = (CardLayout)(MiscFunctions.masterCards.getLayout());
-            PageReceipt.createPageReceipt(); // "Receipt"
+            PageReceipt.pr = new PageReceipt(); // "Receipt"
             cl.show(MiscFunctions.masterCards,"Receipt");
         }
         else // Insufficient cash amount
@@ -39,7 +59,7 @@ public class PagePaymentDetails {
         user.setPhoneNo(infoPhoneNo.getText()); // Set customer phone number
     }
 
-    public static void createPagePaymentDetails(){
+    public PagePaymentDetails(){
         Customer user = Customer.getCustomer(); // Local variable pointing to user static variable
         PaymentCalc paymentCalc = PaymentCalc.getPaymentCalc(); // Local variable pointing to paymentCalc static variable
 
