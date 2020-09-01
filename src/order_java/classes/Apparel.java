@@ -1,5 +1,6 @@
 package order_java.classes;
 
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -15,6 +16,8 @@ import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+
+import order_java.GUI.PageMarket;
 
 public class Apparel extends ApparelType implements ActionListener {
     private char size;
@@ -103,12 +106,15 @@ public class Apparel extends ApparelType implements ActionListener {
                 }
         }
     }
+    
 
     public void generateApparelPane() {
         apparelPane = new JPanel();
         JButton cancelbtn = new JButton("x");
         JSpinner spinner = new JSpinner();
-        JLabel imagelabel = new JLabel(shirtImg);
+        JLabel imagelabel = new JLabel(new ImageIcon(PageMarket.rescaleImage(shirtImg, 80, 100, 4)));
+        
+        
 
         SpinnerModel value = new SpinnerNumberModel(quantity, 1, 100, 1);
         spinner = new JSpinner(value);
