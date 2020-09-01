@@ -21,6 +21,8 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import order_java.classes.Member;
+
 public class PageMemberLogin {
 
     public static void createPageMember() {
@@ -131,7 +133,7 @@ public class PageMemberLogin {
                         x=true;
                         int ID =Integer.parseInt(memID);
                         double points = Double.parseDouble(memPoints);
-                        order_java.classes.Member member = new order_java.classes.Member(name,ID,memPass,points);
+                        Member.createRegMember(name, ID, memPass, points);
                         break;
                     }
             }

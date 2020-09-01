@@ -102,10 +102,6 @@ public class PagePayMethod {
     }
 
     public static void createPagePayMethod(){
-        // Order order = new Order(); // Customer demo (Before this page)
-        // Customer.createCustomer(order); // Customer demo (Before this page)
-        Member.createRegMember("Lim Jun Shen", 106, "MarisaWong2002", 2239); // Member demo (Before this page)
-
         Customer user = Customer.getCustomer(); // Local variable to get user static var
         if (user instanceof Member && (Member.getNextMemberID() - 1) != ((Member)user).getMemberID()){ // Reg Mem
             MemberPayment.createMemberPayment(); 
