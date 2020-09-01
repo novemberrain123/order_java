@@ -30,13 +30,6 @@ public class PageReport {
         MiscFunctions.addDefaultComponentsToPane(pane, "StaffLogin",2);
         //pane.setPreferredSize(new Dimension(400,400));
   
-        
-        double sold_S_T=0,sold_M_T=0,sold_L_T=0;
-        double sales_S_T=0,sales_M_T=0,sales_L_T=0;
-        double sold_S_H=0,sold_M_H=0,sold_L_H=0;
-        double sales_S_H=0,sales_M_H=0,sales_L_H=0;
-
-
 
         JTabbedPane tabbedPane = new JTabbedPane();
         tabbedPane.setPreferredSize(new Dimension(460,400));
