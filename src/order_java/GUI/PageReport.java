@@ -1,21 +1,22 @@
 package order_java.GUI;
 
-import java.awt.*;
-import javax.swing.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
+import javax.swing.JTable;
+import javax.swing.JTextArea;
 
 import order_java.classes.Apparel;
 import order_java.classes.Customer;
-
-import java.awt.event.MouseEvent.*;
-import java.lang.Object;
-import java.util.ArrayList;
-import java.util.EventObject;
-import java.awt.AWTEvent;
-import java.awt.event.ComponentEvent;
-import java.awt.event.InputEvent;
-import java.awt.event.MouseEvent;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import order_java.classes.Order;
+import order_java.classes.ReportData;
 
 public class PageReport {
     final static String Report = "REPORT";
@@ -56,17 +57,19 @@ public class PageReport {
                 return size;
             }
         };
+
+      
         String[] header = new String[]{
                 "Products", "Size", "Sold","Sales"
         };
         //actual data for the table in a 2d array
-        Object[][] data = new Object[][]{
-                {"T-Shirt", "S", order_java.classes.ReportData.getQuantity_S_Shirt(), order_java.classes.ReportData.getRevenue_S_Shirt()},
-                {"T-Shirt", "M", order_java.classes.ReportData.getQuantity_M_Shirt(), order_java.classes.ReportData.getRevenue_M_Shirt()},
-                {"T-Shirt", "L", order_java.classes.ReportData.getQuantity_L_Shirt(), order_java.classes.ReportData.getRevenue_L_Shirt()},
-                {"Hoodie", "S", order_java.classes.ReportData.getQuantity_S_Hoodie(), order_java.classes.ReportData.getRevenue_S_Hoodie()},
-                {"Hoodie", "M",  order_java.classes.ReportData.getQuantity_M_Hoodie(), order_java.classes.ReportData.getRevenue_M_Hoodie()},
-                {"Hoodie", "L", order_java.classes.ReportData.getQuantity_L_Hoodie(), order_java.classes.ReportData.getRevenue_L_Hoodie()},
+        String[][] data = {
+                {"T-Shirt", "S", String.valueOf(ReportData.getQuantity_S_Shirt()), String.valueOf(ReportData.getRevenue_S_Shirt())},
+                {"T-Shirt", "M", String.valueOf(ReportData.getQuantity_M_Shirt()), String.valueOf(ReportData.getRevenue_M_Shirt())},
+                {"T-Shirt", "L", String.valueOf(ReportData.getQuantity_L_Shirt()), String.valueOf(ReportData.getRevenue_L_Shirt())},
+                {"Hoodie", "S", String.valueOf(ReportData.getQuantity_S_Hoodie()), String.valueOf(ReportData.getRevenue_S_Hoodie())},
+                {"Hoodie", "M",  String.valueOf(ReportData.getQuantity_M_Hoodie()), String.valueOf(ReportData.getRevenue_M_Hoodie())},
+                {"Hoodie", "L", String.valueOf(ReportData.getQuantity_L_Hoodie()), String.valueOf(ReportData.getRevenue_L_Hoodie())},
         };
 
 
@@ -94,11 +97,6 @@ public class PageReport {
 
         });
 
-
-
-
-
-        //card1.add(new JScrollPane(ReportTable));
         
         
       
@@ -107,20 +105,22 @@ public class PageReport {
         JScrollPane scrollPane= new JScrollPane(ReportTable);
         card1.add(scrollPane,BorderLayout.CENTER);
         String historyrecord=" ";
-        Customer user = Customer.getCustomer();
+        
         JPanel card2 = new JPanel();
         JTextArea HistoryText = new JTextArea(20, 35);
         HistoryText.setEditable(false);
-        try
-        {
-        ArrayList<Apparel> shirts = new ArrayList<Apparel>();
-        shirts= user.getOrder().getShirts();
-         user.getOrder().getDate();
-         
-        for(Apparel apparel : shirts)
-        {
-            historyrecord=new String(user.getOrder().getOrderID()+"\n"+user.getOrder().getDate()+" "+apparel.getShirtName()+" "+apparel.getQuantity()+" "+user.getOrder().getNumofShirts());
+        
+        Customer user = Customer.getCustomer();
 
+        try {
+        ArrayList<Apparel> shirts = new ArrayList<Apparel>();
+        ArrayList<Order> orderList = new ArrayList<Order>();
+        shirts= user.getOrder().getShirts();
+        
+        for(Order x : orderList)
+        {
+            historyrecord=new String("Order ID :" +user.getOrder().getOrderID()+"\n"+"Date :"+user.getOrder().getDate()+"  "+user.getOrder().getNumofShirts());
+            HistoryText.setText(historyrecord);
         }
         
 
@@ -137,16 +137,14 @@ public class PageReport {
                 }
             }
         });
-        HistoryText.setText(historyrecord);
+        
         
     }
-    catch(NullPointerException e)
+    catch (Exception exception)
     {
-        historyrecord=" ";
-        JScrollPane scrollpane = new JScrollPane(HistoryText);
-        scrollpane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        scrollpane.setVisible(true);
+        HistoryText.setText(" ");
     }
+        
 
         JScrollPane scrollpane = new JScrollPane(HistoryText);
         scrollpane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -155,11 +153,6 @@ public class PageReport {
         card2.add(scrollpane);
         tabbedPane.addTab(Report, card1);
         tabbedPane.addTab(History, card2);
-
-        
-
-        
-        
         
         
         pane.add(tabbedPane, BorderLayout.CENTER);

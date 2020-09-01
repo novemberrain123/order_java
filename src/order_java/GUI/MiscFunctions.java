@@ -32,8 +32,8 @@ public class MiscFunctions {
         
         //for testing change function
 
-        // Home.createHome();  // “Hompage"
-        // PageMemberLogin.createPageMember(); // "MemberLogin", pass=12345oop , name=limjunshen,ganyihwee,johnwick
+         Home.createHome();  // “Hompage"
+         PageMemberLogin.createPageMember(); // "MemberLogin", pass=12345oop , name=limjunshen,ganyihwee,johnwick
         PageMarket.createPageMarket();  //"Market"
         PageMarket.createPageBrowse(); //"Browse"
         PageMarket.createPageCustom(); //"Custom"

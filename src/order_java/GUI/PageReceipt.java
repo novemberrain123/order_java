@@ -194,7 +194,7 @@ public class PageReceipt {
         btnContShop.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 CardLayout cl = (CardLayout)(MiscFunctions.masterCards.getLayout());
-                cl.show(MiscFunctions.masterCards,"Hompage");
+                cl.show(MiscFunctions.masterCards,"Home");
             }
         });
         // btnStopShop.addActionListener(new ActionListener(){
