@@ -13,8 +13,9 @@ public class Customer {
 
     }
 
-    public Customer(String name){ // Constructor used by member class to assign name for regular member
+    public Customer(String name, Order order){ // Constructor used by member class to assign name for regular member
         this.name = name;
+        this.order = order;
     }
 
     public Customer(Order order){ // Constructor to create a customer object when a new order has been made

@@ -16,7 +16,7 @@ public class Member extends Customer {
     }
 
     public Member(String name, int memberID, String password, double points){ // Constructor to create regular member
-        super(name);
+        super(name, new Order());
         this.memberID = memberID;
         this.password = password;
         this.points = points;
