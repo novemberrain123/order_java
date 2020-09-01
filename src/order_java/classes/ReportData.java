@@ -3,8 +3,7 @@ package order_java.classes;
 //import jdk.javadoc.internal.doclets.toolkit.resources.doclets;
 
 public class ReportData{
-    private String apparelType;
-    private char apparelSize;
+        
     static double[] Sales_S_Shirt=new double[2]; // quantity & revenue
     static double[] Sales_M_Shirt=new double[2];
     static double[] Sales_L_Shirt=new double[2];
@@ -14,22 +13,14 @@ public class ReportData{
 
 
 
-    public ReportData(String apprelType, char apparelSize)
+    public ReportData()
     {
-        this.apparelType=apparelType;
-        this.apparelSize=apparelSize;    
+        // this.apparelType=apparelType;
+        // this.apparelSize=apparelSize;    
         
     }
 
-    public String getapprelType()
-    {
-            return apparelType;
-    }
-
-    public char getapprelSizeString()
-    {
-            return apparelSize;
-    }
+    
 
     public static double getQuantity_S_Shirt()
     {

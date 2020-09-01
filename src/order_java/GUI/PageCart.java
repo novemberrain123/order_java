@@ -1,17 +1,27 @@
 package order_java.GUI;
 
-import java.awt.*;
-import javax.swing.*;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.Document;
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
 
 import order_java.classes.Apparel;
-import order_java.classes.ApparelType;
-import order_java.classes.Customer;
-import order_java.classes.Order;
-
-import java.awt.event.*;
-import java.util.ArrayList;
 
 public class PageCart extends JFrame {
 
@@ -52,6 +62,18 @@ public class PageCart extends JFrame {
         topPane.add(logoLabel);
         topPane.add(Box.createHorizontalGlue());
         //
+        JButton proceedBtn = new JButton("Proceed to Payment");
+            proceedBtn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                int option = JOptionPane.showConfirmDialog(null, "Once proceed to payment section,\nyou can never navigate backward to previous page.\nAre you sure to continue ?", "Proceed to payment", JOptionPane.OK_CANCEL_OPTION);
+                if (option == JOptionPane.OK_OPTION){
+                    CardLayout cl = (CardLayout)(MiscFunctions.masterCards.getLayout());
+                    cl.show(MiscFunctions.masterCards,"Pay Method");
+                    cartFrame.dispose();
+                }
+            }
+        });
+
         JScrollPane scrollpane = new JScrollPane(newpanel);
         scrollpane.setPreferredSize(new Dimension(350, 350));
         scrollpane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -71,6 +93,7 @@ public class PageCart extends JFrame {
         pane.setVisible(true);
         pane.add(midPane, BorderLayout.CENTER);
         pane.add(topPane, BorderLayout.PAGE_START);
+        pane.add(proceedBtn,BorderLayout.PAGE_END);
         //
         cartFrame.add(pane);
 
@@ -80,6 +103,7 @@ public class PageCart extends JFrame {
         int x=123123;
         if (t == NEW_APPAREL) {
             JPanel apparelPane = apparel.getApparelPane();
+            newpanel.setLayout(new BoxLayout(newpanel, BoxLayout.Y_AXIS));
             newpanel.add(apparelPane);
 
         } else {

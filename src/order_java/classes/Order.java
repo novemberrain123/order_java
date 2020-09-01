@@ -1,27 +1,13 @@
 package order_java.classes;
 
-import java.util.*;
+import java.awt.Image;
+import java.util.ArrayList;
+import java.util.Date;
 
-import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
-import java.awt.*;
-import javax.swing.*;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.Document;
-import java.awt.Container;
-//import jdk.internal.platform.Container;
-import order_java.GUI.MiscFunctions;
+
 import order_java.GUI.PageCart;
-import order_java.classes.Apparel;
-import order_java.classes.ApparelType;
-
-import java.awt.image.*;
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
-
-import javax.imageio.*;
-import java.io.*;
 
 public class Order {
     private int orderID;
