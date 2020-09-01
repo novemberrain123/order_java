@@ -22,6 +22,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 
 import order_java.classes.Apparel;
+import order_java.classes.Customer;
+import order_java.classes.Order;
 
 public class PageCart extends JFrame {
 
@@ -63,13 +65,21 @@ public class PageCart extends JFrame {
         topPane.add(Box.createHorizontalGlue());
         //
         JButton proceedBtn = new JButton("Proceed to Payment");
-            proceedBtn.addActionListener(new ActionListener() {
+        proceedBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                int option = JOptionPane.showConfirmDialog(null, "Once proceed to payment section,\nyou can never navigate backward to previous page.\nAre you sure to continue ?", "Proceed to payment", JOptionPane.OK_CANCEL_OPTION);
-                if (option == JOptionPane.OK_OPTION){
-                    CardLayout cl = (CardLayout)(MiscFunctions.masterCards.getLayout());
+                int option = JOptionPane.showConfirmDialog(null,
+                        "Once proceed to payment section,\nyou can never navigate backward to previous page.\nAre you sure to continue ?",
+                        "Proceed to payment", JOptionPane.OK_CANCEL_OPTION);
+                if (option == JOptionPane.OK_OPTION) {
+                    try {
+                        Order.cloneToOrders(Customer.getCustomer().getOrder());
+                    } catch (CloneNotSupportedException e1) {
+                        e1.printStackTrace();
+                    }
+                    PageReport.addToHistory();
+                    CardLayout cl = (CardLayout) (MiscFunctions.masterCards.getLayout());
                     PagePayMethod.createPagePayMethod(); // "Pay Method"
-                    cl.show(MiscFunctions.masterCards,"Pay Method");
+                    cl.show(MiscFunctions.masterCards, "Pay Method");
                     cartFrame.dispose();
                 }
             }
@@ -94,7 +104,7 @@ public class PageCart extends JFrame {
         pane.setVisible(true);
         pane.add(midPane, BorderLayout.CENTER);
         pane.add(topPane, BorderLayout.PAGE_START);
-        pane.add(proceedBtn,BorderLayout.PAGE_END);
+        pane.add(proceedBtn, BorderLayout.PAGE_END);
         //
         cartFrame.add(pane);
 

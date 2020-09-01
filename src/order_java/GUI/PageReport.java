@@ -146,27 +146,24 @@ public class PageReport {
     public static void addToHistory() {
 
         ArrayList<Order> orders = Customer.getCustomer().getOrder().getOrders();
-        ArrayList<Apparel> apparel = Customer.getCustomer().getOrder().getShirts();
-      
 
-        for(Order y : orders)
-        {
+        for (Order y : orders) {
             historyPane = new JPanel(new BorderLayout());
             historyPane.setLayout(new BoxLayout(historyPane, BoxLayout.Y_AXIS));
             historyPane.add(new JLabel(String.valueOf(Customer.getCustomer().getOrder().getOrderID()) + "  "
                     + String.valueOf(Customer.getCustomer().getOrder().getDate())), BorderLayout.PAGE_START);
-                    
-        for (Apparel x : apparel) {
-            JLabel imagelabel = new JLabel(x.getShirtImg());
 
-            historyPane.add(imagelabel);
-            historyPane.add(new JLabel(String.valueOf("Shirt Name :" + x.getShirtName() + " Type : " + x.getShirtType()
-                    + " Size : " + x.getSize() + " Qty : " + x.getQuantity())));
+            for (Apparel x : y.getShirts()) {
+                JLabel imagelabel = new JLabel(x.getShirtImg());
 
-            historyPane.revalidate();
-            historyPane.repaint();          
+                historyPane.add(imagelabel);
+                historyPane.add(new JLabel(String.valueOf("Shirt Name :" + x.getShirtName() + " Type : "
+                        + x.getShirtType() + " Size : " + x.getSize() + " Qty : " + x.getQuantity())));
+
+                historyPane.revalidate();
+                historyPane.repaint();
+            }
         }
-    }
     }
 
 }

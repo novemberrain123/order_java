@@ -9,11 +9,11 @@ import javax.swing.JPanel;
 
 import order_java.GUI.PageCart;
 
-public class Order {
+public class Order implements Cloneable {
     private int orderID;
     private int numofShirts;
     private ArrayList<Apparel> shirts = new ArrayList<Apparel>();
-    private ArrayList<Order> orders = new ArrayList<Order>();
+    private static ArrayList<Order> orders = new ArrayList<Order>(); //cloned for record purposes
     private Date date;
     private static int count = 1;
     public static JPanel Cartpane;
@@ -117,6 +117,15 @@ public class Order {
         }
     }
 
+	public static void cloneToOrders(Order order) throws CloneNotSupportedException {
+        orders.add((Order)order.clone());
+	}
+
+    @Override 
+    public Object clone() throws CloneNotSupportedException{
+        return super.clone();
+    }
+
     @Override
     public String toString() {
         return "{" + " orderID='" + orderID + "'" + ", numofShirts='" + numofShirts + "'" + ", shirts='" + shirts + "'"
@@ -128,7 +137,6 @@ public class Order {
         Image newimg = image.getScaledInstance(x, y, s);
         return newimg;
     }
-
 
 
 }
