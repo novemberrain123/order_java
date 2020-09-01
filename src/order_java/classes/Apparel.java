@@ -48,24 +48,29 @@ public class Apparel extends ApparelType implements ActionListener {
                     case 'S':
                         price = 15;
                         totalSold[0][0] += quantity;
+                        break;
                     case 'H':
                         price = 17;
                         totalSold[1][0] += quantity;
                 }
+                break;
             case 'M':
                 switch (getShirtType()) {
                     case 'S':
                         price = 20;
                         totalSold[0][1] += quantity;
+                        break;
                     case 'H':
                         price = 22;
                         totalSold[1][1] += quantity;
                 }
+                break;
             case 'L':
                 switch (getShirtType()) {
                     case 'S':
                         price = 25;
                         totalSold[0][2] += quantity;
+                        break;
                     case 'H':
                         price = 27;
                         totalSold[1][2] += quantity;
