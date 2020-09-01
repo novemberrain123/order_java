@@ -41,7 +41,7 @@ public class MiscFunctions {
         PageMarket.createPageCustom(); // "Custom"
         PagePayMethod.createPagePayMethod(); // "Pay Method"
         PageStaffLogin.createPageStaffLogin(); // "StaffLogin", pass=12345fat
-        PageReport.createPageReport(); // "Reports"
+        
 
         frame.getContentPane().add(MiscFunctions.masterCards);
         frame.setVisible(true);

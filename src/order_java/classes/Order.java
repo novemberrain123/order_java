@@ -13,6 +13,7 @@ public class Order {
     private int orderID;
     private int numofShirts;
     private ArrayList<Apparel> shirts = new ArrayList<Apparel>();
+    private ArrayList<Order> orders = new ArrayList<Order>();
     private Date date;
     private static int count = 1;
     public static JPanel Cartpane;
@@ -48,6 +49,15 @@ public class Order {
 
     public void setShirts(ArrayList<Apparel> shirts) {
         this.shirts = shirts;
+    }
+    
+    public ArrayList<Order> getOrders()
+    {
+        return this.orders;
+    }
+    public void setOrders(ArrayList<Order> orders)
+    {
+        this.orders=orders;
     }
 
     public Date getDate() {

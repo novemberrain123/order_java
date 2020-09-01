@@ -60,6 +60,7 @@ public class PageStaffLogin  {
                     char[] pass = passwordField.getPassword();
                     String username = name1.getText();
                     if (performCheck(pass)==true&&performCheck2(username)==true) {
+                         PageReport.createPageReport(); // "Reports"
                          CardLayout cl = (CardLayout)(MiscFunctions.masterCards.getLayout());
                          cl.show(MiscFunctions.masterCards,"Reports");
 
