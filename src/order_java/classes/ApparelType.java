@@ -230,14 +230,13 @@ public class ApparelType implements ActionListener {
         rightPane.add(quantity);
         // add to cart button
         JButton btnAddtoCart = new JButton("Add to Cart");
-        Customer.createCustomer(new Order());
-        Customer user = Customer.getCustomer();
         btnAddtoCart.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 int q = (int) quantity.getValue();
                 char size = sizeGroup.getSelection().getActionCommand().charAt(0);
                 char bg;
                 String bgString = "";//
+                Customer user = Customer.getCustomer();
                 if (t == BROWSE) {
                     bg = Character.toUpperCase(bgGroup.getSelection().getActionCommand().charAt(0));
                     bgString = bgGroup.getSelection().getActionCommand();

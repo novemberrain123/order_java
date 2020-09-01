@@ -18,6 +18,9 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import order_java.classes.Customer;
+import order_java.classes.Order;
 public class MiscFunctions {
     // Stores all pages
     public static JPanel masterCards = new JPanel(new CardLayout());
@@ -45,6 +48,8 @@ public class MiscFunctions {
         // PageMarket.createPageBrowse();
         frame.getContentPane().add(MiscFunctions.masterCards);
         frame.setVisible(true);
+        Customer.createCustomer(new Order());
+
     }
 
     public static void addCardtoMasterCards(JPanel card, String s) {

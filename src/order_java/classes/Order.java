@@ -26,7 +26,7 @@ import java.io.*;
 public class Order {
     private int orderID;
     private int numofShirts;
-    private static ArrayList<Apparel> shirts = new ArrayList<Apparel>();
+    private ArrayList<Apparel> shirts = new ArrayList<Apparel>();
     private Date date;
     private static int count = 1;
     public static JPanel Cartpane;
@@ -81,12 +81,11 @@ public class Order {
         boolean isAdded = false;
         for (Apparel x : shirts) {
             if (x.equals(a)) {
-                x.setQuantity(a.getQuantity());
+                x.setQuantity(a.getQuantity()+x.getQuantity());
                 isAdded = true;
                 PageCart.addToCart(x, PageCart.OLD_APPAREL);
-            }
-            if (isAdded == true)
                 break;
+            }
         }
         if (isAdded == false) {
             shirts.add(a);
@@ -110,6 +109,15 @@ public class Order {
                 break;
             }
             
+        }
+    }
+
+    public void changeQuantityOfShirt(Apparel a, int q){
+        for(Apparel x:shirts){
+            if(x.equals(a)){
+                x.setQuantity(q);
+                break;
+            }
         }
     }
 

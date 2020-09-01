@@ -77,7 +77,6 @@ public class PageCart extends JFrame {
     }
 
     public static void addToCart(Apparel apparel, int t) {
-        int x=123123;
         if (t == NEW_APPAREL) {
             JPanel apparelPane = apparel.getApparelPane();
             newpanel.add(apparelPane);

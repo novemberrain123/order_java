@@ -16,7 +16,6 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-
 public class Apparel extends ApparelType implements ActionListener {
     private char size;
     private double price;
@@ -24,8 +23,6 @@ public class Apparel extends ApparelType implements ActionListener {
     private ImageIcon shirtImg;
     private int quantity;
     private JPanel apparelPane;
-
-  
 
     public static int totalSold[][] = { { 0, 0, 0 }, { 0, 0, 0 } }; // [Shirt[S,M,L],Hoodie[S,M,L]]
     public final static double prices[][] = { { 15, 20, 25 }, { 17, 22, 27 } }; // [Shirt[S,M,L],Hoodie[S,M,L]
@@ -103,34 +100,28 @@ public class Apparel extends ApparelType implements ActionListener {
     }
 
     public void generateApparelPane() {
-        apparelPane = new JPanel();  
+        apparelPane = new JPanel();
         JButton cancelbtn = new JButton("x");
         JSpinner spinner = new JSpinner();
         JLabel imagelabel = new JLabel(shirtImg);
-        
-        SpinnerModel value = new SpinnerNumberModel(quantity, 0, 100, 1);
-        spinner = new JSpinner(value);
-        spinner.addChangeListener(new ChangeListener(){
-            public void stateChanged(ChangeEvent e)
-            {
 
-            }
-        });
+        SpinnerModel value = new SpinnerNumberModel(quantity, 1, 100, 1);
+        spinner = new JSpinner(value);
+        spinner.addChangeListener(new SpinnerListener());
         apparelPane.add(imagelabel);
-        apparelPane.add(new JLabel("Name :"+getShirtName()));
+        apparelPane.add(new JLabel("Name :" + getShirtName()));
         apparelPane.add(new JLabel("Size: " + size + " Color: " + bgColor));
         apparelPane.add(spinner);
         apparelPane.add(cancelbtn);
         cancelbtn.addActionListener(this);
 
-    
     }
 
-    public void actionPerformed (ActionEvent e)
-    {
+    public void actionPerformed(ActionEvent e) {
         Customer.getCustomer().getOrder().removeShirtFromOrder(this);
 
-    } 
+    }
+
     public char getSize() {
         return this.size;
     }
@@ -190,7 +181,8 @@ public class Apparel extends ApparelType implements ActionListener {
     @Override
     public boolean equals(Object o) {
         final Apparel other = (Apparel) o;
-        if (this.size == other.size && this.bgColor == other.bgColor && this.getShirtName().equals(other.getShirtName())) {
+        if (this.size == other.size && this.bgColor == other.bgColor
+                && this.getShirtName().equals(other.getShirtName())) {
             return true;
         } else
             return false;
@@ -202,8 +194,10 @@ public class Apparel extends ApparelType implements ActionListener {
                 + ", shirtImg='" + getShirtImg() + "'" + ", quantity='" + getQuantity() + "'" + "}";
     }
 
-
-    
-
+    class SpinnerListener implements ChangeListener {
+        public void stateChanged(ChangeEvent e) {
+            Customer.getCustomer().getOrder().changeQuantityOfShirt(Apparel.this, (int)((JSpinner)e.getSource()).getValue());
+        }
+    }
 
 }
