@@ -7,6 +7,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -14,6 +15,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
+import javax.swing.border.Border;
+
+
 
 import order_java.classes.Apparel;
 import order_java.classes.Customer;
@@ -130,7 +134,7 @@ public class PageReport {
         // }
 
         JScrollPane scrollpane = new JScrollPane(historyPane);
-        scrollpane.setPreferredSize(new Dimension(350, 350));
+        scrollpane.setPreferredSize(new Dimension(400, 350));
         scrollpane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         scrollpane.setVisible(true);
 
@@ -149,19 +153,25 @@ public class PageReport {
 
         for (Order y : orders) {
             historyPane = new JPanel(new BorderLayout());
+            historyPane.setAlignmentX(java.awt.Component.LEFT_ALIGNMENT);
+            JPanel contentPane = new JPanel();
+            contentPane.setAlignmentX(java.awt.Component.LEFT_ALIGNMENT);
+            
+
             historyPane.setLayout(new BoxLayout(historyPane, BoxLayout.Y_AXIS));
-            historyPane.add(new JLabel(String.valueOf(Customer.getCustomer().getOrder().getOrderID()) + "  "
+            historyPane.add(new JLabel(String.valueOf(" Order ID : "+Customer.getCustomer().getOrder().getOrderID()) + "  Date : "
                     + String.valueOf(Customer.getCustomer().getOrder().getDate())), BorderLayout.PAGE_START);
 
             for (Apparel x : y.getShirts()) {
-                JLabel imagelabel = new JLabel(x.getShirtImg());
+                JLabel imagelabel = new JLabel(new ImageIcon(PageMarket.rescaleImage(x.getShirtImg(), 30, 40, 4)));
 
-                historyPane.add(imagelabel);
-                historyPane.add(new JLabel(String.valueOf("Shirt Name :" + x.getShirtName() + " Type : "
-                        + x.getShirtType() + " Size : " + x.getSize() + " Qty : " + x.getQuantity())));
+                contentPane.add(imagelabel);
+                contentPane.add(new JLabel(String.valueOf("Shirt Name :" + x.getShirtName() + " Type : "
+                        + x.getShirtType() + " \nSize : " + x.getSize() + " Qty : " + x.getQuantity())));
 
-                historyPane.revalidate();
-                historyPane.repaint();
+                        contentPane.revalidate();
+                        contentPane.repaint();
+                        historyPane.add(contentPane,BorderLayout.CENTER);
             }
         }
     }
