@@ -47,6 +47,9 @@ public class PagePayMethod {
                 ((MemberPayment)paymentCalc).calculateDiscountAmount(option3);
             }
         }
+        else 
+            ((MemberPayment)paymentCalc).calculateDiscountAmount(); // Member points below 500
+
         try { // Update member points in text file
             ((Member)user).updatePoints();
         } catch (IOException ioException) {

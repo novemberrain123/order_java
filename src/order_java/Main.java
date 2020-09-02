@@ -9,12 +9,9 @@ import order_java.GUI.MiscFunctions;
 import order_java.GUI.PageCart;
 import order_java.GUI.PageMarket;
 import order_java.GUI.PageMemberLogin;
-import order_java.GUI.PagePayMethod;
 import order_java.GUI.PageStaffLogin;
 import order_java.classes.ApparelType;
-import order_java.classes.Customer;
 import order_java.classes.Log;
-import order_java.classes.Order;
 
 public class Main {
     public static void main(String args[]) throws IOException {
@@ -28,10 +25,7 @@ public class Main {
         PageMarket.pm = new PageMarket();// "Market"
         PageCart.pg = new PageCart();
         PageStaffLogin.psl = new PageStaffLogin();// "StaffLogin", pass=12345fat
-        PagePayMethod.ppm = new PagePayMethod(); //"Pay Method"
         frame.getContentPane().add(MiscFunctions.masterCards);
         frame.setVisible(true);
-        Customer.createCustomer(new Order());
-
     }
 }

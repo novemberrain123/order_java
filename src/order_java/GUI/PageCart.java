@@ -76,6 +76,7 @@ public class PageCart {
                     }
                     PageReport.addToLog();
                     CardLayout cl = (CardLayout) (MiscFunctions.masterCards.getLayout());
+                    PagePayMethod.ppm = new PagePayMethod(); //"Pay Method"
                     cl.show(MiscFunctions.masterCards, "Pay Method");
                     cartFrame.dispose();
                 }

@@ -9,6 +9,7 @@ public class Member extends Customer {
     private String email;
     private String dob;
     private int luckyNumber; // Lucky number chosen by new member for raffle purpose
+    private boolean isFreeMembership;
     private final static double convertPoints = 0.3; // Rate to convert raw total of purchase to member points
 
     public Member(){ // Constructor to create new member when new member signed up
@@ -84,6 +85,14 @@ public class Member extends Customer {
 
     public int getLuckyNumber(){
         return luckyNumber;
+    }
+
+    public void setIsFreeMembership(boolean isFreeMembership){
+        this.isFreeMembership = isFreeMembership;
+    }
+
+    public boolean getIsFreeMembership(){
+        return isFreeMembership;
     }
 
     public void addPoints(double rawTotal) { // Add new member points to accumulated member points
@@ -204,7 +213,7 @@ public class Member extends Customer {
         }
 
         String[] arrayLineToEdit = lineToEdit.split(" ");
-        String editedLine = arrayLineToEdit[0] + " " + arrayLineToEdit[1] + " " + String.format("%-7.2f", points) + " " + arrayLineToEdit[3];
+        String editedLine = arrayLineToEdit[0] + " " + arrayLineToEdit[1] + " " + String.format("%.2f", points) + " " + arrayLineToEdit[3];
         String newContent = oldContent.replace(lineToEdit, editedLine);
 
         FileWriter writer = new FileWriter(memberFile);

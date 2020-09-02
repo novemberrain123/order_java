@@ -119,7 +119,7 @@ public class PageReceipt {
         JLabel infoTransactionTime = new JLabel(receipt.getTransactionTime());
         JLabel infoPayMethod = new JLabel(paymentCalc.getPayMethod());
         JLabel infoAmount = new JLabel(String.format("%-7.2f", paymentCalc.getAdjTotal()));
-        if (user instanceof Member && (Member.getNextMemberID() - 1) == ((Member) user).getMemberID()) // New Member
+        if (user instanceof Member && (Member.getNextMemberID() - 1) == ((Member) user).getMemberID() && ((Member)user).getIsFreeMembership() == false) // New member who need to pay for member fees
             infoAmount.setText(infoAmount.getText() + " (Included member fees)");
         JLabel infoCardNumber = new JLabel();
         JLabel infoPaidCash = new JLabel();

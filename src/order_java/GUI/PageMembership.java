@@ -147,12 +147,14 @@ public class PageMembership {
                         ((Member)user).setLuckyNumber(Integer.parseInt(JOptionPane.showInputDialog(null, "Member fee: RM20.00\nEnter a lucky number and stand a chance to get free membership !\n(Any number from 1 to 5)"))); // Lucky number raffle
                         if (((MemberPayment)paymentCalc).matchLuckyNumber(user)){ // Lucky number is matched
                             JOptionPane.showMessageDialog(null, "Your lucky number is matched.\nYou are given a free membership.\nHave a nice day!", "Congratulation!", JOptionPane.INFORMATION_MESSAGE); // Get free membership
+                            ((Member)user).setIsFreeMembership(true);
                         }
                         else { // Lucky number is not matched
                             JOptionPane.showMessageDialog(null, "Your lucky number is not matched.\nIt's okay. Try better next time :) !", "Sorry!", JOptionPane.INFORMATION_MESSAGE);
                             ((MemberPayment)paymentCalc).addMemberFees(); // Add member fees
                         }
                         CardLayout cl = (CardLayout)(MiscFunctions.masterCards.getLayout());
+                        PagePayMethod.ppm = new PagePayMethod(); //"Pay Method"
                         cl.show(MiscFunctions.masterCards,"Pay Method");
                     }
                     else // Password entered invalid

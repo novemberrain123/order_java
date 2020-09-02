@@ -157,7 +157,13 @@ public class PagePaymentDetails {
         JTextField infoPhoneNo = new JTextField(15);
         JLabel infoTotalAmount = new JLabel("RM " + String.format("%-7.2f",paymentCalc.getRawTotal()));
         JLabel infoDiscountAmount = new JLabel("RM " + String.format("%-6.2f",paymentCalc.getDiscountAmount())); 
-        JLabel infoMemberFees = new JLabel("RM " + String.format("%-4.2f",MemberPayment.getMemberFees()));
+        JLabel infoMemberFees = new JLabel();
+        if (user instanceof Member && (Member.getNextMemberID() - 1) == ((Member)user).getMemberID()){ // New member
+            if (((Member)user).getIsFreeMembership()) // Free membership
+                infoMemberFees = new JLabel("RM 0.00");
+            else 
+                infoMemberFees = new JLabel("RM " + String.format("%-4.2f",MemberPayment.getMemberFees()));
+        }
         JLabel infoAmountToPay = new JLabel("RM " + String.format("%-7.2f",paymentCalc.getAdjTotal()));
         JLabel infoAddPoints = new JLabel(String.format("%-6.2f",Member.getAddPoints(paymentCalc.getRawTotal())));
         JLabel infoRedeemPoints = new JLabel();

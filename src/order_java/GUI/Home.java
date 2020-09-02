@@ -16,6 +16,8 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import order_java.classes.*;
+
 public class Home {
 
     public static Home home;
@@ -78,6 +80,7 @@ public class Home {
         btnCustomer.setAlignmentX(Component.CENTER_ALIGNMENT);
         btnCustomer.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                Customer.createCustomer(new Order());
                 CardLayout cl = (CardLayout) (MiscFunctions.masterCards.getLayout());
                 cl.show(MiscFunctions.masterCards, "Market");
             }
