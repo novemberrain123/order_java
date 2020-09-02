@@ -61,7 +61,6 @@ public class PageCart {
                         "Proceed to payment", JOptionPane.OK_CANCEL_OPTION);
                 if (option == JOptionPane.OK_OPTION) {
                     try {
-                        Log.log = new Log();
                         Log.log.cloneToOrders(Customer.getCustomer().getOrder());
                     } catch (CloneNotSupportedException e1) {
                         e1.printStackTrace();

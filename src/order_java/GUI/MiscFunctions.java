@@ -19,15 +19,30 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import order_java.classes.ApparelType;
+import order_java.classes.Customer;
+import order_java.classes.Order;
+
 public class MiscFunctions { // Random Static functions
     // Stores all pages
     public static JPanel masterCards = new JPanel(new CardLayout());
     public static JFrame frame;
 
-    public static void addCardtoMasterCards(JPanel card, String s) {
-        masterCards.add(card, s);
+    public static void initMain() throws IOException{
+
+        ApparelType.initApparels();
+        Home.home = new Home(); // "home"
+        PageMemberLogin.pml = new PageMemberLogin();// "MemberLogin", pass=12345oop , name=limjunshen,ganyihwee,johnwick
+        PageMarket.pm = new PageMarket();// "Market"
+        PageCart.pg = new PageCart();
+        PageStaffLogin.psl = new PageStaffLogin();// "StaffLogin", pass=12345fat
+        PagePayMethod.ppm = new PagePayMethod(); // "Pay Method"
+        Customer.createCustomer(new Order());
     }
 
+    public static void addCardtoMasterCards(JPanel card, String s) {
+        masterCards.add(card, s);
+    } 
     public static void addDefaultComponentsToPane(JPanel pane, String s, int c) {
         JPanel topPane = new JPanel();
         topPane.setLayout(new BoxLayout(topPane, BoxLayout.X_AXIS));

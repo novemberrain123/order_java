@@ -84,20 +84,25 @@ public class Apparel extends ApparelType {
                 switch (this.getShirtType()) {
                     case 'S':
                         totalSold[0][0] -= quantity;
+                        break;
                     case 'H':
                         totalSold[1][0] -= quantity;
                 }
+                break;
             case 'M':
                 switch (this.getShirtType()) {
                     case 'S':
                         totalSold[0][1] -= quantity;
+                        break;
                     case 'H':
                         totalSold[1][1] -= quantity;
                 }
+                break;
             case 'L':
                 switch (this.getShirtType()) {
                     case 'S':
                         totalSold[0][2] -= quantity;
+                        break;
                     case 'H':
                         totalSold[1][2] -= quantity;
                 }

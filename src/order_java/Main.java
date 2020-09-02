@@ -13,6 +13,7 @@ import order_java.GUI.PagePayMethod;
 import order_java.GUI.PageStaffLogin;
 import order_java.classes.ApparelType;
 import order_java.classes.Customer;
+import order_java.classes.Log;
 import order_java.classes.Order;
 
 public class Main {
@@ -20,7 +21,7 @@ public class Main {
         JFrame frame = new JFrame("Custom T-Shirt Shop");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(500, 500);
-
+        Log.log = new Log();
         ApparelType.initApparels();
         Home.home = new Home(); // "home"
         PageMemberLogin.pml = new PageMemberLogin();// "MemberLogin", pass=12345oop , name=limjunshen,ganyihwee,johnwick

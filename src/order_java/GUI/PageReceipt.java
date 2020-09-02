@@ -14,6 +14,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import order_java.classes.ApparelType;
 import order_java.classes.Customer;
 import order_java.classes.Member;
 import order_java.classes.Order;
@@ -23,7 +24,7 @@ import order_java.classes.Receipt;
 public class PageReceipt {
     public static PageReceipt pr;
 
-	public PageReceipt() {
+    public PageReceipt() {
         Customer user = Customer.getCustomer();
         PaymentCalc paymentCalc = PaymentCalc.getPaymentCalc();
         Receipt receipt = new Receipt(); // Create receipt object
@@ -193,18 +194,11 @@ public class PageReceipt {
         // Event handling
         btnContShop.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                Home.home = new Home(); // "home"
-                PageMemberLogin.pml = new PageMemberLogin();// "MemberLogin", pass=12345oop ,
-                                                            // name=limjunshen,ganyihwee,johnwick
                 try {
-                    PageMarket.pm = new PageMarket();
+                    MiscFunctions.initMain();
                 } catch (IOException e1) {
                     e1.printStackTrace();
-                } // "Market"
-                PageCart.pg = new PageCart();
-                PageStaffLogin.psl = new PageStaffLogin();// "StaffLogin", pass=12345fa
-                Customer.createCustomer(new Order());
-                
+                }
                 CardLayout cl = (CardLayout) (MiscFunctions.masterCards.getLayout());
                 cl.show(MiscFunctions.masterCards, "Home");
 
@@ -212,18 +206,12 @@ public class PageReceipt {
         });
         btnStopShop.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                Home.home = new Home(); // "home"
-                PageMemberLogin.pml = new PageMemberLogin();// "MemberLogin", pass=12345oop ,
-                                                            // name=limjunshen,ganyihwee,johnwick
                 try {
-                    PageMarket.pm = new PageMarket();
+                    MiscFunctions.initMain();
                 } catch (IOException e1) {
                     e1.printStackTrace();
-                } // "Market"
-                PageCart.pg = new PageCart();
-                PageStaffLogin.psl = new PageStaffLogin();// "StaffLogin", pass=12345fa
-                Customer.createCustomer(new Order());
-                
+                }
+
                 CardLayout cl = (CardLayout) (MiscFunctions.masterCards.getLayout());
                 cl.show(MiscFunctions.masterCards, "StaffLogin");
             }
