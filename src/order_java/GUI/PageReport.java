@@ -16,10 +16,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
-import javax.swing.border.Border;
 
 import order_java.classes.Apparel;
-import order_java.classes.Customer;
 import order_java.classes.Log;
 import order_java.classes.Order;
 import order_java.classes.ReportData;

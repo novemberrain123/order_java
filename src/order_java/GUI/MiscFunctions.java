@@ -18,8 +18,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JOptionPane;
-import order_java.classes.Apparel;
+
 import order_java.classes.ApparelType;
 import order_java.classes.Customer;
 import order_java.classes.Order;

@@ -14,10 +14,8 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import order_java.classes.ApparelType;
 import order_java.classes.Customer;
 import order_java.classes.Member;
-import order_java.classes.Order;
 import order_java.classes.PaymentCalc;
 import order_java.classes.Receipt;
 
