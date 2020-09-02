@@ -212,8 +212,20 @@ public class PageReceipt {
         });
         btnStopShop.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                Home.home = new Home(); // "home"
+                PageMemberLogin.pml = new PageMemberLogin();// "MemberLogin", pass=12345oop ,
+                                                            // name=limjunshen,ganyihwee,johnwick
+                try {
+                    PageMarket.pm = new PageMarket();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                } // "Market"
+                PageCart.pg = new PageCart();
+                PageStaffLogin.psl = new PageStaffLogin();// "StaffLogin", pass=12345fa
+                Customer.createCustomer(new Order());
+                
                 CardLayout cl = (CardLayout) (MiscFunctions.masterCards.getLayout());
-                cl.show(MiscFunctions.masterCards, "StaffLogin"); // Go to staff login page
+                cl.show(MiscFunctions.masterCards, "StaffLogin");
             }
         });
         btmPane.add(btnContShop);
