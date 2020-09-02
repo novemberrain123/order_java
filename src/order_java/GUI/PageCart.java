@@ -56,6 +56,15 @@ public class PageCart {
         JButton proceedBtn = new JButton("Proceed to Payment");
         proceedBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                
+                if(Customer.getCustomer().getOrder().getShirts().size()==0)
+                {
+                    JFrame f=new JFrame();  
+                        JOptionPane.showMessageDialog(f,"No items available in cart"); 
+                        
+
+                }
+                else{
                 int option = JOptionPane.showConfirmDialog(null,
                         "Once proceed to payment section,\nyou can never navigate backward to previous page.\nAre you sure to continue ?",
                         "Proceed to payment", JOptionPane.OK_CANCEL_OPTION);
@@ -71,7 +80,9 @@ public class PageCart {
                     cartFrame.dispose();
                 }
             }
+        }
         });
+    
 
         JScrollPane scrollpane = new JScrollPane(newpanel);
         scrollpane.setPreferredSize(new Dimension(350, 350));

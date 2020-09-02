@@ -2,6 +2,7 @@ package order_java.GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
+import javax.swing.border.Border;
 
 import order_java.classes.Apparel;
 import order_java.classes.Customer;
@@ -26,7 +28,7 @@ public class PageReport {
     private final static String Report = "REPORT";
     private final static String History = "HISTORY";
     private final static int extraWindowWidth = 100;
-    public static JPanel historyPane = new JPanel();
+    public static JPanel[] historyPane;
 	protected static PageReport pr;
 
     public PageReport() {
@@ -131,8 +133,17 @@ public class PageReport {
         // {
         // HistoryText.setText(" ");
         // }
+        JPanel outter = new JPanel();
+        outter.setLayout(new BoxLayout(outter, BoxLayout.Y_AXIS));
+    
+        for(int x=0;x<Log.log.getOrders().size();x++)
+        {
+            outter.add(historyPane[x],BorderLayout.CENTER);
+            outter.setAlignmentY(Component.LEFT_ALIGNMENT);
+            
+        }
 
-        JScrollPane scrollpane = new JScrollPane(historyPane);
+        JScrollPane scrollpane = new JScrollPane(outter);
         scrollpane.setPreferredSize(new Dimension(400, 350));
         scrollpane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         scrollpane.setVisible(true);
@@ -149,17 +160,19 @@ public class PageReport {
     public static void addToLog() {
 
         ArrayList<Order> orders = Log.log.getOrders();
+        historyPane=new JPanel[orders.size()];
 
         for (Order y : orders) {
-            historyPane = new JPanel(new BorderLayout());
-            historyPane.setAlignmentX(java.awt.Component.LEFT_ALIGNMENT);
+            int i =orders.indexOf(y);
+            historyPane[i] = new JPanel(new BorderLayout());
+            historyPane[i].setAlignmentX(java.awt.Component.LEFT_ALIGNMENT);
             JPanel contentPane = new JPanel();
             contentPane.setAlignmentX(java.awt.Component.LEFT_ALIGNMENT);
-
-            historyPane.setLayout(new BoxLayout(historyPane, BoxLayout.Y_AXIS));
-            historyPane.add(
-                    new JLabel(String.valueOf(" Order ID : " + Customer.getCustomer().getOrder().getOrderID())
-                            + "  Date : " + String.valueOf(Customer.getCustomer().getOrder().getDate())),
+            
+            historyPane[i].setLayout(new BoxLayout(historyPane[i], BoxLayout.Y_AXIS));
+            historyPane[i].add(
+                    new JLabel(String.valueOf(" Order ID : " + y.getOrderID())
+                            + "  Date : " + String.valueOf(y.getDate())),
                     BorderLayout.PAGE_START);
 
             for (Apparel x : y.getShirts()) {
@@ -171,7 +184,8 @@ public class PageReport {
 
                 contentPane.revalidate();
                 contentPane.repaint();
-                historyPane.add(contentPane, BorderLayout.CENTER);
+                historyPane[i].add(contentPane, BorderLayout.CENTER);
+                historyPane[i].setAlignmentX(java.awt.Component.LEFT_ALIGNMENT);
             }
         }
     }

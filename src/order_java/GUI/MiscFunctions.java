@@ -18,7 +18,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
+import javax.swing.JOptionPane;
+import order_java.classes.Apparel;
 import order_java.classes.ApparelType;
 import order_java.classes.Customer;
 import order_java.classes.Order;
@@ -28,7 +29,7 @@ public class MiscFunctions { // Random Static functions
     public static JPanel masterCards = new JPanel(new CardLayout());
     public static JFrame frame;
 
-    public static void initMain() throws IOException{
+    public static void initMain() throws IOException {
 
         ApparelType.initApparels();
         Home.home = new Home(); // "home"
@@ -42,7 +43,8 @@ public class MiscFunctions { // Random Static functions
 
     public static void addCardtoMasterCards(JPanel card, String s) {
         masterCards.add(card, s);
-    } 
+    }
+
     public static void addDefaultComponentsToPane(JPanel pane, String s, int c) {
         JPanel topPane = new JPanel();
         topPane.setLayout(new BoxLayout(topPane, BoxLayout.X_AXIS));
@@ -61,6 +63,8 @@ public class MiscFunctions { // Random Static functions
             JButton btnCart = new JButton("");
             btnCart.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
+                    
+                
                     PageCart.pg.cartFrame.setVisible(true);
                 }
             });

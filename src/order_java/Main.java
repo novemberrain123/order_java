@@ -31,7 +31,6 @@ public class Main {
         PagePayMethod.ppm = new PagePayMethod(); //"Pay Method"
         frame.getContentPane().add(MiscFunctions.masterCards);
         frame.setVisible(true);
-
         Customer.createCustomer(new Order());
 
     }
