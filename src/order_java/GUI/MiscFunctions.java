@@ -20,8 +20,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import order_java.classes.ApparelType;
-import order_java.classes.Customer;
-import order_java.classes.Order;
 
 public class MiscFunctions { // Random Static functions
     // Stores all pages
@@ -37,7 +35,7 @@ public class MiscFunctions { // Random Static functions
         PageCart.pg = new PageCart();
         PageStaffLogin.psl = new PageStaffLogin();// "StaffLogin", pass=12345fat
         PagePayMethod.ppm = new PagePayMethod(); // "Pay Method"
-        Customer.createCustomer(new Order());
+        
     }
 
     public static void addCardtoMasterCards(JPanel card, String s) {
@@ -82,6 +80,7 @@ public class MiscFunctions { // Random Static functions
             public void actionPerformed(ActionEvent e) {
                 CardLayout cl = (CardLayout) (MiscFunctions.masterCards.getLayout());
                 cl.show(MiscFunctions.masterCards, s);
+                
             }
         });
 
