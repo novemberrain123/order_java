@@ -114,7 +114,7 @@ public class PageMemberLogin {
 
     private static boolean performCheck(String id, String pass) throws FileNotFoundException {
         boolean x =false;
-        File myObj = new File("./././ID/members.txt");
+        File myObj = new File("ID/members.txt");
         Scanner read = new Scanner(myObj);
         read.useDelimiter("[\\s]+");
 

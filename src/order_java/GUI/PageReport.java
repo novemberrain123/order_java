@@ -95,42 +95,7 @@ public class PageReport {
         card1.add(scrollPane, BorderLayout.CENTER);
 
         JPanel card2 = new JPanel();
-        JTextArea HistoryText = new JTextArea(20, 35);
-        HistoryText.setEditable(false);
-        HistoryText.setText("fasdasdasdasdasd");
-
-        // try {
-        // ArrayList<Apparel> shirts = new ArrayList<Apparel>();
-        // ArrayList<Order> orderList = new ArrayList<Order>();
-        // shirts= user.getOrder().getShirts();
-
-        // for(Order x : orderList)
-        // {
-        // historyrecord=new String("Order ID :"
-        // +user.getOrder().getOrderID()+"\n"+"Date :"+user.getOrder().getDate()+"
-        // "+user.getOrder().getNumofShirts());
-        // HistoryText.setText(historyrecord);
-        // }
-
-        // HistoryText.addMouseListener(new java.awt.event.MouseAdapter() {
-        // public void mouseClicked(java.awt.event.MouseEvent evt) {
-        // HistoryTextMouseClicked(evt);
-        // }
-
-        // private void HistoryTextMouseClicked(MouseEvent evt) {
-        // boolean b=HistoryText.isEditable();
-        // if(b==true)
-        // {
-        // JOptionPane.showMessageDialog(null,"You cant edit this text");
-        // }
-        // }
-        // });
-
-        // }
-        // catch (Exception exception)
-        // {
-        // HistoryText.setText(" ");
-        // }
+        
         JPanel outter = new JPanel();
         outter.setLayout(new BoxLayout(outter, BoxLayout.Y_AXIS));
     
