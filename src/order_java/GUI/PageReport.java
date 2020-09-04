@@ -101,7 +101,7 @@ public class PageReport {
     
         for(int x=0;x<Log.log.getOrders().size();x++)
         {
-            outter.add(historyPane[x],BorderLayout.CENTER);
+            outter.add(historyPane[x],BorderLayout.WEST);
             outter.setAlignmentY(Component.LEFT_ALIGNMENT);
             
         }
@@ -132,7 +132,7 @@ public class PageReport {
             JPanel contentPane = new JPanel();
             contentPane.setAlignmentX(java.awt.Component.LEFT_ALIGNMENT);
             
-            historyPane[i].setLayout(new BoxLayout(historyPane[i], BoxLayout.Y_AXIS));
+            //historyPane[i].setLayout(new BoxLayout(historyPane[i], BoxLayout.Y_AXIS));
             historyPane[i].add(
                     new JLabel(String.valueOf(" Order ID : " + y.getOrderID())
                             + "  Date : " + String.valueOf(y.getDate())),
@@ -147,8 +147,8 @@ public class PageReport {
 
                 contentPane.revalidate();
                 contentPane.repaint();
-                historyPane[i].add(contentPane, BorderLayout.CENTER);
-                historyPane[i].setAlignmentX(java.awt.Component.LEFT_ALIGNMENT);
+                historyPane[i].add(contentPane, BorderLayout.WEST);
+                historyPane[i].setAlignmentX(Component.LEFT_ALIGNMENT);
             }
         }
     }
